@@ -22,7 +22,7 @@ import {
   computeSeasonalFactor,
   computeNormalizedMpi,
 } from './baselines.js';
-import { readHistory, appendCollection } from './storage.js';
+import { readHistory, upsertCollection } from './storage.js';
 import { randomDelay, getLookupDate, log, logError, formatDate } from './utils.js';
 
 const ROOT = join(import.meta.dirname, '..');
@@ -162,8 +162,19 @@ let activePage: Page | null = null;
 let isHeaded = false;
 
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
+const CDP_URL = 'http://localhost:9222';
+let useConnect = false;
 
 async function launchBrowser(headed: boolean): Promise<Page> {
+  if (useConnect) {
+    // Connect to user's real Chrome via CDP
+    log('collector', 'Connecting to existing Chrome on port 9222...');
+    const { chromium: pw } = await import('playwright');
+    const browser = await pw.connectOverCDP(CDP_URL);
+    activeContext = browser.contexts()[0] || await browser.newContext();
+    activePage = await activeContext.newPage();
+    return activePage;
+  }
   const browser = await chromium.launch({ headless: !headed });
   activeContext = await browser.newContext({
     viewport: { width: 1280, height: 800 },
@@ -175,7 +186,7 @@ async function launchBrowser(headed: boolean): Promise<Page> {
 
 async function relaunchHeaded(): Promise<Page> {
   log('captcha', 'Relaunching browser in headed mode for CAPTCHA...');
-  if (activeContext) {
+  if (!useConnect && activeContext) {
     await activeContext.browser()?.close().catch(() => {});
   }
   isHeaded = true;
@@ -294,12 +305,14 @@ async function main(): Promise<void> {
   const startTime = Date.now();
   const config = loadConfig();
   const headed = process.argv.includes('--headed');
+  useConnect = process.argv.includes('--connect');
   // --skip N: skip the first N corridors (for resuming partial runs)
   const skipIdx = process.argv.indexOf('--skip');
   const skipCount = skipIdx !== -1 ? parseInt(process.argv[skipIdx + 1] || '0', 10) : 0;
 
-  isHeaded = headed;
-  log('collector', `Starting collection (${headed ? 'headed' : 'headless'} mode)${skipCount ? `, skipping first ${skipCount} corridors` : ''}`);
+  isHeaded = headed || useConnect;
+  const mode = useConnect ? 'connect to Chrome' : headed ? 'headed' : 'headless';
+  log('collector', `Starting collection (${mode} mode)${skipCount ? `, skipping first ${skipCount} corridors` : ''}`);
 
   await launchBrowser(headed);
 
@@ -361,32 +374,65 @@ async function main(): Promise<void> {
         await randomDelay(config.collection.delayBetweenRoutesMs);
       }
     }
+
+    // Save after each corridor completes (both directions) so data survives crashes
+    if (routesSucceeded > 0) {
+      saveProgress();
+    }
   }
 
-  await activeContext!.close();
+  function saveProgress(): void {
+    const completedCorridors = corridorsToRun.filter((c) =>
+      routes.some((r) => r.corridor === c.name),
+    );
+    const corridorSummaries = buildCorridorSummaries(
+      routes, completedCorridors, historicalMpiByName, config,
+    );
+    const collection: Collection = {
+      date: formatDate(new Date()),
+      timestamp: new Date().toISOString(),
+      durationMs: Date.now() - startTime,
+      routesAttempted: totalRoutes,
+      routesSucceeded,
+      routes,
+      corridors: corridorSummaries,
+    };
+    upsertCollection(DATA_PATH, collection);
+    log('collector', `Progress saved: ${routesSucceeded}/${totalRoutes} routes (${completedCorridors.length} corridors)`);
+  }
 
-  const corridorSummaries = buildCorridorSummaries(
-    routes, corridorsToRun, historicalMpiByName, config,
+  // Graceful shutdown — save whatever we have
+  let shuttingDown = false;
+  function handleShutdown(): void {
+    if (shuttingDown) {return;}
+    shuttingDown = true;
+    log('collector', 'Interrupted — saving progress before exit...');
+    if (routesSucceeded > 0) { saveProgress(); }
+    if (useConnect) {
+      // Just close our tab, not the whole browser
+      activePage?.close().catch(() => {});
+    } else {
+      activeContext?.close().catch(() => {});
+    }
+    process.exit(0);
+  }
+  process.on('SIGINT', handleShutdown);
+  process.on('SIGTERM', handleShutdown);
+
+  if (useConnect) {
+    await activePage?.close().catch(() => {});
+  } else {
+    await activeContext!.close();
+  }
+
+  log('collector', `Done: ${routesSucceeded}/${totalRoutes} routes`);
+
+  const completedCorridors = corridorsToRun.filter((c) =>
+    routes.some((r) => r.corridor === c.name),
   );
-
-  const collection: Collection = {
-    date: formatDate(new Date()),
-    timestamp: new Date().toISOString(),
-    durationMs: Date.now() - startTime,
-    routesAttempted: totalRoutes,
-    routesSucceeded,
-    routes,
-    corridors: corridorSummaries,
-  };
-
-  if (routesSucceeded === 0) {
-    logError('collector', 'All routes failed. Not saving to history.');
-    process.exit(1);
-  }
-
-  appendCollection(DATA_PATH, collection);
-  log('collector', `Done: ${routesSucceeded}/${totalRoutes} routes saved`);
-
+  const corridorSummaries = buildCorridorSummaries(
+    routes, completedCorridors, historicalMpiByName, config,
+  );
   for (const c of corridorSummaries) {
     const src = c.signalSource === 'corridor_baseline' ? ' [baseline]' : '';
     log('summary', `${c.label}: MPI=${c.mpi?.toFixed(2) ?? 'N/A'} (${c.signal}${src}) OUT=$${c.outboundPrice ?? 'N/A'} IN=$${c.inboundPrice ?? 'N/A'}`);
