@@ -1,0 +1,12 @@
+node_modules/
+dist/
+data/history.json
+*.log
+.DS_Store
+
+# harness-engineering enforcement
+.test-passed
+.env
+.env.local
+coverage/
+build/
