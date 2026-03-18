@@ -32,6 +32,15 @@
         .header-right { text-align:right;font-size:11px;color:var(--text-muted);line-height:1.8; }
         .theme-btn { background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;color:var(--text-secondary);font-size:14px;margin-top:4px; }
         .theme-btn:hover { border-color:var(--text-muted);color:var(--text-primary); }
+        .explainer { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:24px;font-size:12px;color:var(--text-secondary);line-height:1.7; }
+        .explainer summary { cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);font-weight:500; }
+        .explainer summary:hover { color:var(--text-secondary); }
+        .explainer p { margin-top:10px; }
+        .explainer strong { color:var(--text-primary); }
+        .explainer .legend { display:flex;gap:20px;margin-top:12px;flex-wrap:wrap; }
+        .explainer .legend-item { display:flex;align-items:center;gap:6px;font-size:11px; }
+        .explainer .legend-dot { width:10px;height:10px;border-radius:2px; }
+        .kpi-context { font-size:10px;color:var(--text-muted);margin-top:2px;font-style:italic; }
         .filters { display:flex;gap:16px;align-items:center;margin-bottom:24px;flex-wrap:wrap; }
         .filters input[type="date"] { font-family:var(--mono);font-size:11px;padding:4px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:3px;color:var(--text-secondary); }
         .filters label { font-size:10px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:3px; }
@@ -95,6 +104,16 @@
             <button class="theme-btn" id="themeBtn" title="Toggle theme">&#9790;</button>
         </div>
     </header>
+    <details class="explainer" open>
+        <summary>How to read this dashboard</summary>
+        <p>U-Haul prices one-way truck rentals based on demand. When <strong>more people leave a city than arrive</strong>, outbound trucks become scarce and prices rise. This tracker compares outbound vs inbound pricing on the same route as a real-time migration signal.</p>
+        <p>The <strong>Migration Pressure Index (MPI)</strong> is the ratio of outbound to inbound price for a 15ft truck. An MPI of <strong>2.5&times;</strong> means it costs 2.5x more to leave than to arrive &mdash; strong evidence of out-migration demand.</p>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--accent-red)"></div> <strong>MPI &gt; 1.5&times;</strong> &mdash; More people leaving</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--accent-amber)"></div> <strong>MPI 0.67&ndash;1.5&times;</strong> &mdash; Balanced flow</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--accent-teal)"></div> <strong>MPI &lt; 0.67&times;</strong> &mdash; More people arriving</div>
+        </div>
+    </details>
     <div class="filters">
         <input type="date" id="dateFrom"> <span style="color:var(--text-dim)">&rarr;</span> <input type="date" id="dateTo">
         <div id="corridorFilters" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
@@ -116,12 +135,12 @@
     <div class="panel table-panel">
         <div class="panel-hdr"><div class="panel-title" id="tableTitle">Corridor Summary</div></div>
         <table><thead><tr>
-            <th>Corridor</th><th>Direction</th><th>15ft Price</th><th>MPI</th><th>&Delta; Prior</th><th>Signal</th>
+            <th>Corridor</th><th>Direction</th><th>15ft Price</th><th>MPI</th><th>&Delta; Prior</th><th>Migration Signal</th>
         </tr></thead><tbody id="tableBody"></tbody></table>
     </div>
     <footer class="footer">
-        <div>U-Haul one-way pricing &middot; 15ft truck reference</div>
-        <div>Auto-refreshes every 60s &middot; Port 3847 &middot; v1.0</div>
+        <div>Source: U-Haul one-way 15ft truck rental pricing &middot; Collected daily via Playwright &middot; Faster than Census (2yr lag) or Redfin (quarterly)</div>
+        <div>Auto-refreshes every 60s &middot; v1.0</div>
     </footer>
 </div>
 <div id="emptyState" class="empty" style="display:none;">
@@ -158,7 +177,16 @@ function css(v) { return getComputedStyle(document.documentElement).getPropertyV
 
 // Helpers
 function sigClass(s) { return s === 'outbound_pressure' ? 'out' : s === 'inbound_pressure' ? 'in' : 'bal'; }
-function sigLabel(s) { return s === 'outbound_pressure' ? 'Outbound' : s === 'inbound_pressure' ? 'Inbound' : s === 'no_data' ? 'No Data' : 'Balanced'; }
+function sigLabel(s) { return s === 'outbound_pressure' ? 'More people leaving' : s === 'inbound_pressure' ? 'More people arriving' : s === 'no_data' ? 'No Data' : 'Balanced flow'; }
+function mpiContext(mpi) {
+    if (mpi == null) { return ''; }
+    if (mpi >= 2.0) { return 'Costs ' + mpi.toFixed(1) + 'x more to leave'; }
+    if (mpi >= 1.5) { return 'Leaving costs ' + Math.round((mpi - 1) * 100) + '% more'; }
+    if (mpi > 1.05) { return 'Slightly more to leave'; }
+    if (mpi >= 0.95) { return 'Similar cost both ways'; }
+    if (mpi >= 0.67) { return 'Slightly more to arrive'; }
+    return 'Costs ' + (1/mpi).toFixed(1) + 'x more to arrive';
+}
 function fmtPrice(v) { return v != null ? '$' + v.toLocaleString() : 'N/A'; }
 function sigColor(sc) { return sc === 'out' ? 'var(--accent-red)' : sc === 'in' ? 'var(--accent-teal)' : 'var(--accent-amber)'; }
 
@@ -272,6 +300,11 @@ function renderKPIs(latest, prior) {
         mpi.textContent = (c.mpi != null ? c.mpi.toFixed(2) : 'N/A') + '\u00d7';
         card.appendChild(mpi);
 
+        var context = document.createElement('div');
+        context.className = 'kpi-context';
+        context.textContent = mpiContext(c.mpi);
+        card.appendChild(context);
+
         var delta = document.createElement('div');
         delta.className = 'kpi-delta ' + deltaClass;
         delta.textContent = deltaText;
@@ -291,7 +324,7 @@ function renderKPIs(latest, prior) {
 
         var sig = document.createElement('div');
         sig.className = 'kpi-signal';
-        sig.textContent = sigLabel(c.signal) + ' \u00b7 ' + (c.signalSource === 'corridor_baseline' ? 'baseline' : 'threshold');
+        sig.textContent = sigLabel(c.signal);
         card.appendChild(sig);
 
         grid.appendChild(card);

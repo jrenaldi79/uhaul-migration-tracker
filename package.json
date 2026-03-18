@@ -8,6 +8,7 @@
     "collect": "tsx src/collector.ts",
     "collect:headed": "tsx src/collector.ts --headed",
     "serve": "tsx src/server.ts",
+    "share": "ngrok http 3847",
     "test": "vitest run --exclude 'tests/integration/**' --exclude 'tests/e2e/**'",
     "test:watch": "vitest --exclude 'tests/integration/**' --exclude 'tests/e2e/**'",
     "test:integration": "vitest run tests/integration/",
