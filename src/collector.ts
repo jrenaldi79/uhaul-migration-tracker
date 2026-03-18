@@ -1,4 +1,10 @@
-import { chromium, type Page, type Browser } from 'playwright';
+import { type Page } from 'playwright';
+import { chromium as stealthChromium } from 'playwright-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+
+// Apply stealth patches to avoid bot detection
+stealthChromium.use(StealthPlugin());
+const chromium = stealthChromium;
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type {
@@ -27,13 +33,18 @@ function loadConfig(): AppConfig {
   return JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
 }
 
+async function checkForCaptcha(page: Page): Promise<boolean> {
+  const url = page.url();
+  return url.includes('/Captcha') || url.includes('/captcha');
+}
+
 async function scrapeRoute(
   page: Page,
   from: string,
   to: string,
   lookupDate: string,
   config: AppConfig,
-): Promise<{ trucks: TruckPrice[]; error: string | null }> {
+): Promise<{ trucks: TruckPrice[]; error: string | null; captcha?: boolean }> {
   const s = config.selectors;
 
   try {
@@ -42,6 +53,11 @@ async function scrapeRoute(
       timeout: config.collection.timeoutMs,
     });
     await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
+
+    // Check if initial page load hit a CAPTCHA
+    if (await checkForCaptcha(page)) {
+      return { trucks: [], error: 'CAPTCHA detected', captcha: true };
+    }
 
     // Fill pickup location
     await page.locator(s.pickupInput).click();
@@ -81,7 +97,15 @@ async function scrapeRoute(
     await Promise.all([
       page.waitForURL('**/Reservations/**', { timeout: config.collection.timeoutMs }),
       page.locator(s.submitButton).click(),
-    ]);
+    ]).catch(async () => {
+      // Navigation may have gone to CAPTCHA instead of results
+    });
+
+    // Check if we landed on a CAPTCHA page
+    if (await checkForCaptcha(page)) {
+      return { trucks: [], error: 'CAPTCHA detected', captcha: true };
+    }
+
     await page.waitForLoadState('networkidle', { timeout: config.collection.timeoutMs });
     await page.waitForTimeout(3000);
 
@@ -119,6 +143,45 @@ async function scrapeRoute(
   }
 }
 
+async function waitForCaptchaSolve(page: Page): Promise<void> {
+  log('captcha', '🔒 CAPTCHA detected! A browser window will open — please solve it.');
+  log('captcha', 'Waiting for you to complete the CAPTCHA...');
+
+  // Poll until user solves the CAPTCHA (URL no longer contains /Captcha)
+  while (await checkForCaptcha(page)) {
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+  log('captcha', '✅ CAPTCHA solved! Resuming collection...');
+  // Give the page a moment to settle
+  await page.waitForTimeout(2000);
+}
+
+// Shared browser state so CAPTCHA handler can relaunch headed
+let activeContext: import('playwright').BrowserContext | null = null;
+let activePage: Page | null = null;
+let isHeaded = false;
+
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
+
+async function launchBrowser(headed: boolean): Promise<Page> {
+  const browser = await chromium.launch({ headless: !headed });
+  activeContext = await browser.newContext({
+    viewport: { width: 1280, height: 800 },
+    userAgent: UA,
+  });
+  activePage = await activeContext.newPage();
+  return activePage;
+}
+
+async function relaunchHeaded(): Promise<Page> {
+  log('captcha', 'Relaunching browser in headed mode for CAPTCHA...');
+  if (activeContext) {
+    await activeContext.browser()?.close().catch(() => {});
+  }
+  isHeaded = true;
+  return launchBrowser(true);
+}
+
 async function scrapeRouteWithRetry(
   page: Page,
   from: string,
@@ -128,7 +191,23 @@ async function scrapeRouteWithRetry(
   routeLabel: string,
 ): Promise<{ trucks: TruckPrice[]; error: string | null }> {
   for (let attempt = 1; attempt <= config.collection.maxRetries; attempt++) {
-    const result = await scrapeRoute(page, from, to, lookupDate, config);
+    const result = await scrapeRoute(activePage ?? page, from, to, lookupDate, config);
+
+    // Handle CAPTCHA: relaunch headed, let user solve, then retry
+    if (result.captcha) {
+      const headedPage = isHeaded ? (activePage ?? page) : await relaunchHeaded();
+      await headedPage.goto('https://www.uhaul.com/Truck-Rentals/', { waitUntil: 'domcontentloaded', timeout: 30000 });
+      if (await checkForCaptcha(headedPage)) {
+        await waitForCaptchaSolve(headedPage);
+      }
+      // Retry this route on the (now headed) page
+      const retry = await scrapeRoute(headedPage, from, to, lookupDate, config);
+      if (retry.trucks.length > 0) {
+        log(routeLabel, `Success after CAPTCHA solve: ${retry.trucks.length} trucks`);
+        return retry;
+      }
+      return retry;
+    }
 
     if (result.trucks.length > 0) {
       log(routeLabel, `Success on attempt ${attempt}: ${result.trucks.length} trucks`);
@@ -215,16 +294,14 @@ async function main(): Promise<void> {
   const startTime = Date.now();
   const config = loadConfig();
   const headed = process.argv.includes('--headed');
+  // --skip N: skip the first N corridors (for resuming partial runs)
+  const skipIdx = process.argv.indexOf('--skip');
+  const skipCount = skipIdx !== -1 ? parseInt(process.argv[skipIdx + 1] || '0', 10) : 0;
 
-  log('collector', `Starting collection (${headed ? 'headed' : 'headless'} mode)`);
+  isHeaded = headed;
+  log('collector', `Starting collection (${headed ? 'headed' : 'headless'} mode)${skipCount ? `, skipping first ${skipCount} corridors` : ''}`);
 
-  const browser: Browser = await chromium.launch({ headless: !headed });
-  const context = await browser.newContext({
-    viewport: { width: 1280, height: 800 },
-    userAgent:
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-  });
-  const page = await context.newPage();
+  await launchBrowser(headed);
 
   const lookupDate = formatLookupDate(config.collection.lookupDateOffsetDays);
   const lookupDateIso = getLookupDate(config.collection.lookupDateOffsetDays);
@@ -243,16 +320,17 @@ async function main(): Promise<void> {
 
   const routes: RouteResult[] = [];
   let routesSucceeded = 0;
-  const totalRoutes = config.corridors.length * 2;
+  const corridorsToRun = config.corridors.slice(skipCount);
+  const totalRoutes = corridorsToRun.length * 2;
 
-  for (const corridor of config.corridors) {
+  for (const corridor of corridorsToRun) {
     for (const direction of ['outbound', 'inbound'] as const) {
       const route = corridor[direction];
       const routeLabel = `${route.from} → ${route.to}`;
       log(routeLabel, 'Scraping...');
 
       const result = await scrapeRouteWithRetry(
-        page, route.from, route.to, lookupDate, config, routeLabel,
+        activePage!, route.from, route.to, lookupDate, config, routeLabel,
       );
 
       const ref = selectReferencePrice(
@@ -277,7 +355,7 @@ async function main(): Promise<void> {
 
       // Delay between routes (skip after last one)
       const isLast =
-        corridor === config.corridors[config.corridors.length - 1] &&
+        corridor === corridorsToRun[corridorsToRun.length - 1] &&
         direction === 'inbound';
       if (!isLast) {
         await randomDelay(config.collection.delayBetweenRoutesMs);
@@ -285,10 +363,10 @@ async function main(): Promise<void> {
     }
   }
 
-  await browser.close();
+  await activeContext!.close();
 
   const corridorSummaries = buildCorridorSummaries(
-    routes, config.corridors, historicalMpiByName, config,
+    routes, corridorsToRun, historicalMpiByName, config,
   );
 
   const collection: Collection = {

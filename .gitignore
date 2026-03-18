@@ -10,3 +10,4 @@ data/history.json
 .env.local
 coverage/
 build/
+.browser-profile

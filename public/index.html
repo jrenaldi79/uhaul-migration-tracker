@@ -26,7 +26,7 @@
             --mono:'JetBrains Mono','SF Mono',monospace;--serif:'Instrument Serif',Georgia,serif;--radius:6px;--gap:12px; }
         * { margin:0;padding:0;box-sizing:border-box; }
         body { font-family:var(--mono);font-size:16px;background:var(--bg-deep);color:var(--text-primary);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden; }
-        body::before { content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border-subtle) 1px,transparent 1px),linear-gradient(90deg,var(--border-subtle) 1px,transparent 1px);background-size:60px 60px;opacity:0.3;pointer-events:none;z-index:0; }
+        body::before { content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border-subtle) 1px,transparent 1px),linear-gradient(90deg,var(--border-subtle) 1px,transparent 1px);background-size:60px 60px;opacity:0.6;pointer-events:none;z-index:0; }
         .dash { position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:24px 20px; }
         .header { display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:24px; }
         .header h1 { font-family:var(--serif);font-size:42px;font-weight:400;font-style:italic;letter-spacing:-0.5px;line-height:1.1; }
@@ -43,22 +43,33 @@
         .explainer .legend-item { display:flex;align-items:center;gap:6px;font-size:11px; }
         .explainer .legend-dot { width:10px;height:10px;border-radius:2px; }
         .kpi-context { font-size:14px;color:var(--text-secondary);margin-top:4px;font-style:italic; }
-        .map-panel { margin-bottom:24px; }
+        .map-panel { margin-bottom:0; }
         .hero-map { padding:24px 20px 16px; }
-        .hero-map #flowMap { min-height:420px; }
+        .hero-map #flowMap { min-height:380px; }
+        .hero-row { display:grid;grid-template-columns:3fr 2fr;gap:var(--gap);margin-bottom:24px;align-items:stretch; }
+        .hero-row .panel { margin-bottom:0;display:flex;flex-direction:column; }
+        .hero-row .hero-map { flex:1; }
+        .hero-row #flowMap, .hero-row #bayMap { flex:1;min-height:0; }
         .map-panel svg { width:100%;height:auto;display:block; }
+        @keyframes flowDash { to { stroke-dashoffset: -36; } }
         .map-panel .state { stroke-width:0.8; }
         .map-panel .city-dot { cursor:default; }
         .map-panel .city-label { font-family:var(--mono);font-size:13px;pointer-events:none;font-weight:600; }
         .map-panel .flow-label { font-family:var(--mono);font-size:12px;pointer-events:none;font-weight:700; }
-        .map-legend { display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border-subtle);margin-top:12px;font-size:12px;color:var(--text-muted); }
+        .map-legend { display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:8px 0;font-size:12px;color:var(--text-muted); }
         .map-legend-item { display:flex;align-items:center;gap:6px; }
         .map-legend-dot { width:12px;height:4px;border-radius:2px; }
-        .filters { display:flex;gap:16px;align-items:center;margin-bottom:24px;flex-wrap:wrap; }
+        .filters { display:flex;gap:16px;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap; }
         .filters input[type="date"] { font-family:var(--mono);font-size:15px;padding:8px 12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:4px;color:var(--text-secondary); }
-        .filters label { font-size:14px;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;gap:5px; }
-        .filters input[type="checkbox"] { width:18px;height:18px;accent-color:var(--accent-blue); }
-        .kpi-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:var(--gap);margin-bottom:24px; }
+        .filter-groups { display:flex;gap:12px;flex-wrap:wrap;align-items:center; }
+        .filter-group { display:flex;align-items:center;gap:4px; }
+        .filter-group-label { font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);font-weight:700;margin-right:2px; }
+        .filter-pill { font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:12px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-muted);cursor:pointer;transition:all 0.15s;user-select:none; }
+        .filter-pill:hover { border-color:var(--text-muted); }
+        .filter-pill.active { background:var(--accent-blue);color:#fff;border-color:var(--accent-blue); }
+        .filter-pill.all-toggle { font-weight:700; }
+        .filter-divider { width:1px;height:20px;background:var(--border);margin:0 4px; }
+        .kpi-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:var(--gap);margin-bottom:24px; }
         .kpi { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;transition:border-color 0.2s; }
         .kpi:hover { border-color:var(--text-muted);background:var(--bg-elevated); }
         .kpi::before { content:'';position:absolute;top:0;left:0;right:0;height:2px; }
@@ -105,6 +116,7 @@
         @media(max-width:900px){
             .kpi-grid{grid-template-columns:repeat(2,1fr);}
             .charts-row{grid-template-columns:1fr;}
+            .hero-row{grid-template-columns:1fr;}
             .header{flex-direction:column;align-items:flex-start;gap:12px;}
             .header-right{text-align:left;}
             .filters{flex-direction:column;align-items:flex-start;}
@@ -151,23 +163,51 @@
 <body>
 <div class="dash" id="dashMain">
     <header class="header">
-        <div>
-            <h1>Bay Area Migration Tracker</h1>
-            <div class="sub">U-Haul one-way pricing as real-time migration proxy</div>
+        <div style="display:flex;align-items:center;gap:16px;">
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                <!-- Bridge towers -->
+                <rect x="13" y="8" width="3.5" height="24" rx="1.2" fill="#ff4d4f"/>
+                <rect x="29.5" y="8" width="3.5" height="24" rx="1.2" fill="#ff4d4f"/>
+                <!-- Tower caps -->
+                <rect x="11.5" y="8" width="7" height="2.5" rx="1" fill="#ff4d4f"/>
+                <rect x="28" y="8" width="7" height="2.5" rx="1" fill="#ff4d4f"/>
+                <!-- Main cable -->
+                <path d="M4 12 Q14.75 28, 23 18 Q31.25 8, 42 12" stroke="#ff4d4f" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- Suspender cables -->
+                <line x1="9" y1="17" x2="9" y2="30" stroke="#ff4d4f" stroke-width="0.8" opacity="0.5"/>
+                <line x1="18" y1="22" x2="18" y2="30" stroke="#ff4d4f" stroke-width="0.8" opacity="0.5"/>
+                <line x1="28" y1="22" x2="28" y2="30" stroke="#ff4d4f" stroke-width="0.8" opacity="0.5"/>
+                <line x1="37" y1="17" x2="37" y2="30" stroke="#ff4d4f" stroke-width="0.8" opacity="0.5"/>
+                <!-- Bridge deck -->
+                <rect x="4" y="29" width="38" height="3" rx="1.5" fill="#ff4d4f"/>
+                <!-- Water reflection hint -->
+                <path d="M6 36 Q12 34, 18 36 Q24 38, 30 36 Q36 34, 40 36" stroke="var(--accent-blue)" stroke-width="1" fill="none" opacity="0.3"/>
+                <path d="M8 39 Q14 37, 20 39 Q26 41, 32 39 Q38 37, 42 39" stroke="var(--accent-blue)" stroke-width="0.8" fill="none" opacity="0.2"/>
+            </svg>
+            <div>
+                <h1>Bay Area Migration Tracker</h1>
+                <div class="sub">U-Haul one-way pricing as real-time migration proxy</div>
+            </div>
         </div>
         <div class="header-right">
             <div id="meta"></div>
             <button class="theme-btn" id="themeBtn" title="Toggle theme">&#9790;</button>
         </div>
     </header>
-    <div class="panel map-panel hero-map">
-        <div id="flowMap"></div>
-        <div class="map-legend">
-            <div class="map-legend-item"><span class="map-legend-dot" style="background:#ff4d4f"></span> More people leaving</div>
-            <div class="map-legend-item"><span class="map-legend-dot" style="background:#f0a030"></span> Balanced flow</div>
-            <div class="map-legend-item"><span class="map-legend-dot" style="background:#2dd4a8"></span> More people arriving</div>
-            <div class="map-legend-item" style="margin-left:auto;color:var(--text-dim)">Arrow thickness = price gap &middot; Direction = net migration flow</div>
+    <div class="hero-row">
+        <div class="panel map-panel hero-map">
+            <div id="flowMap"></div>
         </div>
+        <div class="panel map-panel hero-map">
+            <div class="panel-hdr" style="margin-bottom:8px;"><div class="panel-title">Bay Area Local</div></div>
+            <div id="bayMap"></div>
+        </div>
+    </div>
+    <div class="map-legend" style="margin-bottom:24px;">
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:#ff4d4f"></span> More people leaving</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:#f0a030"></span> Balanced flow</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:#2dd4a8"></span> More people arriving</div>
+        <div class="map-legend-item" style="margin-left:auto;color:var(--text-dim)">Arrow direction = net migration flow</div>
     </div>
     <details class="explainer">
         <summary>How to read this dashboard</summary>
@@ -176,7 +216,7 @@
     </details>
     <div class="filters">
         <input type="date" id="dateFrom"> <span style="color:var(--text-dim)">&rarr;</span> <input type="date" id="dateTo">
-        <div id="corridorFilters" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        <div id="corridorFilters" class="filter-groups"></div>
     </div>
     <div id="kpiGrid" class="kpi-grid"></div>
     <div class="charts-row">
@@ -237,6 +277,18 @@ function css(v) { return getComputedStyle(document.documentElement).getPropertyV
 
 // Helpers
 function sigClass(s) { return s === 'outbound_pressure' ? 'out' : s === 'inbound_pressure' ? 'in' : 'bal'; }
+
+// Compute dash pattern + animation speed from MPI
+// Higher MPI = shorter dashes, faster animation; lower MPI = longer dashes, slower
+function flowDashStyle(mpi) {
+    var m = Math.abs(mpi != null ? mpi : 1);
+    // Dash length: 18px at MPI=1, down to 6px at MPI=3+
+    var dash = Math.max(6, Math.min(18, 18 - (m - 1) * 6));
+    // Duration: 3s at MPI=1, down to 0.8s at MPI=3+
+    var dur = Math.max(0.8, Math.min(3, 3 - (m - 1) * 1.1));
+    var total = dash * 2;
+    return { dasharray: dash + ',' + dash, duration: dur, offset: total };
+}
 function sigLabel(s) { return s === 'outbound_pressure' ? 'More people leaving' : s === 'inbound_pressure' ? 'More people arriving' : s === 'no_data' ? 'No Data' : 'Balanced flow'; }
 function mpiContext(mpi) {
     if (mpi == null) { return ''; }
@@ -310,22 +362,75 @@ function renderAll() {
 }
 
 function buildCorridorFilters(corridors) {
-    const container = document.getElementById('corridorFilters');
+    var container = document.getElementById('corridorFilters');
     container.textContent = '';
+
+    // Group corridors by origin city
+    var groups = {};
     corridors.forEach(function(c) {
-        const label = document.createElement('label');
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.checked = true;
-        cb.dataset.corridor = c.name;
-        cb.addEventListener('change', function() {
-            corridorVisible[c.name] = cb.checked;
-            renderAll();
-        });
-        label.appendChild(cb);
-        label.appendChild(document.createTextNode(c.label));
-        container.appendChild(label);
+        var origin = c.label.split(' \u2194 ')[0] || c.name.split('-')[0];
+        if (!groups[origin]) groups[origin] = [];
+        groups[origin].push(c);
     });
+
+    // All toggle
+    var allPill = document.createElement('span');
+    allPill.className = 'filter-pill all-toggle active';
+    allPill.textContent = 'All';
+    allPill.addEventListener('click', function() {
+        var allOn = Object.keys(corridorVisible).every(function(k){ return corridorVisible[k]; });
+        var newState = !allOn;
+        Object.keys(corridorVisible).forEach(function(k){ corridorVisible[k] = newState; });
+        syncPillStates();
+        renderAll();
+    });
+    container.appendChild(allPill);
+
+    Object.keys(groups).forEach(function(origin) {
+        var div = document.createElement('div');
+        div.className = 'filter-divider';
+        container.appendChild(div);
+
+        var grp = document.createElement('div');
+        grp.className = 'filter-group';
+        var lbl = document.createElement('span');
+        lbl.className = 'filter-group-label';
+        lbl.textContent = origin;
+        grp.appendChild(lbl);
+
+        groups[origin].forEach(function(c) {
+            var dest = c.label.split(' \u2194 ')[1] || c.name;
+            var pill = document.createElement('span');
+            pill.className = 'filter-pill active';
+            pill.textContent = dest;
+            pill.dataset.corridor = c.name;
+            pill.addEventListener('click', function() {
+                corridorVisible[c.name] = !corridorVisible[c.name];
+                syncPillStates();
+                renderAll();
+            });
+            grp.appendChild(pill);
+        });
+        container.appendChild(grp);
+    });
+
+    window._filterPills = container;
+}
+
+function syncPillStates() {
+    var container = window._filterPills;
+    if (!container) return;
+    var pills = container.querySelectorAll('.filter-pill[data-corridor]');
+    pills.forEach(function(p) {
+        if (corridorVisible[p.dataset.corridor]) p.classList.add('active');
+        else p.classList.remove('active');
+    });
+    var allPill = container.querySelector('.all-toggle');
+    if (allPill) {
+        var allOn = Object.keys(corridorVisible).every(function(k){ return corridorVisible[k]; });
+        if (allOn) allPill.classList.add('active');
+        else allPill.classList.remove('active');
+    }
 }
 
 function setRange(days, btn) {
@@ -573,18 +678,81 @@ var CITY_COORDS = {
     'Portland, OR':      { lon:-122.68, lat:45.52, label:'Portland' },
     'Seattle, WA':       { lon:-122.33, lat:47.61, label:'Seattle' },
     'Denver, CO':        { lon:-104.98, lat:39.74, label:'Denver' },
+    'Phoenix, AZ':       { lon:-112.07, lat:33.45, label:'Phoenix' },
+    'Boise, ID':         { lon:-116.20, lat:43.62, label:'Boise' },
+    'Salt Lake City, UT':{ lon:-111.89, lat:40.76, label:'Salt Lake City' },
+    'Reno, NV':          { lon:-119.81, lat:39.53, label:'Reno' },
+    'Dallas, TX':        { lon:-96.80,  lat:32.78, label:'Dallas' },
+    'Nashville, TN':     { lon:-86.78,  lat:36.16, label:'Nashville' },
 };
 var usTopoCache = null;
 
 var CORRIDOR_ENDPOINTS = {
-    'SF-Sacramento':    { from: 'San Francisco, CA', to: 'Sacramento, CA' },
-    'SF-Austin':        { from: 'San Francisco, CA', to: 'Austin, TX' },
-    'SF-LasVegas':      { from: 'San Francisco, CA', to: 'Las Vegas, NV' },
-    'SJ-Sacramento':    { from: 'San Jose, CA', to: 'Sacramento, CA' },
-    'Oakland-Portland': { from: 'Oakland, CA', to: 'Portland, OR' },
-    'SF-Seattle':       { from: 'San Francisco, CA', to: 'Seattle, WA' },
-    'SF-Denver':        { from: 'San Francisco, CA', to: 'Denver, CO' },
+    'SF-Sacramento':      { from: 'San Francisco, CA', to: 'Sacramento, CA' },
+    'SF-Austin':          { from: 'San Francisco, CA', to: 'Austin, TX' },
+    'SF-LasVegas':        { from: 'San Francisco, CA', to: 'Las Vegas, NV' },
+    'SF-Seattle':         { from: 'San Francisco, CA', to: 'Seattle, WA' },
+    'SF-Denver':          { from: 'San Francisco, CA', to: 'Denver, CO' },
+    'SF-Portland':        { from: 'San Francisco, CA', to: 'Portland, OR' },
+    'SJ-Sacramento':      { from: 'San Jose, CA', to: 'Sacramento, CA' },
+    'SJ-Austin':          { from: 'San Jose, CA', to: 'Austin, TX' },
+    'SJ-LasVegas':        { from: 'San Jose, CA', to: 'Las Vegas, NV' },
+    'SJ-Seattle':         { from: 'San Jose, CA', to: 'Seattle, WA' },
+    'SJ-Denver':          { from: 'San Jose, CA', to: 'Denver, CO' },
+    'SJ-Portland':        { from: 'San Jose, CA', to: 'Portland, OR' },
+    'Oakland-Sacramento': { from: 'Oakland, CA', to: 'Sacramento, CA' },
+    'Oakland-Austin':     { from: 'Oakland, CA', to: 'Austin, TX' },
+    'Oakland-LasVegas':   { from: 'Oakland, CA', to: 'Las Vegas, NV' },
+    'Oakland-Seattle':    { from: 'Oakland, CA', to: 'Seattle, WA' },
+    'Oakland-Denver':     { from: 'Oakland, CA', to: 'Denver, CO' },
+    'Oakland-Portland':   { from: 'Oakland, CA', to: 'Portland, OR' },
+    'SF-Phoenix':         { from: 'San Francisco, CA', to: 'Phoenix, AZ' },
+    'SJ-Phoenix':         { from: 'San Jose, CA', to: 'Phoenix, AZ' },
+    'Oakland-Phoenix':    { from: 'Oakland, CA', to: 'Phoenix, AZ' },
+    'SF-Boise':           { from: 'San Francisco, CA', to: 'Boise, ID' },
+    'SJ-Boise':           { from: 'San Jose, CA', to: 'Boise, ID' },
+    'Oakland-Boise':      { from: 'Oakland, CA', to: 'Boise, ID' },
+    'SF-SaltLakeCity':    { from: 'San Francisco, CA', to: 'Salt Lake City, UT' },
+    'SJ-SaltLakeCity':    { from: 'San Jose, CA', to: 'Salt Lake City, UT' },
+    'Oakland-SaltLakeCity':{ from: 'Oakland, CA', to: 'Salt Lake City, UT' },
+    'SF-Reno':            { from: 'San Francisco, CA', to: 'Reno, NV' },
+    'SJ-Reno':            { from: 'San Jose, CA', to: 'Reno, NV' },
+    'Oakland-Reno':       { from: 'Oakland, CA', to: 'Reno, NV' },
+    'SF-Dallas':          { from: 'San Francisco, CA', to: 'Dallas, TX' },
+    'SJ-Dallas':          { from: 'San Jose, CA', to: 'Dallas, TX' },
+    'Oakland-Dallas':     { from: 'Oakland, CA', to: 'Dallas, TX' },
+    'SF-Nashville':       { from: 'San Francisco, CA', to: 'Nashville, TN' },
+    'SJ-Nashville':       { from: 'San Jose, CA', to: 'Nashville, TN' },
+    'Oakland-Nashville':  { from: 'Oakland, CA', to: 'Nashville, TN' },
 };
+
+// Destinations and their aggregate labels for maps
+var DESTINATIONS = ['Sacramento','Austin','LasVegas','Seattle','Denver','Portland','Phoenix','Boise','SaltLakeCity','Reno','Dallas','Nashville'];
+var DEST_LABELS = { Sacramento:'Sacramento', Austin:'Austin', LasVegas:'Las Vegas', Seattle:'Seattle', Denver:'Denver', Portland:'Portland', Phoenix:'Phoenix', Boise:'Boise', SaltLakeCity:'Salt Lake City', Reno:'Reno', Dallas:'Dallas', Nashville:'Nashville' };
+var BAY_ORIGINS = ['SF','SJ','Oakland'];
+
+// Compute aggregate MPI per destination for a set of origins
+function computeAggregatesForOrigins(corridors, origins) {
+    var agg = {};
+    DESTINATIONS.forEach(function(dest) {
+        var mpis = [];
+        origins.forEach(function(origin) {
+            var name = origin + '-' + dest;
+            var c = corridors.find(function(x){ return x.name === name; });
+            if (c && c.mpi != null) { mpis.push(c.mpi); }
+        });
+        if (mpis.length === 0) { agg[dest] = null; return; }
+        var avgMpi = mpis.reduce(function(a,b){return a+b;},0) / mpis.length;
+        var sig = avgMpi > 1.5 ? 'outbound_pressure' : avgMpi < 0.67 ? 'inbound_pressure' : 'balanced';
+        agg[dest] = { mpi: avgMpi, signal: sig, count: mpis.length };
+    });
+    return agg;
+}
+
+// Convenience: all 3 origins
+function computeAggregates(corridors) {
+    return computeAggregatesForOrigins(corridors, BAY_ORIGINS);
+}
 
 function loadUSMap() {
     if (usTopoCache) { return Promise.resolve(usTopoCache); }
@@ -593,8 +761,14 @@ function loadUSMap() {
         .then(function(topo) { usTopoCache = topo; return topo; });
 }
 
+// Corridors shown on Bay Area local map (not the main regional map)
+var LOCAL_CORRIDORS = ['SF-Sacramento', 'SJ-Sacramento', 'Oakland-Sacramento', 'SF-Reno', 'SJ-Reno', 'Oakland-Reno'];
+
 function renderFlowMap(latest) {
-    loadUSMap().then(function(topo) { drawMap(topo, latest); });
+    loadUSMap().then(function(topo) {
+        drawMap(topo, latest);
+        drawBayMap(topo, latest);
+    });
 }
 
 function drawMap(topo, latest) {
@@ -606,8 +780,9 @@ function drawMap(topo, latest) {
     var svg = d3.select(container).append('svg').attr('width', w).attr('height', h);
 
     // Western state FIPS codes (continental only, no AK/HI)
+    // State FIPS codes to render (western + central + TN for Nashville)
     var westernFips = new Set([
-        '04','06','08','16','20','30','31','32','35','38','40','41','46','48','49','53','56'
+        '04','05','06','08','16','17','20','21','22','28','29','30','31','32','35','38','40','41','46','47','48','49','53','56'
     ]);
     var allStates = topojson.feature(topo, topo.objects.states);
     var westStates = {
@@ -620,18 +795,18 @@ function drawMap(topo, latest) {
     var cityPoints = Object.values(CITY_COORDS).map(function(c) {
         return [c.lon, c.lat];
     });
-    var pad = 4; // degrees of padding around outermost cities
+    var pad = 1.5; // degrees of padding around outermost cities
     var lonMin = d3.min(cityPoints, function(p){return p[0];}) - pad;
     var lonMax = d3.max(cityPoints, function(p){return p[0];}) + pad;
     var latMin = d3.min(cityPoints, function(p){return p[1];}) - pad;
     var latMax = d3.max(cityPoints, function(p){return p[1];}) + pad;
     var corridorBbox = {
         type: 'Feature',
-        geometry: { type: 'Polygon', coordinates: [[[lonMin,latMin],[lonMax,latMin],[lonMax,latMax],[lonMin,latMax],[lonMin,latMin]]] },
+        geometry: { type: 'Polygon', coordinates: [[[lonMin,latMin],[lonMin,latMax],[lonMax,latMax],[lonMax,latMin],[lonMin,latMin]]] },
         properties: {}
     };
     var projection = d3.geoAlbers()
-        .fitSize([w - 20, h - 10], corridorBbox);
+        .fitExtent([[100, 10], [w - 60, h - 10]], corridorBbox);
     var geoPath = d3.geoPath().projection(projection);
 
     // Draw only western states
@@ -674,38 +849,47 @@ function drawMap(topo, latest) {
             .append('path').attr('d','M0,1 L10,5 L0,9Z').attr('fill',col);
     });
 
-    // Flow arrows
+    // Flow arrows — all 3 origins combined into one aggregate per destination
     if (latest && latest.corridors) {
+        var agg = computeAggregates(latest.corridors);
         var ag = svg.append('g');
         var lg = svg.append('g');
-        latest.corridors.filter(function(c){return corridorVisible[c.name];}).forEach(function(c) {
-            var ep = CORRIDOR_ENDPOINTS[c.name];
-            if (!ep) return;
-            var from = proj[ep.from], to = proj[ep.to];
-            if (!from || !to) return;
-            var sc = sigClass(c.signal);
+        var bayOrigin = proj['San Francisco, CA'];
+        var destCityMap = { Sacramento:'Sacramento, CA', Austin:'Austin, TX', LasVegas:'Las Vegas, NV', Seattle:'Seattle, WA', Denver:'Denver, CO', Portland:'Portland, OR', Phoenix:'Phoenix, AZ', Boise:'Boise, ID', SaltLakeCity:'Salt Lake City, UT', Reno:'Reno, NV', Dallas:'Dallas, TX', Nashville:'Nashville, TN' };
+        var mainDests = DESTINATIONS.filter(function(d){ return d!=='Sacramento' && d!=='Reno'; });
+        var curveBias = { Austin:1, LasVegas:-0.6, Seattle:1, Denver:-1, Portland:-1.2, Phoenix:-0.8, Boise:1.2, SaltLakeCity:0.7, Dallas:0.8, Nashville:-0.7 };
+        var labelSide = { Austin:1, LasVegas:-1, Seattle:1, Denver:-1, Portland:1, Phoenix:1, Boise:-1, SaltLakeCity:1, Dallas:-1, Nashville:1 };
+
+        mainDests.forEach(function(dest) {
+            var data = agg[dest];
+            if (!data || !bayOrigin) return;
+            var to = proj[destCityMap[dest]];
+            if (!to) return;
+            var sc = sigClass(data.signal);
             var col = sc==='out'?'#ff4d4f':sc==='in'?'#2dd4a8':'#f0a030';
-            var mpi = c.mpi!=null?c.mpi:1;
-            var sw = Math.max(1.5, Math.min(4, 1.5 + Math.abs(mpi-1)*1.2));
+            var mpi = data.mpi;
             var sx,sy,ex,ey;
-            if(mpi>=1){sx=from.x;sy=from.y;ex=to.x;ey=to.y;}
-            else{sx=to.x;sy=to.y;ex=from.x;ey=from.y;}
+            if(mpi>=1){sx=bayOrigin.x;sy=bayOrigin.y;ex=to.x;ey=to.y;}
+            else{sx=to.x;sy=to.y;ex=bayOrigin.x;ey=bayOrigin.y;}
             var mx=(sx+ex)/2, my=(sy+ey)/2;
             var dx=ex-sx, dy=ey-sy, len=Math.sqrt(dx*dx+dy*dy);
-            // More curve on short corridors to spread labels apart
-            var cv = len < 120 ? Math.max(35, len*0.4) : Math.min(50, len*0.18);
+            var bias = curveBias[dest] || 1;
+            var cv = (len < 120 ? Math.max(35, len*0.4) : Math.min(60, len*0.2)) * bias;
             var cpX=mx+(-dy/len)*cv, cpY=my+(dx/len)*cv;
             var ang=Math.atan2(ey-sy,ex-sx), pad=16;
+            var fd = flowDashStyle(mpi);
             ag.append('path')
                 .attr('d','M'+(sx+Math.cos(ang)*pad)+','+(sy+Math.sin(ang)*pad)
                     +' Q'+cpX+','+cpY+' '+(ex-Math.cos(ang)*pad)+','+(ey-Math.sin(ang)*pad))
-                .attr('fill','none').attr('stroke',col).attr('stroke-width',sw)
+                .attr('fill','none').attr('stroke',col).attr('stroke-width',2)
                 .attr('opacity',0.8).attr('stroke-linecap','round')
+                .attr('stroke-dasharray',fd.dasharray)
+                .style('animation','flowDash '+fd.duration+'s linear infinite')
                 .attr('marker-end','url(#arr-'+sc+')');
-            var labelOffset = len < 100 ? -16 : -12;
-            lg.append('text').attr('x',cpX).attr('y',cpY+labelOffset)
+            var ls = labelSide[dest] || 1;
+            lg.append('text').attr('x',cpX).attr('y',cpY+(ls>0?-12:16))
                 .attr('text-anchor','middle').attr('class','flow-label')
-                .attr('fill',col).text(c.mpi!=null?c.mpi.toFixed(1)+'\u00d7':'');
+                .attr('fill',col).text(mpi.toFixed(1)+'\u00d7');
         });
     }
 
@@ -715,23 +899,33 @@ function drawMap(topo, latest) {
 
     // Label offset overrides to avoid overlap
     var labelOffsets = {
-        'San Francisco, CA': { dx: -12, dy: 16, anchor: 'end' },
+        'San Francisco, CA': { dx: -12, dy: 20, anchor: 'end' },
         'Oakland, CA':       { dx: -12, dy: -8, anchor: 'end' },
-        'San Jose, CA':      { dx: -12, dy: 16, anchor: 'end' },
-        'Sacramento, CA':    { dx: 10, dy: -8, anchor: 'start' },
-        'Portland, OR':      { dx: -12, dy: 4, anchor: 'end' },
-        'Seattle, WA':       { dx: -12, dy: 4, anchor: 'end' },
+        'San Jose, CA':      { dx: -12, dy: 20, anchor: 'end' },
+        'Sacramento, CA':    { dx: 10, dy: 14, anchor: 'start' },
+        'Portland, OR':      { dx: -12, dy: 14, anchor: 'end' },
+        'Seattle, WA':       { dx: -12, dy: -8, anchor: 'end' },
         'Las Vegas, NV':     { dx: 10, dy: 14, anchor: 'start' },
         'Denver, CO':        { dx: 10, dy: 4, anchor: 'start' },
         'Austin, TX':        { dx: 10, dy: 4, anchor: 'start' },
+        'Phoenix, AZ':       { dx: 10, dy: 14, anchor: 'start' },
+        'Boise, ID':         { dx: 10, dy: -8, anchor: 'start' },
+        'Salt Lake City, UT':{ dx: 10, dy: -8, anchor: 'start' },
+        'Reno, NV':          { dx: 10, dy: -8, anchor: 'start' },
+        'Dallas, TX':        { dx: 10, dy: 14, anchor: 'start' },
+        'Nashville, TN':     { dx: 10, dy: 4, anchor: 'start' },
     };
 
     // On mobile, show only one label for Bay Area cluster
     var bayCities = ['San Francisco, CA', 'Oakland, CA', 'San Jose, CA'];
     var drawnBayLabel = false;
 
+    // Cities shown only on the local map, not the main map
+    var localOnlyCities = new Set(['Sacramento, CA', 'Reno, NV']);
+
     Object.keys(proj).forEach(function(k) {
         var c = proj[k];
+        if (localOnlyCities.has(k)) return;
 
         // Draw dot for every city
         cg.append('circle').attr('cx',c.x).attr('cy',c.y)
@@ -758,6 +952,136 @@ function drawMap(topo, latest) {
                 .attr('class','city-label').attr('fill', css('--text-secondary'))
                 .text(c.label);
         }
+    });
+}
+
+function drawBayMap(topo, latest) {
+    var container = document.getElementById('bayMap');
+    if (!container) return;
+    container.textContent = '';
+    var w = container.clientWidth || 500;
+    var h = container.clientHeight || Math.min(w * 0.9, 420);
+
+    var svg = d3.select(container).append('svg').attr('width', w).attr('height', h);
+
+    // Bay Area bounding box: SF, SJ, Oakland, Sacramento, Reno
+    var bayCities = ['San Francisco, CA','San Jose, CA','Oakland, CA','Sacramento, CA','Reno, NV'];
+    var bayPoints = bayCities.map(function(k) { return [CITY_COORDS[k].lon, CITY_COORDS[k].lat]; });
+    var pad = 0.4;
+    var lonMin = d3.min(bayPoints, function(p){return p[0];}) - pad;
+    var lonMax = d3.max(bayPoints, function(p){return p[0];}) + pad;
+    var latMin = d3.min(bayPoints, function(p){return p[1];}) - pad;
+    var latMax = d3.max(bayPoints, function(p){return p[1];}) + pad;
+    var bayBbox = {
+        type: 'Feature',
+        geometry: { type: 'Polygon', coordinates: [[[lonMin,latMin],[lonMin,latMax],[lonMax,latMax],[lonMax,latMin],[lonMin,latMin]]] },
+        properties: {}
+    };
+    var projection = d3.geoAlbers().fitExtent([[90, 10], [w - 50, h - 10]], bayBbox);
+    var geoPath = d3.geoPath().projection(projection);
+
+    // California + Nevada for local map
+    var allStates = topojson.feature(topo, topo.objects.states);
+    var localFips = new Set(['06','32']);
+    var caState = { type:'FeatureCollection', features: allStates.features.filter(function(f){ return localFips.has(f.id); }) };
+
+    svg.append('g').selectAll('path').data(caState.features).enter()
+        .append('path').attr('d', geoPath)
+        .attr('fill', css('--bg-elevated')).attr('stroke', css('--border'))
+        .attr('stroke-width', 1.5).attr('class', 'state');
+
+    // Project bay cities
+    var proj = {};
+    bayCities.forEach(function(k) {
+        var c = CITY_COORDS[k];
+        var p = projection([c.lon, c.lat]);
+        if (p) { proj[k] = { x:p[0], y:p[1], label:c.label, bay:c.bay }; }
+    });
+
+    // Arrow markers
+    var defs = svg.append('defs');
+    ['out','bal','in'].forEach(function(t) {
+        var col = t==='out'?'#ff4d4f':t==='in'?'#2dd4a8':'#f0a030';
+        defs.append('marker').attr('id','bay-arr-'+t).attr('viewBox','0 0 10 10')
+            .attr('refX',8).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6)
+            .attr('orient','auto-start-reverse')
+            .append('path').attr('d','M0,1 L10,5 L0,9Z').attr('fill',col);
+    });
+
+    // Flow arrows for local corridors only
+    // Per-corridor curve bias so arrows from different origins spread apart
+    // Curve offset as fraction of path length — small values for gentle arcs
+    // Two groups: SF+Oakland combined, SJ separate — for each local destination
+    var localDests = ['Sacramento', 'Reno'];
+    var localDestCity = { Sacramento:'Sacramento, CA', Reno:'Reno, NV' };
+    if (latest && latest.corridors) {
+        var sfOakLocal = computeAggregatesForOrigins(latest.corridors, ['SF','Oakland']);
+        var sjLocal = computeAggregatesForOrigins(latest.corridors, ['SJ']);
+        var ag = svg.append('g');
+        var lg = svg.append('g');
+        var sfOrig = proj['San Francisco, CA'];
+        var sjOrig = proj['San Jose, CA'];
+
+        // SF+Oak curves slightly up, SJ curves slightly down
+        var localBias = { 'sfoak-Sacramento':0.12, 'sj-Sacramento':0.25, 'sfoak-Reno':0.12, 'sj-Reno':0.20 };
+
+        function drawLocalArrow(origin, data, dest, key, labelAbove) {
+            if (!data || !origin) return;
+            var to = proj[localDestCity[dest]];
+            if (!to) return;
+            var sc = sigClass(data.signal);
+            var col = sc==='out'?'#ff4d4f':sc==='in'?'#2dd4a8':'#f0a030';
+            var mpi = data.mpi;
+            var sx,sy,ex,ey;
+            if(mpi>=1){sx=origin.x;sy=origin.y;ex=to.x;ey=to.y;}
+            else{sx=to.x;sy=to.y;ex=origin.x;ey=origin.y;}
+            var mx=(sx+ex)/2, my=(sy+ey)/2;
+            var dx=ex-sx, dy=ey-sy, len=Math.sqrt(dx*dx+dy*dy);
+            var cv = len * (localBias[key] || 0.12);
+            var cpX=mx+(-dy/len)*cv, cpY=my+(dx/len)*cv;
+            var ang=Math.atan2(ey-sy,ex-sx), bpad=16;
+            var fd = flowDashStyle(mpi);
+            ag.append('path')
+                .attr('d','M'+(sx+Math.cos(ang)*bpad)+','+(sy+Math.sin(ang)*bpad)
+                    +' Q'+cpX+','+cpY+' '+(ex-Math.cos(ang)*bpad)+','+(ey-Math.sin(ang)*bpad))
+                .attr('fill','none').attr('stroke',col).attr('stroke-width',2.5)
+                .attr('opacity',0.8).attr('stroke-linecap','round')
+                .attr('stroke-dasharray',fd.dasharray)
+                .style('animation','flowDash '+fd.duration+'s linear infinite')
+                .attr('marker-end','url(#bay-arr-'+sc+')');
+            lg.append('text').attr('x',cpX).attr('y',cpY+(labelAbove?-12:16))
+                .attr('text-anchor','middle').attr('class','flow-label')
+                .attr('fill',col).text(mpi.toFixed(1)+'\u00d7');
+        }
+
+        localDests.forEach(function(dest) {
+            drawLocalArrow(sfOrig, sfOakLocal[dest], dest, 'sfoak-'+dest, true);
+            drawLocalArrow(sjOrig, sjLocal[dest], dest, 'sj-'+dest, false);
+        });
+    }
+
+    // City dots + labels
+    var cg = svg.append('g');
+    var bayLabelOffsets = {
+        'San Francisco, CA': { dx: -14, dy: 6, anchor: 'end' },
+        'Oakland, CA':       { dx: 12, dy: -14, anchor: 'start' },
+        'San Jose, CA':      { dx: -14, dy: 16, anchor: 'end' },
+        'Sacramento, CA':    { dx: 12, dy: -12, anchor: 'start' },
+        'Reno, NV':          { dx: 12, dy: -8, anchor: 'start' },
+    };
+    Object.keys(proj).forEach(function(k) {
+        var c = proj[k];
+        cg.append('circle').attr('cx',c.x).attr('cy',c.y)
+            .attr('r', c.bay ? 7 : 6)
+            .attr('fill', c.bay ? '#4d94ff' : css('--text-secondary'))
+            .attr('stroke', css('--bg-deep')).attr('stroke-width', 2.5)
+            .attr('class','city-dot');
+        var off = bayLabelOffsets[k] || { dx: 12, dy: 4, anchor: 'start' };
+        cg.append('text').attr('x', c.x + off.dx).attr('y', c.y + off.dy)
+            .attr('text-anchor', off.anchor)
+            .attr('class','city-label').attr('fill', css('--text-secondary'))
+            .style('font-size','14px')
+            .text(c.label);
     });
 }
 

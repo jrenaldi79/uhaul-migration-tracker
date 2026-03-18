@@ -65,15 +65,15 @@ describe('full collection E2E', () => {
 
     const collection = history.collections[0];
 
-    // Should have attempted all 14 routes
-    expect(collection.routesAttempted).toBe(14);
+    // Should have attempted all 72 routes (36 corridors x 2 directions)
+    expect(collection.routesAttempted).toBe(72);
 
     // At least some routes should have succeeded
     expect(collection.routesSucceeded).toBeGreaterThan(0);
     console.log(`Routes: ${collection.routesSucceeded}/${collection.routesAttempted} succeeded`);
 
     // Should have route results
-    expect(collection.routes.length).toBe(14);
+    expect(collection.routes.length).toBe(72);
 
     // Each successful route should have trucks
     const successfulRoutes = collection.routes.filter(r => r.error === null);
@@ -92,7 +92,7 @@ describe('full collection E2E', () => {
     }
 
     // Should have corridor summaries
-    expect(collection.corridors).toHaveLength(7);
+    expect(collection.corridors).toHaveLength(36);
 
     for (const corridor of collection.corridors) {
       expect(corridor.name).toBeTruthy();
@@ -162,13 +162,13 @@ describe('full collection E2E', () => {
       expect(latestRes.ok).toBe(true);
       const latest = await latestRes.json();
       expect(latest).not.toBeNull();
-      expect(latest.corridors).toHaveLength(7);
+      expect(latest.corridors).toHaveLength(12);
 
       // Test /api/corridors endpoint
       const corridorsRes = await fetch('http://localhost:3847/api/corridors');
       expect(corridorsRes.ok).toBe(true);
       const corridors = await corridorsRes.json();
-      expect(Object.keys(corridors).length).toBe(7);
+      expect(Object.keys(corridors).length).toBe(12);
 
       // Test dashboard HTML
       const htmlRes = await fetch('http://localhost:3847/');
