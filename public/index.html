@@ -676,7 +676,8 @@ function drawMap(topo, latest) {
             else{sx=to.x;sy=to.y;ex=from.x;ey=from.y;}
             var mx=(sx+ex)/2, my=(sy+ey)/2;
             var dx=ex-sx, dy=ey-sy, len=Math.sqrt(dx*dx+dy*dy);
-            var cv=Math.min(50,len*0.18);
+            // More curve on short corridors to spread labels apart
+            var cv = len < 120 ? Math.max(35, len*0.4) : Math.min(50, len*0.18);
             var cpX=mx+(-dy/len)*cv, cpY=my+(dx/len)*cv;
             var ang=Math.atan2(ey-sy,ex-sx), pad=16;
             ag.append('path')
@@ -685,26 +686,62 @@ function drawMap(topo, latest) {
                 .attr('fill','none').attr('stroke',col).attr('stroke-width',sw)
                 .attr('opacity',0.8).attr('stroke-linecap','round')
                 .attr('marker-end','url(#arr-'+sc+')');
-            lg.append('text').attr('x',cpX).attr('y',cpY-10)
+            var labelOffset = len < 100 ? -16 : -12;
+            lg.append('text').attr('x',cpX).attr('y',cpY+labelOffset)
                 .attr('text-anchor','middle').attr('class','flow-label')
                 .attr('fill',col).text(c.mpi!=null?c.mpi.toFixed(1)+'\u00d7':'');
         });
     }
 
-    // City dots + labels
+    // City dots + labels with smart placement
     var cg = svg.append('g');
+    var isMobile = w < 500;
+
+    // Label offset overrides to avoid overlap
+    var labelOffsets = {
+        'San Francisco, CA': { dx: -12, dy: 16, anchor: 'end' },
+        'Oakland, CA':       { dx: -12, dy: -8, anchor: 'end' },
+        'San Jose, CA':      { dx: -12, dy: 16, anchor: 'end' },
+        'Sacramento, CA':    { dx: 10, dy: -8, anchor: 'start' },
+        'Portland, OR':      { dx: -12, dy: 4, anchor: 'end' },
+        'Seattle, WA':       { dx: -12, dy: 4, anchor: 'end' },
+        'Las Vegas, NV':     { dx: 10, dy: 14, anchor: 'start' },
+        'Denver, CO':        { dx: 10, dy: 4, anchor: 'start' },
+        'Austin, TX':        { dx: 10, dy: 4, anchor: 'start' },
+    };
+
+    // On mobile, show only one label for Bay Area cluster
+    var bayCities = ['San Francisco, CA', 'Oakland, CA', 'San Jose, CA'];
+    var drawnBayLabel = false;
+
     Object.keys(proj).forEach(function(k) {
         var c = proj[k];
+
+        // Draw dot for every city
         cg.append('circle').attr('cx',c.x).attr('cy',c.y)
-            .attr('r',c.bay?6:5)
-            .attr('fill',c.bay?'#4d94ff':css('--text-secondary'))
-            .attr('stroke',css('--bg-deep')).attr('stroke-width',2.5)
+            .attr('r', c.bay ? 6 : 5)
+            .attr('fill', c.bay ? '#4d94ff' : css('--text-secondary'))
+            .attr('stroke', css('--bg-deep')).attr('stroke-width', 2.5)
             .attr('class','city-dot');
-        var left = c.x < w/2;
-        cg.append('text').attr('x',c.x+(left?-10:10)).attr('y',c.y+4)
-            .attr('text-anchor',left?'end':'start')
-            .attr('class','city-label').attr('fill',css('--text-secondary'))
-            .text(c.label);
+
+        // Label logic
+        if (isMobile && bayCities.indexOf(k) !== -1) {
+            // On mobile, show one "Bay Area" label for the cluster
+            if (!drawnBayLabel) {
+                drawnBayLabel = true;
+                cg.append('text').attr('x', c.x - 12).attr('y', c.y + 18)
+                    .attr('text-anchor', 'end')
+                    .attr('class','city-label').attr('fill','#4d94ff')
+                    .attr('font-weight','700')
+                    .text('Bay Area');
+            }
+        } else {
+            var off = labelOffsets[k] || { dx: 10, dy: 4, anchor: 'start' };
+            cg.append('text').attr('x', c.x + off.dx).attr('y', c.y + off.dy)
+                .attr('text-anchor', off.anchor)
+                .attr('class','city-label').attr('fill', css('--text-secondary'))
+                .text(c.label);
+        }
     });
 }
 
