@@ -8,6 +8,6 @@
 
 npx lint-staged
 
-node scripts/check-secrets.js
-node scripts/check-file-sizes.js
-node scripts/validate-docs.js
+node scripts/check-secrets.cjs
+node scripts/check-file-sizes.cjs
+node scripts/validate-docs.cjs

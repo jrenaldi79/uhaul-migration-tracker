@@ -13,7 +13,7 @@
     "test:all": "vitest run",
     "posttest": "git rev-parse HEAD > .test-passed",
     "lint": "eslint src/",
-    "validate-docs": "node scripts/validate-docs.js --full",
+    "validate-docs": "node scripts/validate-docs.cjs --full",
     "prepare": "husky"
   },
   "dependencies": {

@@ -32,10 +32,10 @@ npm test tests/mpi.test.ts   # Single file (preferred during dev)
 
 ### Enforcement
 ```bash
-node scripts/check-secrets.js        # Scan staged files for secrets
-node scripts/check-file-sizes.js     # Check staged files against 300-line limit
-node scripts/validate-docs.js        # Pre-commit: warn if CLAUDE.md may need update
-node scripts/validate-docs.js --full # Full: compare CLAUDE.md against codebase
+node scripts/check-secrets.cjs        # Scan staged files for secrets
+node scripts/check-file-sizes.cjs     # Check staged files against 300-line limit
+node scripts/validate-docs.cjs        # Pre-commit: warn if CLAUDE.md may need update
+node scripts/validate-docs.cjs --full # Full: compare CLAUDE.md against codebase
 ```
 
 ---
@@ -143,9 +143,9 @@ Managed by [husky](https://typicode.github.io/husky/).
 | Step | Script | What It Does |
 |------|--------|-------------|
 | 1. lint-staged | `npx lint-staged` | ESLint auto-fix on staged .ts files |
-| 2. Secret scan | `node scripts/check-secrets.js` | Blocks commits with API keys or tokens |
-| 3. File size check | `node scripts/check-file-sizes.js` | Blocks .ts files over 300 lines |
-| 4. Doc drift warning | `node scripts/validate-docs.js` | Warns if `src/`/`scripts/` changed without CLAUDE.md |
+| 2. Secret scan | `node scripts/check-secrets.cjs` | Blocks commits with API keys or tokens |
+| 3. File size check | `node scripts/check-file-sizes.cjs` | Blocks .ts files over 300 lines |
+| 4. Doc drift warning | `node scripts/validate-docs.cjs` | Warns if `src/`/`scripts/` changed without CLAUDE.md |
 
 ### pre-push (thorough)
 

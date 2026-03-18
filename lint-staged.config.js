@@ -1,1 +1,1 @@
-module.exports = { 'src/**/*.ts': ['eslint --fix'] };
+export default { 'src/**/*.ts': ['eslint --fix'] };
