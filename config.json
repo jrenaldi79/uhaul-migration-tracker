@@ -1,0 +1,72 @@
+{
+  "corridors": [
+    {
+      "name": "SF-Sacramento",
+      "label": "SF \u2194 Sacramento",
+      "outbound": { "from": "San Francisco, CA", "to": "Sacramento, CA" },
+      "inbound": { "from": "Sacramento, CA", "to": "San Francisco, CA" }
+    },
+    {
+      "name": "SF-Austin",
+      "label": "SF \u2194 Austin",
+      "outbound": { "from": "San Francisco, CA", "to": "Austin, TX" },
+      "inbound": { "from": "Austin, TX", "to": "San Francisco, CA" }
+    },
+    {
+      "name": "SF-LasVegas",
+      "label": "SF \u2194 Las Vegas",
+      "outbound": { "from": "San Francisco, CA", "to": "Las Vegas, NV" },
+      "inbound": { "from": "Las Vegas, NV", "to": "San Francisco, CA" }
+    },
+    {
+      "name": "SJ-Sacramento",
+      "label": "SJ \u2194 Sacramento",
+      "outbound": { "from": "San Jose, CA", "to": "Sacramento, CA" },
+      "inbound": { "from": "Sacramento, CA", "to": "San Jose, CA" }
+    },
+    {
+      "name": "Oakland-Portland",
+      "label": "Oakland \u2194 Portland",
+      "outbound": { "from": "Oakland, CA", "to": "Portland, OR" },
+      "inbound": { "from": "Portland, OR", "to": "Oakland, CA" }
+    },
+    {
+      "name": "SF-Seattle",
+      "label": "SF \u2194 Seattle",
+      "outbound": { "from": "San Francisco, CA", "to": "Seattle, WA" },
+      "inbound": { "from": "Seattle, WA", "to": "San Francisco, CA" }
+    },
+    {
+      "name": "SF-Denver",
+      "label": "SF \u2194 Denver",
+      "outbound": { "from": "San Francisco, CA", "to": "Denver, CO" },
+      "inbound": { "from": "Denver, CO", "to": "San Francisco, CA" }
+    }
+  ],
+  "collection": {
+    "lookupDateOffsetDays": 14,
+    "delayBetweenRoutesMs": [2000, 4000],
+    "maxRetries": 3,
+    "retryBackoffMs": 5000,
+    "timeoutMs": 30000,
+    "referenceTruckPreference": ["15' Truck", "20' Truck", "10' Truck", "26' Truck"]
+  },
+  "dashboard": {
+    "port": 3847,
+    "autoOpen": true
+  },
+  "baselines": {
+    "minDataPoints": 14,
+    "seasonalMinDays": 365
+  },
+  "selectors": {
+    "pickupInput": "#PickupLocation-TruckOnly",
+    "dropoffInput": "#DropoffLocation-TruckOnly",
+    "autocompleteItem": ".ui-autocomplete:visible li",
+    "dateInput": "#PickupDate",
+    "submitButton": "#getRates",
+    "resultsContainer": "**/Reservations/**",
+    "truckName": "h3",
+    "truckPrice": "b.block.text-3x"
+  }
+}
