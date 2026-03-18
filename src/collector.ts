@@ -100,7 +100,7 @@ async function scrapeRoute(
           const priceEl = container.querySelector(priceSelector);
           if (priceEl) {
             const priceText = priceEl.textContent?.trim() || '0';
-            const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
+            const price = Math.round(parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0);
             if (price > 0) {
               results.push({ name, price });
             }
