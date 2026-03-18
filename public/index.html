@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bay Area Migration Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
+    <style>
+        [data-theme="dark"] {
+            --bg-deep:#0a0c10;--bg-surface:#12151c;--bg-elevated:#1a1e28;--bg-hover:#222838;
+            --border:#2a3040;--border-subtle:#1e2230;
+            --text-primary:#e8eaf0;--text-secondary:#8890a4;--text-muted:#555d74;--text-dim:#3a4158;
+            --accent-red-dim:#ff4d4f22;--accent-teal-dim:#2dd4a822;--accent-amber-dim:#f0a03022;
+        }
+        [data-theme="light"] {
+            --bg-deep:#f4f5f7;--bg-surface:#ffffff;--bg-elevated:#f9fafb;--bg-hover:#f0f1f3;
+            --border:#d8dce3;--border-subtle:#e8ebf0;
+            --text-primary:#1a1e28;--text-secondary:#555d74;--text-muted:#8890a4;--text-dim:#b0b8c8;
+            --accent-red-dim:#ff4d4f15;--accent-teal-dim:#2dd4a815;--accent-amber-dim:#f0a03015;
+        }
+        :root { --accent-red:#ff4d4f;--accent-teal:#2dd4a8;--accent-amber:#f0a030;--accent-blue:#4d94ff;
+            --mono:'JetBrains Mono','SF Mono',monospace;--serif:'Instrument Serif',Georgia,serif;--radius:6px;--gap:12px; }
+        * { margin:0;padding:0;box-sizing:border-box; }
+        body { font-family:var(--mono);background:var(--bg-deep);color:var(--text-primary);line-height:1.5;-webkit-font-smoothing:antialiased; }
+        body::before { content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border-subtle) 1px,transparent 1px),linear-gradient(90deg,var(--border-subtle) 1px,transparent 1px);background-size:60px 60px;opacity:0.3;pointer-events:none;z-index:0; }
+        .dash { position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:24px 20px; }
+        .header { display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:24px; }
+        .header h1 { font-family:var(--serif);font-size:32px;font-weight:400;font-style:italic;letter-spacing:-0.5px;line-height:1.1; }
+        .header .sub { font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-top:6px; }
+        .header-right { text-align:right;font-size:11px;color:var(--text-muted);line-height:1.8; }
+        .theme-btn { background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;color:var(--text-secondary);font-size:14px;margin-top:4px; }
+        .theme-btn:hover { border-color:var(--text-muted);color:var(--text-primary); }
+        .filters { display:flex;gap:16px;align-items:center;margin-bottom:24px;flex-wrap:wrap; }
+        .filters input[type="date"] { font-family:var(--mono);font-size:11px;padding:4px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:3px;color:var(--text-secondary); }
+        .filters label { font-size:10px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:3px; }
+        .kpi-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:var(--gap);margin-bottom:24px; }
+        .kpi { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;transition:border-color 0.2s; }
+        .kpi:hover { border-color:var(--text-muted);background:var(--bg-elevated); }
+        .kpi::before { content:'';position:absolute;top:0;left:0;right:0;height:2px; }
+        .kpi.out::before { background:var(--accent-red); }
+        .kpi.bal::before { background:var(--accent-amber); }
+        .kpi.in::before { background:var(--accent-teal); }
+        .kpi-name { font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px; }
+        .kpi-mpi { font-size:28px;font-weight:700;letter-spacing:-1px;line-height:1; }
+        .kpi.out .kpi-mpi { color:var(--accent-red); }
+        .kpi.bal .kpi-mpi { color:var(--accent-amber); }
+        .kpi.in .kpi-mpi { color:var(--accent-teal); }
+        .kpi-delta { font-size:11px;font-weight:500;margin-top:4px; }
+        .kpi-delta.up { color:var(--accent-red); }
+        .kpi-delta.down { color:var(--accent-teal); }
+        .kpi-delta.flat { color:var(--text-muted); }
+        .kpi-prices { font-size:10px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between; }
+        .kpi-prices .o { color:var(--accent-red); }
+        .kpi-prices .i { color:var(--accent-teal); }
+        .kpi-signal { font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-top:6px;color:var(--text-muted); }
+        .charts-row { display:grid;grid-template-columns:2fr 1fr;gap:var(--gap);margin-bottom:24px; }
+        .panel { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px; }
+        .panel-hdr { display:flex;justify-content:space-between;align-items:center;margin-bottom:16px; }
+        .panel-title { font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted); }
+        .chart-wrap { position:relative;height:320px; }
+        .fbtn { font-family:var(--mono);font-size:10px;padding:3px 8px;border:1px solid var(--border);border-radius:3px;background:transparent;color:var(--text-muted);cursor:pointer; }
+        .fbtn:hover,.fbtn.active { border-color:var(--text-secondary);color:var(--text-primary);background:var(--bg-elevated); }
+        .table-panel { margin-bottom:24px; }
+        table { width:100%;border-collapse:collapse;font-size:12px; }
+        thead th { text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:500;cursor:pointer;user-select:none;white-space:nowrap; }
+        thead th:hover { color:var(--text-secondary); }
+        tbody td { padding:10px 12px;border-bottom:1px solid var(--border-subtle);font-variant-numeric:tabular-nums; }
+        tbody tr:hover { background:var(--bg-hover); }
+        .dir-out { color:var(--accent-red);font-size:10px;font-weight:600;letter-spacing:1px; }
+        .dir-in { color:var(--accent-teal);font-size:10px;font-weight:600;letter-spacing:1px; }
+        .sig { display:inline-block;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:3px;font-weight:600; }
+        .sig.out { background:var(--accent-red-dim);color:var(--accent-red); }
+        .sig.bal { background:var(--accent-amber-dim);color:var(--accent-amber); }
+        .sig.in { background:var(--accent-teal-dim);color:var(--accent-teal); }
+        .footer { display:flex;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);font-size:10px;color:var(--text-dim); }
+        .empty { text-align:center;padding:80px 20px;color:var(--text-muted);font-size:14px; }
+        .empty code { background:var(--bg-elevated);padding:2px 8px;border-radius:3px;font-size:12px; }
+        @media(max-width:1200px){ .kpi-grid{grid-template-columns:repeat(4,1fr);} }
+        @media(max-width:900px){ .kpi-grid{grid-template-columns:repeat(2,1fr);} .charts-row{grid-template-columns:1fr;} }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        .kpi,.panel { animation:fadeIn 0.4s ease-out both; }
+    </style>
+</head>
+<body>
+<div class="dash" id="dashMain">
+    <header class="header">
+        <div>
+            <h1>Bay Area Migration Tracker</h1>
+            <div class="sub">U-Haul one-way pricing as real-time migration proxy</div>
+        </div>
+        <div class="header-right">
+            <div id="meta"></div>
+            <button class="theme-btn" id="themeBtn" title="Toggle theme">&#9790;</button>
+        </div>
+    </header>
+    <div class="filters">
+        <input type="date" id="dateFrom"> <span style="color:var(--text-dim)">&rarr;</span> <input type="date" id="dateTo">
+        <div id="corridorFilters" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+    </div>
+    <div id="kpiGrid" class="kpi-grid"></div>
+    <div class="charts-row">
+        <div class="panel">
+            <div class="panel-hdr">
+                <div class="panel-title">Migration Pressure Index &mdash; Daily Trend</div>
+                <div id="rangeBtns" style="display:flex;gap:6px;"></div>
+            </div>
+            <div class="chart-wrap"><canvas id="mpiChart"></canvas></div>
+        </div>
+        <div class="panel">
+            <div class="panel-hdr"><div class="panel-title">Latest Outbound vs Inbound</div></div>
+            <div class="chart-wrap"><canvas id="priceChart"></canvas></div>
+        </div>
+    </div>
+    <div class="panel table-panel">
+        <div class="panel-hdr"><div class="panel-title" id="tableTitle">Corridor Summary</div></div>
+        <table><thead><tr>
+            <th>Corridor</th><th>Direction</th><th>15ft Price</th><th>MPI</th><th>&Delta; Prior</th><th>Signal</th>
+        </tr></thead><tbody id="tableBody"></tbody></table>
+    </div>
+    <footer class="footer">
+        <div>U-Haul one-way pricing &middot; 15ft truck reference</div>
+        <div>Auto-refreshes every 60s &middot; Port 3847 &middot; v1.0</div>
+    </footer>
+</div>
+<div id="emptyState" class="empty" style="display:none;">
+    No data collected yet.<br>Run <code>npm run collect</code> to start.
+</div>
+
+<script>
+/* NOTE: All data rendered via DOM comes from our own local Express API (trusted source).
+   DOM construction uses string concatenation for convenience but only with our own data. */
+
+const COLORS = {
+    'SF-Sacramento':'#ff4d4f','SF-LasVegas':'#ff7a45','SJ-Sacramento':'#ffa940',
+    'SF-Seattle':'#4d94ff','SF-Austin':'#f0a030','Oakland-Portland':'#b37feb','SF-Denver':'#2dd4a8'
+};
+let allData = null, mpiChart = null, priceChart = null, rangeFilter = 0;
+let corridorVisible = {};
+
+// Theme
+function initTheme() {
+    const stored = localStorage.getItem('theme');
+    if (stored) { document.documentElement.setAttribute('data-theme', stored); }
+    else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+}
+function toggleTheme() {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    renderCharts();
+}
+function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+// Helpers
+function sigClass(s) { return s === 'outbound_pressure' ? 'out' : s === 'inbound_pressure' ? 'in' : 'bal'; }
+function sigLabel(s) { return s === 'outbound_pressure' ? 'Outbound' : s === 'inbound_pressure' ? 'Inbound' : s === 'no_data' ? 'No Data' : 'Balanced'; }
+function fmtPrice(v) { return v != null ? '$' + v.toLocaleString() : 'N/A'; }
+function sigColor(sc) { return sc === 'out' ? 'var(--accent-red)' : sc === 'in' ? 'var(--accent-teal)' : 'var(--accent-amber)'; }
+
+// Data fetching
+async function fetchAndRender() {
+    try {
+        const res = await fetch('/api/data');
+        allData = await res.json();
+        if (!allData.collections || allData.collections.length === 0) {
+            document.getElementById('dashMain').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'block';
+            return;
+        }
+        document.getElementById('dashMain').style.display = 'block';
+        document.getElementById('emptyState').style.display = 'none';
+        renderAll();
+    } catch (e) { console.error('Fetch error:', e); }
+}
+
+function getFiltered() {
+    let cols = allData.collections;
+    const from = document.getElementById('dateFrom').value;
+    const to = document.getElementById('dateTo').value;
+    if (from) { cols = cols.filter(function(c) { return c.date >= from; }); }
+    if (to) { cols = cols.filter(function(c) { return c.date <= to; }); }
+    if (rangeFilter > 0) {
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - rangeFilter);
+        const cutStr = cutoff.toISOString().split('T')[0];
+        cols = cols.filter(function(c) { return c.date >= cutStr; });
+    }
+    return cols;
+}
+
+function renderAll() {
+    const cols = getFiltered();
+    const latest = cols[cols.length - 1];
+    const prior = cols.length > 1 ? cols[cols.length - 2] : null;
+    if (!latest) { return; }
+
+    // Meta
+    document.getElementById('meta').textContent = 'Last: ' + latest.date + ' | ' + allData.collections.length + ' data points';
+
+    // Date defaults
+    if (!document.getElementById('dateFrom').value && cols.length > 0) {
+        document.getElementById('dateFrom').value = cols[0].date;
+        document.getElementById('dateTo').value = latest.date;
+    }
+
+    // Corridor filters (init once)
+    if (Object.keys(corridorVisible).length === 0) {
+        latest.corridors.forEach(function(c) { corridorVisible[c.name] = true; });
+        buildCorridorFilters(latest.corridors);
+    }
+
+    document.getElementById('tableTitle').textContent = 'Corridor Summary \u2014 ' + latest.date;
+    renderKPIs(latest, prior);
+    renderCharts();
+    renderTable(latest, prior);
+}
+
+function buildCorridorFilters(corridors) {
+    const container = document.getElementById('corridorFilters');
+    container.textContent = '';
+    corridors.forEach(function(c) {
+        const label = document.createElement('label');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = true;
+        cb.dataset.corridor = c.name;
+        cb.addEventListener('change', function() {
+            corridorVisible[c.name] = cb.checked;
+            renderAll();
+        });
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(c.label));
+        container.appendChild(label);
+    });
+}
+
+function setRange(days, btn) {
+    rangeFilter = days;
+    document.querySelectorAll('.fbtn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    renderAll();
+}
+
+function renderKPIs(latest, prior) {
+    const grid = document.getElementById('kpiGrid');
+    grid.textContent = '';
+    latest.corridors.filter(function(c) { return corridorVisible[c.name]; }).forEach(function(c) {
+        const sc = sigClass(c.signal);
+        const priorC = prior ? prior.corridors.find(function(p) { return p.name === c.name; }) : null;
+        var deltaText = '\u2014 no prior', deltaClass = 'flat';
+        if (priorC && c.mpi != null && priorC.mpi != null) {
+            var d = c.mpi - priorC.mpi;
+            deltaText = (d >= 0 ? '\u25B2 +' : '\u25BC ') + d.toFixed(2);
+            deltaClass = d > 0.01 ? 'up' : d < -0.01 ? 'down' : 'flat';
+        }
+
+        var card = document.createElement('div');
+        card.className = 'kpi ' + sc;
+
+        var name = document.createElement('div');
+        name.className = 'kpi-name';
+        name.textContent = c.label;
+        card.appendChild(name);
+
+        var mpi = document.createElement('div');
+        mpi.className = 'kpi-mpi';
+        mpi.textContent = (c.mpi != null ? c.mpi.toFixed(2) : 'N/A') + '\u00d7';
+        card.appendChild(mpi);
+
+        var delta = document.createElement('div');
+        delta.className = 'kpi-delta ' + deltaClass;
+        delta.textContent = deltaText;
+        card.appendChild(delta);
+
+        var prices = document.createElement('div');
+        prices.className = 'kpi-prices';
+        var outSpan = document.createElement('span');
+        outSpan.className = 'o';
+        outSpan.textContent = 'OUT ' + fmtPrice(c.outboundPrice);
+        var inSpan = document.createElement('span');
+        inSpan.className = 'i';
+        inSpan.textContent = 'IN ' + fmtPrice(c.inboundPrice);
+        prices.appendChild(outSpan);
+        prices.appendChild(inSpan);
+        card.appendChild(prices);
+
+        var sig = document.createElement('div');
+        sig.className = 'kpi-signal';
+        sig.textContent = sigLabel(c.signal) + ' \u00b7 ' + (c.signalSource === 'corridor_baseline' ? 'baseline' : 'threshold');
+        card.appendChild(sig);
+
+        grid.appendChild(card);
+    });
+}
+
+function renderCharts() {
+    var cols = getFiltered();
+    if (!cols.length) { return; }
+    var latest = cols[cols.length - 1];
+    var gridColor = css('--border-subtle') + '88';
+    var tickColor = css('--text-muted');
+    var tooltipBg = css('--bg-elevated') + 'ee';
+    var tooltipBorder = css('--border');
+    var textPrimary = css('--text-primary');
+    var textDim = css('--text-dim');
+
+    // MPI Trend
+    if (mpiChart) { mpiChart.destroy(); }
+    var dates = cols.map(function(c) { return c.date; });
+    var corridorNames = latest.corridors.map(function(c) { return c.name; }).filter(function(n) { return corridorVisible[n]; });
+    var datasets = corridorNames.map(function(cname) {
+        return {
+            label: cname.replace('-', ' \u2194 ').replace('LasVegas','Las Vegas'),
+            data: cols.map(function(c) { var cr = c.corridors.find(function(x) { return x.name === cname; }); return cr ? cr.mpi : null; }),
+            borderColor: COLORS[cname], backgroundColor: COLORS[cname] + '15',
+            borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, tension: 0.35, fill: false,
+        };
+    });
+    datasets.push(
+        { label:'1.5\u00d7 threshold', data:Array(dates.length).fill(1.5), borderColor:'#ff4d4f44', borderWidth:1, borderDash:[6,4], pointRadius:0, fill:false, tension:0 },
+        { label:'Equilibrium', data:Array(dates.length).fill(1.0), borderColor:textDim+'44', borderWidth:1, borderDash:[3,3], pointRadius:0, fill:false, tension:0 },
+        { label:'0.67\u00d7 threshold', data:Array(dates.length).fill(0.67), borderColor:'#2dd4a844', borderWidth:1, borderDash:[6,4], pointRadius:0, fill:false, tension:0 }
+    );
+    var thresholdLabels = ['1.5\u00d7 threshold','Equilibrium','0.67\u00d7 threshold'];
+    mpiChart = new Chart(document.getElementById('mpiChart'), {
+        type:'line', data:{ labels:dates, datasets:datasets },
+        options:{
+            responsive:true, maintainAspectRatio:false,
+            interaction:{ mode:'index', intersect:false },
+            plugins:{
+                legend:{ position:'bottom', labels:{ usePointStyle:true, padding:16, font:{family:"'JetBrains Mono'",size:10}, color:tickColor,
+                    filter:function(item) { return thresholdLabels.indexOf(item.text) === -1; } } },
+                tooltip:{ backgroundColor:tooltipBg, borderColor:tooltipBorder, borderWidth:1,
+                    titleFont:{family:"'JetBrains Mono'",size:11}, bodyFont:{family:"'JetBrains Mono'",size:11},
+                    titleColor:tickColor, bodyColor:textPrimary, padding:10,
+                    callbacks:{ label:function(ctx) { return thresholdLabels.indexOf(ctx.dataset.label) !== -1 ? null : ' ' + ctx.dataset.label + ': ' + (ctx.parsed.y != null ? ctx.parsed.y.toFixed(2) : 'N/A') + '\u00d7'; } } }
+            },
+            scales:{
+                x:{ grid:{color:gridColor}, ticks:{font:{family:"'JetBrains Mono'",size:9},color:textDim,maxTicksLimit:10, callback:function(v,i){ return dates[i] ? dates[i].slice(5) : ''; }} },
+                y:{ grid:{color:gridColor}, min:0.2, ticks:{font:{family:"'JetBrains Mono'",size:10},color:tickColor, callback:function(v){ return v.toFixed(1)+'\u00d7'; }} }
+            }
+        }
+    });
+
+    // Price bar chart
+    if (priceChart) { priceChart.destroy(); }
+    var visCorridors = latest.corridors.filter(function(c) { return corridorVisible[c.name]; });
+    priceChart = new Chart(document.getElementById('priceChart'), {
+        type:'bar',
+        data:{
+            labels: visCorridors.map(function(c) { return c.label.replace(' \u2194 ','\u2194').substring(0,10); }),
+            datasets:[
+                { label:'Outbound', data:visCorridors.map(function(c){ return c.outboundPrice; }), backgroundColor:'#ff4d4f88', borderColor:'#ff4d4f', borderWidth:1, borderRadius:3 },
+                { label:'Inbound', data:visCorridors.map(function(c){ return c.inboundPrice; }), backgroundColor:'#2dd4a888', borderColor:'#2dd4a8', borderWidth:1, borderRadius:3 }
+            ]
+        },
+        options:{
+            responsive:true, maintainAspectRatio:false,
+            plugins:{
+                legend:{ position:'bottom', labels:{ usePointStyle:true, padding:16, font:{family:"'JetBrains Mono'",size:10}, color:tickColor } },
+                tooltip:{ backgroundColor:tooltipBg, borderColor:tooltipBorder, borderWidth:1,
+                    titleFont:{family:"'JetBrains Mono'",size:11}, bodyFont:{family:"'JetBrains Mono'",size:11},
+                    titleColor:tickColor, bodyColor:textPrimary, padding:10,
+                    callbacks:{ label:function(ctx) { return ' ' + ctx.dataset.label + ': $' + (ctx.parsed.y != null ? ctx.parsed.y.toLocaleString() : 'N/A'); } } }
+            },
+            scales:{
+                x:{ grid:{display:false}, ticks:{font:{family:"'JetBrains Mono'",size:9},color:tickColor} },
+                y:{ grid:{color:gridColor}, ticks:{font:{family:"'JetBrains Mono'",size:10},color:tickColor, callback:function(v){ return '$'+v.toLocaleString(); }} }
+            }
+        }
+    });
+}
+
+function renderTable(latest, prior) {
+    var tbody = document.getElementById('tableBody');
+    tbody.textContent = '';
+    latest.corridors.filter(function(c) { return corridorVisible[c.name]; }).forEach(function(c) {
+        var outRoute = latest.routes.find(function(r) { return r.corridor === c.name && r.direction === 'outbound'; });
+        var inRoute = latest.routes.find(function(r) { return r.corridor === c.name && r.direction === 'inbound'; });
+        var priorC = prior ? prior.corridors.find(function(p) { return p.name === c.name; }) : null;
+        var sc = sigClass(c.signal);
+
+        // Outbound row
+        var tr1 = document.createElement('tr');
+        var tdName = document.createElement('td');
+        tdName.rowSpan = 2;
+        tdName.style.fontWeight = '600';
+        tdName.style.verticalAlign = 'middle';
+        tdName.textContent = c.label;
+        tr1.appendChild(tdName);
+
+        var tdDir1 = document.createElement('td');
+        var dirSpan1 = document.createElement('span');
+        dirSpan1.className = 'dir-out';
+        dirSpan1.textContent = 'OUT \u2192';
+        tdDir1.appendChild(dirSpan1);
+        tr1.appendChild(tdDir1);
+
+        var tdPrice1 = document.createElement('td');
+        tdPrice1.style.fontWeight = '600';
+        tdPrice1.textContent = fmtPrice(outRoute ? outRoute.referencePrice : null);
+        tr1.appendChild(tdPrice1);
+
+        var tdMpi = document.createElement('td');
+        tdMpi.rowSpan = 2;
+        tdMpi.style.fontWeight = '700';
+        tdMpi.style.verticalAlign = 'middle';
+        tdMpi.style.color = sigColor(sc);
+        tdMpi.textContent = c.mpi != null ? c.mpi.toFixed(2) + '\u00d7' : 'N/A';
+        tr1.appendChild(tdMpi);
+
+        var tdDelta = document.createElement('td');
+        tdDelta.rowSpan = 2;
+        tdDelta.style.verticalAlign = 'middle';
+        if (priorC && c.mpi != null && priorC.mpi != null) {
+            var d = c.mpi - priorC.mpi;
+            tdDelta.style.color = d > 0.01 ? 'var(--accent-red)' : d < -0.01 ? 'var(--accent-teal)' : 'var(--text-muted)';
+            tdDelta.textContent = (d >= 0 ? '\u25B2 +' : '\u25BC ') + d.toFixed(2);
+        } else {
+            tdDelta.textContent = '\u2014';
+        }
+        tr1.appendChild(tdDelta);
+
+        var tdSig = document.createElement('td');
+        tdSig.rowSpan = 2;
+        tdSig.style.verticalAlign = 'middle';
+        var sigSpan = document.createElement('span');
+        sigSpan.className = 'sig ' + sc;
+        sigSpan.textContent = sigLabel(c.signal);
+        tdSig.appendChild(sigSpan);
+        tr1.appendChild(tdSig);
+
+        tbody.appendChild(tr1);
+
+        // Inbound row
+        var tr2 = document.createElement('tr');
+        var tdDir2 = document.createElement('td');
+        var dirSpan2 = document.createElement('span');
+        dirSpan2.className = 'dir-in';
+        dirSpan2.textContent = 'IN \u2190';
+        tdDir2.appendChild(dirSpan2);
+        tr2.appendChild(tdDir2);
+
+        var tdPrice2 = document.createElement('td');
+        tdPrice2.style.fontWeight = '600';
+        tdPrice2.textContent = fmtPrice(inRoute ? inRoute.referencePrice : null);
+        tr2.appendChild(tdPrice2);
+
+        tbody.appendChild(tr2);
+    });
+}
+
+// Range buttons
+(function() {
+    var container = document.getElementById('rangeBtns');
+    [{label:'7D',days:7},{label:'30D',days:30},{label:'ALL',days:0}].forEach(function(opt, i) {
+        var btn = document.createElement('button');
+        btn.className = 'fbtn' + (i === 0 ? ' active' : '');
+        btn.textContent = opt.label;
+        btn.addEventListener('click', function() { setRange(opt.days, btn); });
+        container.appendChild(btn);
+    });
+})();
+
+// Init
+initTheme();
+document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+document.getElementById('dateFrom').addEventListener('change', renderAll);
+document.getElementById('dateTo').addEventListener('change', renderAll);
+fetchAndRender();
+setInterval(fetchAndRender, 60000);
+</script>
+</body>
+</html>
