@@ -57,6 +57,7 @@
         .filters { display:flex;gap:16px;align-items:center;margin-bottom:24px;flex-wrap:wrap; }
         .filters input[type="date"] { font-family:var(--mono);font-size:15px;padding:8px 12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:4px;color:var(--text-secondary); }
         .filters label { font-size:14px;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;gap:5px; }
+        .filters input[type="checkbox"] { width:18px;height:18px;accent-color:var(--accent-blue); }
         .kpi-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:var(--gap);margin-bottom:24px; }
         .kpi { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;transition:border-color 0.2s; }
         .kpi:hover { border-color:var(--text-muted);background:var(--bg-elevated); }
@@ -122,11 +123,11 @@
             .chart-wrap{height:260px;}
             .kpi{padding:20px;}
             .kpi-name{font-size:14px;}
-            .kpi-mpi{font-size:40px;}
-            .kpi-context{font-size:15px;}
-            .kpi-delta{font-size:15px;}
-            .kpi-prices{font-size:15px;}
-            .kpi-signal{font-size:13px;}
+            .kpi-mpi{font-size:44px;}
+            .kpi-context{font-size:16px;}
+            .kpi-delta{font-size:16px;}
+            .kpi-prices{font-size:16px;}
+            .kpi-signal{font-size:14px;}
             .explainer{font-size:15px;line-height:1.8;padding:16px 16px;}
             .explainer summary{font-size:14px;}
             table{font-size:15px;min-width:500px;}
@@ -287,7 +288,8 @@ function renderAll() {
     if (!latest) { return; }
 
     // Meta
-    document.getElementById('meta').textContent = 'Last: ' + latest.date + ' | ' + allData.collections.length + ' data points';
+    var n = allData.collections.length;
+    document.getElementById('meta').textContent = 'Last: ' + latest.date + ' | ' + n + ' data point' + (n !== 1 ? 's' : '');
 
     // Date defaults
     if (!document.getElementById('dateFrom').value && cols.length > 0) {
@@ -613,9 +615,23 @@ function drawMap(topo, latest) {
         features: allStates.features.filter(function(f) { return westernFips.has(f.id); })
     };
 
-    // Albers projection fitted to western states only (no AK/HI insets)
+    // Fit projection to our actual corridor cities, not the whole western region.
+    // This eliminates the empty Great Plains space on the right.
+    var cityPoints = Object.values(CITY_COORDS).map(function(c) {
+        return [c.lon, c.lat];
+    });
+    var pad = 4; // degrees of padding around outermost cities
+    var lonMin = d3.min(cityPoints, function(p){return p[0];}) - pad;
+    var lonMax = d3.max(cityPoints, function(p){return p[0];}) + pad;
+    var latMin = d3.min(cityPoints, function(p){return p[1];}) - pad;
+    var latMax = d3.max(cityPoints, function(p){return p[1];}) + pad;
+    var corridorBbox = {
+        type: 'Feature',
+        geometry: { type: 'Polygon', coordinates: [[[lonMin,latMin],[lonMax,latMin],[lonMax,latMax],[lonMin,latMax],[lonMin,latMin]]] },
+        properties: {}
+    };
     var projection = d3.geoAlbers()
-        .fitSize([w - 20, h - 10], westStates);
+        .fitSize([w - 20, h - 10], corridorBbox);
     var geoPath = d3.geoPath().projection(projection);
 
     // Draw only western states
