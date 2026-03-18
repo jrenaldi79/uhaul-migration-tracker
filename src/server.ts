@@ -65,6 +65,8 @@ app.get('/health', (_req, res) => {
 });
 
 const port = config.dashboard.port;
-app.listen(port, () => {
+const host = '0.0.0.0';
+app.listen(port, host, () => {
   log('server', 'Dashboard running at http://localhost:' + port);
+  log('server', 'LAN access: http://<your-ip>:' + port);
 });
