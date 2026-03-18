@@ -29,13 +29,13 @@
         body::before { content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border-subtle) 1px,transparent 1px),linear-gradient(90deg,var(--border-subtle) 1px,transparent 1px);background-size:60px 60px;opacity:0.3;pointer-events:none;z-index:0; }
         .dash { position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:24px 20px; }
         .header { display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:24px; }
-        .header h1 { font-family:var(--serif);font-size:32px;font-weight:400;font-style:italic;letter-spacing:-0.5px;line-height:1.1; }
-        .header .sub { font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-top:6px; }
-        .header-right { text-align:right;font-size:11px;color:var(--text-muted);line-height:1.8; }
+        .header h1 { font-family:var(--serif);font-size:36px;font-weight:400;font-style:italic;letter-spacing:-0.5px;line-height:1.1; }
+        .header .sub { font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-top:6px; }
+        .header-right { text-align:right;font-size:13px;color:var(--text-muted);line-height:1.8; }
         .theme-btn { background:none;border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;color:var(--text-secondary);font-size:14px;margin-top:4px; }
         .theme-btn:hover { border-color:var(--text-muted);color:var(--text-primary); }
-        .explainer { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:24px;font-size:12px;color:var(--text-secondary);line-height:1.7; }
-        .explainer summary { cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);font-weight:500; }
+        .explainer { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--text-secondary);line-height:1.7; }
+        .explainer summary { cursor:pointer;font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);font-weight:500; }
         .explainer summary:hover { color:var(--text-secondary); }
         .explainer p { margin-top:10px; }
         .explainer strong { color:var(--text-primary); }
@@ -44,11 +44,16 @@
         .explainer .legend-dot { width:10px;height:10px;border-radius:2px; }
         .kpi-context { font-size:10px;color:var(--text-muted);margin-top:2px;font-style:italic; }
         .map-panel { margin-bottom:24px; }
+        .hero-map { padding:24px 20px 16px; }
+        .hero-map #flowMap { min-height:380px; }
         .map-panel svg { width:100%;height:auto;display:block; }
         .map-panel .state { stroke-width:0.8; }
         .map-panel .city-dot { cursor:default; }
-        .map-panel .city-label { font-family:var(--mono);font-size:11px;pointer-events:none;font-weight:500; }
-        .map-panel .flow-label { font-family:var(--mono);font-size:10px;pointer-events:none;font-weight:700; }
+        .map-panel .city-label { font-family:var(--mono);font-size:12px;pointer-events:none;font-weight:600; }
+        .map-panel .flow-label { font-family:var(--mono);font-size:11px;pointer-events:none;font-weight:700; }
+        .map-legend { display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border-subtle);margin-top:12px;font-size:12px;color:var(--text-muted); }
+        .map-legend-item { display:flex;align-items:center;gap:6px; }
+        .map-legend-dot { width:12px;height:4px;border-radius:2px; }
         .filters { display:flex;gap:16px;align-items:center;margin-bottom:24px;flex-wrap:wrap; }
         .filters input[type="date"] { font-family:var(--mono);font-size:11px;padding:4px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:3px;color:var(--text-secondary); }
         .filters label { font-size:10px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:3px; }
@@ -59,35 +64,35 @@
         .kpi.out::before { background:var(--accent-red); }
         .kpi.bal::before { background:var(--accent-amber); }
         .kpi.in::before { background:var(--accent-teal); }
-        .kpi-name { font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px; }
-        .kpi-mpi { font-size:28px;font-weight:700;letter-spacing:-1px;line-height:1; }
+        .kpi-name { font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px; }
+        .kpi-mpi { font-size:32px;font-weight:700;letter-spacing:-1px;line-height:1; }
         .kpi.out .kpi-mpi { color:var(--accent-red); }
         .kpi.bal .kpi-mpi { color:var(--accent-amber); }
         .kpi.in .kpi-mpi { color:var(--accent-teal); }
-        .kpi-delta { font-size:11px;font-weight:500;margin-top:4px; }
+        .kpi-delta { font-size:13px;font-weight:500;margin-top:4px; }
         .kpi-delta.up { color:var(--accent-red); }
         .kpi-delta.down { color:var(--accent-teal); }
         .kpi-delta.flat { color:var(--text-muted); }
-        .kpi-prices { font-size:10px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between; }
+        .kpi-prices { font-size:13px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between; }
         .kpi-prices .o { color:var(--accent-red); }
         .kpi-prices .i { color:var(--accent-teal); }
-        .kpi-signal { font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-top:6px;color:var(--text-muted); }
+        .kpi-signal { font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-top:6px;color:var(--text-muted); }
         .charts-row { display:grid;grid-template-columns:2fr 1fr;gap:var(--gap);margin-bottom:24px; }
         .panel { background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px; }
         .panel-hdr { display:flex;justify-content:space-between;align-items:center;margin-bottom:16px; }
-        .panel-title { font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted); }
+        .panel-title { font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted); }
         .chart-wrap { position:relative;height:320px; }
         .fbtn { font-family:var(--mono);font-size:10px;padding:3px 8px;border:1px solid var(--border);border-radius:3px;background:transparent;color:var(--text-muted);cursor:pointer; }
         .fbtn:hover,.fbtn.active { border-color:var(--text-secondary);color:var(--text-primary);background:var(--bg-elevated); }
         .table-panel { margin-bottom:24px; }
-        table { width:100%;border-collapse:collapse;font-size:12px; }
-        thead th { text-align:left;padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:500;cursor:pointer;user-select:none;white-space:nowrap; }
+        table { width:100%;border-collapse:collapse;font-size:14px; }
+        thead th { text-align:left;padding:10px 12px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);border-bottom:1px solid var(--border);font-weight:500;cursor:pointer;user-select:none;white-space:nowrap; }
         thead th:hover { color:var(--text-secondary); }
         tbody td { padding:10px 12px;border-bottom:1px solid var(--border-subtle);font-variant-numeric:tabular-nums; }
         tbody tr:hover { background:var(--bg-hover); }
-        .dir-out { color:var(--accent-red);font-size:10px;font-weight:600;letter-spacing:1px; }
-        .dir-in { color:var(--accent-teal);font-size:10px;font-weight:600;letter-spacing:1px; }
-        .sig { display:inline-block;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:3px;font-weight:600; }
+        .dir-out { color:var(--accent-red);font-size:12px;font-weight:600;letter-spacing:1px; }
+        .dir-in { color:var(--accent-teal);font-size:12px;font-weight:600;letter-spacing:1px; }
+        .sig { display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:3px;font-weight:600; }
         .sig.out { background:var(--accent-red-dim);color:var(--accent-red); }
         .sig.bal { background:var(--accent-amber-dim);color:var(--accent-amber); }
         .sig.in { background:var(--accent-teal-dim);color:var(--accent-teal); }
@@ -108,33 +113,35 @@
         @media(max-width:480px){
             .kpi-grid{grid-template-columns:1fr;}
             .dash{padding:16px 12px;}
-            .header h1{font-size:26px;}
-            .header .sub{font-size:10px;letter-spacing:1px;}
+            .header h1{font-size:28px;}
+            .header .sub{font-size:11px;letter-spacing:1px;}
             .panel{padding:14px;}
-            .panel-title{font-size:12px;}
+            .hero-map{padding:12px 8px 10px;}
+            .hero-map #flowMap{min-height:240px;}
+            .panel-title{font-size:13px;}
             .chart-wrap{height:260px;}
-            .kpi{padding:18px;}
-            .kpi-name{font-size:12px;}
-            .kpi-mpi{font-size:32px;}
-            .kpi-context{font-size:12px;}
-            .kpi-delta{font-size:13px;}
-            .kpi-prices{font-size:12px;}
-            .kpi-signal{font-size:11px;}
-            .explainer{font-size:13px;line-height:1.8;}
-            .explainer summary{font-size:12px;}
-            .explainer .legend-item{font-size:12px;}
-            table{font-size:13px;min-width:480px;}
-            thead th{font-size:11px;padding:10px 8px;}
+            .kpi{padding:20px;}
+            .kpi-name{font-size:13px;}
+            .kpi-mpi{font-size:36px;}
+            .kpi-context{font-size:14px;}
+            .kpi-delta{font-size:14px;}
+            .kpi-prices{font-size:14px;}
+            .kpi-signal{font-size:12px;}
+            .explainer{font-size:14px;line-height:1.8;padding:14px 16px;}
+            .explainer summary{font-size:13px;}
+            table{font-size:14px;min-width:480px;}
+            thead th{font-size:12px;padding:10px 8px;}
             tbody td{padding:12px 8px;}
-            .sig{font-size:10px;padding:3px 10px;}
-            .dir-out,.dir-in{font-size:11px;}
-            .filters input[type="date"]{font-size:13px;padding:8px 10px;}
-            .filters label{font-size:12px;gap:5px;}
-            .fbtn{font-size:11px;padding:5px 10px;}
-            .theme-btn{font-size:16px;padding:8px 12px;}
-            .footer{font-size:11px;flex-direction:column;gap:4px;}
-            .map-panel .city-label{font-size:9px;}
-            .map-panel .flow-label{font-size:8px;}
+            .sig{font-size:11px;padding:4px 10px;}
+            .dir-out,.dir-in{font-size:12px;}
+            .filters input[type="date"]{font-size:14px;padding:10px 12px;}
+            .filters label{font-size:13px;gap:6px;}
+            .fbtn{font-size:12px;padding:6px 12px;}
+            .theme-btn{font-size:18px;padding:10px 14px;}
+            .footer{font-size:12px;flex-direction:column;gap:6px;}
+            .map-legend{font-size:11px;gap:10px;}
+            .map-panel .city-label{font-size:10px;}
+            .map-panel .flow-label{font-size:9px;}
         }
         @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
         .kpi,.panel { animation:fadeIn 0.4s ease-out both; }
@@ -152,28 +159,25 @@
             <button class="theme-btn" id="themeBtn" title="Toggle theme">&#9790;</button>
         </div>
     </header>
-    <details class="explainer" open>
+    <div class="panel map-panel hero-map">
+        <div id="flowMap"></div>
+        <div class="map-legend">
+            <div class="map-legend-item"><span class="map-legend-dot" style="background:#ff4d4f"></span> More people leaving</div>
+            <div class="map-legend-item"><span class="map-legend-dot" style="background:#f0a030"></span> Balanced flow</div>
+            <div class="map-legend-item"><span class="map-legend-dot" style="background:#2dd4a8"></span> More people arriving</div>
+            <div class="map-legend-item" style="margin-left:auto;color:var(--text-dim)">Arrow thickness = price gap &middot; Direction = net migration flow</div>
+        </div>
+    </div>
+    <details class="explainer">
         <summary>How to read this dashboard</summary>
         <p>U-Haul prices one-way truck rentals based on demand. When <strong>more people leave a city than arrive</strong>, outbound trucks become scarce and prices rise. This tracker compares outbound vs inbound pricing on the same route as a real-time migration signal.</p>
         <p>The <strong>Migration Pressure Index (MPI)</strong> is the ratio of outbound to inbound price for a 15ft truck. An MPI of <strong>2.5&times;</strong> means it costs 2.5x more to leave than to arrive &mdash; strong evidence of out-migration demand.</p>
-        <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--accent-red)"></div> <strong>MPI &gt; 1.5&times;</strong> &mdash; More people leaving</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--accent-amber)"></div> <strong>MPI 0.67&ndash;1.5&times;</strong> &mdash; Balanced flow</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--accent-teal)"></div> <strong>MPI &lt; 0.67&times;</strong> &mdash; More people arriving</div>
-        </div>
     </details>
     <div class="filters">
         <input type="date" id="dateFrom"> <span style="color:var(--text-dim)">&rarr;</span> <input type="date" id="dateTo">
         <div id="corridorFilters" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
     </div>
     <div id="kpiGrid" class="kpi-grid"></div>
-    <div class="panel map-panel">
-        <div class="panel-hdr">
-            <div class="panel-title">Migration Flow Map &mdash; Bay Area Corridors</div>
-            <div style="font-size:10px;color:var(--text-muted)">Arrow thickness = price difference &middot; Color = migration signal</div>
-        </div>
-        <div id="flowMap"></div>
-    </div>
     <div class="charts-row">
         <div class="panel">
             <div class="panel-hdr">
@@ -595,7 +599,7 @@ function drawMap(topo, latest) {
     var container = document.getElementById('flowMap');
     container.textContent = '';
     var w = container.clientWidth || 800;
-    var h = Math.min(w * 0.55, 480);
+    var h = Math.min(w * 0.6, 520);
 
     var svg = d3.select(container).append('svg').attr('width', w).attr('height', h);
     var projection = d3.geoAlbersUsa().fitSize([w - 40, h - 20],
