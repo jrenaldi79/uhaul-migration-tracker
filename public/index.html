@@ -41,6 +41,15 @@
         .explainer .legend-item { display:flex;align-items:center;gap:6px;font-size:11px; }
         .explainer .legend-dot { width:10px;height:10px;border-radius:2px; }
         .kpi-context { font-size:10px;color:var(--text-muted);margin-top:2px;font-style:italic; }
+        .map-panel { margin-bottom:24px; }
+        .map-panel svg { width:100%;height:auto; }
+        .map-panel .city-dot { transition:r 0.2s; }
+        .map-panel .city-dot:hover { r:7; }
+        .map-panel .city-label { font-family:var(--mono);font-size:10px;fill:var(--text-secondary);pointer-events:none; }
+        .map-panel .city-label-bg { font-family:var(--mono);font-size:10px; }
+        .map-panel .flow-label { font-family:var(--mono);font-size:9px;pointer-events:none; }
+        .map-panel .coastline { fill:none;stroke:var(--border);stroke-width:1.5;opacity:0.4; }
+        .map-panel .state-line { fill:none;stroke:var(--border-subtle);stroke-width:0.5;opacity:0.3; }
         .filters { display:flex;gap:16px;align-items:center;margin-bottom:24px;flex-wrap:wrap; }
         .filters input[type="date"] { font-family:var(--mono);font-size:11px;padding:4px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:3px;color:var(--text-secondary); }
         .filters label { font-size:10px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:3px; }
@@ -119,6 +128,13 @@
         <div id="corridorFilters" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
     </div>
     <div id="kpiGrid" class="kpi-grid"></div>
+    <div class="panel map-panel">
+        <div class="panel-hdr">
+            <div class="panel-title">Migration Flow Map &mdash; Bay Area Corridors</div>
+            <div style="font-size:10px;color:var(--text-muted)">Arrow thickness = price difference &middot; Color = migration signal</div>
+        </div>
+        <div id="flowMap"></div>
+    </div>
     <div class="charts-row">
         <div class="panel">
             <div class="panel-hdr">
@@ -499,6 +515,224 @@ function renderTable(latest, prior) {
         container.appendChild(btn);
     });
 })();
+
+// ===== FLOW MAP =====
+var MAP_CITIES = {
+    'San Francisco, CA': { x: 82, y: 268, label: 'San Francisco', anchor: 'end', bay: true },
+    'Sacramento, CA':    { x: 132, y: 242, label: 'Sacramento', anchor: 'start' },
+    'San Jose, CA':      { x: 92, y: 286, label: 'San Jose', anchor: 'end', bay: true },
+    'Oakland, CA':       { x: 88, y: 262, label: 'Oakland', anchor: 'end', bay: true },
+    'Las Vegas, NV':     { x: 248, y: 310, label: 'Las Vegas', anchor: 'start' },
+    'Austin, TX':        { x: 560, y: 400, label: 'Austin', anchor: 'start' },
+    'Portland, OR':      { x: 72, y: 118, label: 'Portland', anchor: 'end' },
+    'Seattle, WA':       { x: 78, y: 68, label: 'Seattle', anchor: 'end' },
+    'Denver, CO':        { x: 400, y: 230, label: 'Denver', anchor: 'start' },
+};
+
+// Map corridor names to origin/destination cities
+var CORRIDOR_ENDPOINTS = {
+    'SF-Sacramento':    { from: 'San Francisco, CA', to: 'Sacramento, CA' },
+    'SF-Austin':        { from: 'San Francisco, CA', to: 'Austin, TX' },
+    'SF-LasVegas':      { from: 'San Francisco, CA', to: 'Las Vegas, NV' },
+    'SJ-Sacramento':    { from: 'San Jose, CA', to: 'Sacramento, CA' },
+    'Oakland-Portland': { from: 'Oakland, CA', to: 'Portland, OR' },
+    'SF-Seattle':       { from: 'San Francisco, CA', to: 'Seattle, WA' },
+    'SF-Denver':        { from: 'San Francisco, CA', to: 'Denver, CO' },
+};
+
+// Simplified western US coastline path
+var COAST_PATH = 'M60,30 L55,60 L50,100 L55,130 L60,160 L58,190 L62,220 L70,250 L75,260 L72,270 L78,290 L82,310 L90,340 L100,370 L115,400 L140,430 L165,445';
+
+function renderFlowMap(latest) {
+    var container = document.getElementById('flowMap');
+    var svgNS = 'http://www.w3.org/2000/svg';
+
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 650 470');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+    // Defs for arrowheads
+    var defs = document.createElementNS(svgNS, 'defs');
+    ['out', 'bal', 'in'].forEach(function(type) {
+        var color = type === 'out' ? '#ff4d4f' : type === 'in' ? '#2dd4a8' : '#f0a030';
+        var marker = document.createElementNS(svgNS, 'marker');
+        marker.setAttribute('id', 'arrow-' + type);
+        marker.setAttribute('viewBox', '0 0 10 10');
+        marker.setAttribute('refX', '8');
+        marker.setAttribute('refY', '5');
+        marker.setAttribute('markerWidth', '6');
+        marker.setAttribute('markerHeight', '6');
+        marker.setAttribute('orient', 'auto-start-reverse');
+        var path = document.createElementNS(svgNS, 'path');
+        path.setAttribute('d', 'M 0 1 L 10 5 L 0 9 Z');
+        path.setAttribute('fill', color);
+        marker.appendChild(path);
+        defs.appendChild(marker);
+    });
+    svg.appendChild(defs);
+
+    // Coastline
+    var coast = document.createElementNS(svgNS, 'path');
+    coast.setAttribute('d', COAST_PATH);
+    coast.setAttribute('class', 'coastline');
+    svg.appendChild(coast);
+
+    // Some state reference lines (very subtle)
+    var stateLines = [
+        'M0,160 L650,160',   // OR/CA border approx
+        'M140,430 L650,430',  // US/Mexico border approx
+        'M290,0 L290,470',    // NV/UT border approx
+    ];
+    stateLines.forEach(function(d) {
+        var line = document.createElementNS(svgNS, 'path');
+        line.setAttribute('d', d);
+        line.setAttribute('class', 'state-line');
+        svg.appendChild(line);
+    });
+
+    // State labels (very faint)
+    var stateLabels = [
+        { text: 'CALIFORNIA', x: 50, y: 350, rotate: -90 },
+        { text: 'NEVADA', x: 210, y: 260 },
+        { text: 'OREGON', x: 50, y: 140 },
+        { text: 'WASHINGTON', x: 50, y: 50 },
+        { text: 'COLORADO', x: 380, y: 200 },
+        { text: 'TEXAS', x: 520, y: 380 },
+    ];
+    stateLabels.forEach(function(s) {
+        var text = document.createElementNS(svgNS, 'text');
+        text.setAttribute('x', s.x);
+        text.setAttribute('y', s.y);
+        text.setAttribute('font-family', "'JetBrains Mono', monospace");
+        text.setAttribute('font-size', '11');
+        text.setAttribute('fill', css('--text-dim'));
+        text.setAttribute('opacity', '0.25');
+        text.setAttribute('letter-spacing', '3');
+        if (s.rotate) { text.setAttribute('transform', 'rotate(' + s.rotate + ',' + s.x + ',' + s.y + ')'); }
+        text.textContent = s.text;
+        svg.appendChild(text);
+    });
+
+    // Draw flow arrows for each corridor
+    if (latest && latest.corridors) {
+        latest.corridors.filter(function(c) { return corridorVisible[c.name]; }).forEach(function(c) {
+            var endpoints = CORRIDOR_ENDPOINTS[c.name];
+            if (!endpoints) { return; }
+            var fromCity = MAP_CITIES[endpoints.from];
+            var toCity = MAP_CITIES[endpoints.to];
+            if (!fromCity || !toCity) { return; }
+
+            var sc = sigClass(c.signal);
+            var color = sc === 'out' ? '#ff4d4f' : sc === 'in' ? '#2dd4a8' : '#f0a030';
+            var opacity = sc === 'bal' ? 0.5 : 0.8;
+
+            // Arrow thickness based on MPI deviation from 1.0
+            var mpiVal = c.mpi != null ? c.mpi : 1.0;
+            var deviation = Math.abs(mpiVal - 1.0);
+            var strokeWidth = Math.max(1.5, Math.min(5, 1.5 + deviation * 2));
+
+            // Determine arrow direction: MPI > 1 = outbound (from -> to), MPI < 1 = inbound (to -> from)
+            var startX, startY, endX, endY;
+            if (mpiVal >= 1.0) {
+                startX = fromCity.x; startY = fromCity.y;
+                endX = toCity.x; endY = toCity.y;
+            } else {
+                startX = toCity.x; startY = toCity.y;
+                endX = fromCity.x; endY = fromCity.y;
+            }
+
+            // Compute control point for curved arrow (perpendicular offset)
+            var midX = (startX + endX) / 2;
+            var midY = (startY + endY) / 2;
+            var dx = endX - startX;
+            var dy = endY - startY;
+            var len = Math.sqrt(dx * dx + dy * dy);
+            var perpX = -dy / len;
+            var perpY = dx / len;
+            var curvature = Math.min(30, len * 0.15);
+            var cpX = midX + perpX * curvature;
+            var cpY = midY + perpY * curvature;
+
+            // Shorten the arrow so it doesn't overlap city dots
+            var shortenBy = 12;
+            var t0 = shortenBy / len;
+            var t1 = 1 - shortenBy / len;
+            var sx = startX + (cpX - startX) * t0 * 2;
+            var sy = startY + (cpY - startY) * t0 * 2;
+            var ex = cpX + (endX - cpX) * t1 * 2 - cpX;
+            // Use simpler shortening
+            var angle = Math.atan2(endY - startY, endX - startX);
+            var sx2 = startX + Math.cos(angle) * shortenBy;
+            var sy2 = startY + Math.sin(angle) * shortenBy;
+            var ex2 = endX - Math.cos(angle) * shortenBy;
+            var ey2 = endY - Math.sin(angle) * shortenBy;
+
+            var pathD = 'M ' + sx2 + ' ' + sy2 + ' Q ' + cpX + ' ' + cpY + ' ' + ex2 + ' ' + ey2;
+
+            var arrow = document.createElementNS(svgNS, 'path');
+            arrow.setAttribute('d', pathD);
+            arrow.setAttribute('fill', 'none');
+            arrow.setAttribute('stroke', color);
+            arrow.setAttribute('stroke-width', strokeWidth);
+            arrow.setAttribute('opacity', opacity);
+            arrow.setAttribute('marker-end', 'url(#arrow-' + sc + ')');
+            arrow.setAttribute('stroke-linecap', 'round');
+            svg.appendChild(arrow);
+
+            // MPI label along the arrow
+            var labelX = cpX;
+            var labelY = cpY - 8;
+            var mpiLabel = document.createElementNS(svgNS, 'text');
+            mpiLabel.setAttribute('x', labelX);
+            mpiLabel.setAttribute('y', labelY);
+            mpiLabel.setAttribute('text-anchor', 'middle');
+            mpiLabel.setAttribute('class', 'flow-label');
+            mpiLabel.setAttribute('fill', color);
+            mpiLabel.setAttribute('font-weight', '600');
+            mpiLabel.textContent = c.mpi != null ? c.mpi.toFixed(1) + '\u00d7' : '';
+            svg.appendChild(mpiLabel);
+        });
+    }
+
+    // Draw city dots and labels (on top of arrows)
+    Object.keys(MAP_CITIES).forEach(function(key) {
+        var city = MAP_CITIES[key];
+
+        // Dot
+        var dot = document.createElementNS(svgNS, 'circle');
+        dot.setAttribute('cx', city.x);
+        dot.setAttribute('cy', city.y);
+        dot.setAttribute('r', city.bay ? 5 : 4);
+        dot.setAttribute('fill', city.bay ? css('--accent-blue') : css('--text-secondary'));
+        dot.setAttribute('stroke', css('--bg-surface'));
+        dot.setAttribute('stroke-width', '2');
+        dot.setAttribute('class', 'city-dot');
+        svg.appendChild(dot);
+
+        // Label
+        var labelX = city.anchor === 'end' ? city.x - 10 : city.x + 10;
+        var text = document.createElementNS(svgNS, 'text');
+        text.setAttribute('x', labelX);
+        text.setAttribute('y', city.y + 4);
+        text.setAttribute('text-anchor', city.anchor);
+        text.setAttribute('class', 'city-label');
+        text.setAttribute('fill', css('--text-secondary'));
+        text.textContent = city.label;
+        svg.appendChild(text);
+    });
+
+    container.textContent = '';
+    container.appendChild(svg);
+}
+
+// Hook map into renderAll
+var _origRenderAll = renderAll;
+renderAll = function() {
+    _origRenderAll();
+    var cols = getFiltered();
+    var latest = cols[cols.length - 1];
+    if (latest) { renderFlowMap(latest); }
+};
 
 // Init
 initTheme();
