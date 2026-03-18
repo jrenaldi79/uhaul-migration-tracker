@@ -1,0 +1,320 @@
+import { chromium, type Page, type Browser } from 'playwright';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import type {
+  AppConfig,
+  Collection,
+  CorridorConfig,
+  CorridorSummary,
+  RouteResult,
+  TruckPrice,
+} from './types.js';
+import { calculateMpi, classifySignal, selectReferencePrice } from './mpi.js';
+import {
+  computeBaseline,
+  classifySignalWithBaseline,
+  computeSeasonalFactor,
+  computeNormalizedMpi,
+} from './baselines.js';
+import { readHistory, appendCollection } from './storage.js';
+import { randomDelay, getLookupDate, log, logError, formatDate } from './utils.js';
+
+const ROOT = join(import.meta.dirname, '..');
+const CONFIG_PATH = join(ROOT, 'config.json');
+const DATA_PATH = join(ROOT, 'data', 'history.json');
+
+function loadConfig(): AppConfig {
+  return JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
+}
+
+async function scrapeRoute(
+  page: Page,
+  from: string,
+  to: string,
+  lookupDate: string,
+  config: AppConfig,
+): Promise<{ trucks: TruckPrice[]; error: string | null }> {
+  const s = config.selectors;
+
+  try {
+    await page.goto('https://www.uhaul.com/Truck-Rentals/', {
+      waitUntil: 'domcontentloaded',
+      timeout: config.collection.timeoutMs,
+    });
+    await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
+
+    // Fill pickup location
+    await page.locator(s.pickupInput).click();
+    await page.locator(s.pickupInput).fill(from);
+    await page.waitForTimeout(2000);
+
+    const pickupItem = page.locator(s.autocompleteItem).first();
+    if ((await pickupItem.count()) > 0) {
+      await pickupItem.click();
+    } else {
+      await page.locator(s.pickupInput).press('Enter');
+    }
+    await page.waitForTimeout(1000);
+
+    // Fill dropoff location
+    await page.locator(s.dropoffInput).click();
+    await page.locator(s.dropoffInput).fill(to);
+    await page.waitForTimeout(2000);
+
+    const dropoffItem = page.locator(s.autocompleteItem).first();
+    if ((await dropoffItem.count()) > 0) {
+      await dropoffItem.click();
+    } else {
+      await page.locator(s.dropoffInput).press('Enter');
+    }
+    await page.waitForTimeout(1000);
+
+    // Fill date (MM/DD/YYYY via pressSequentially)
+    const dateInput = page.locator(s.dateInput);
+    await dateInput.click();
+    await dateInput.fill('');
+    await dateInput.pressSequentially(lookupDate, { delay: 50 });
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(500);
+
+    // Submit and wait for results
+    await Promise.all([
+      page.waitForURL('**/Reservations/**', { timeout: config.collection.timeoutMs }),
+      page.locator(s.submitButton).click(),
+    ]);
+    await page.waitForLoadState('networkidle', { timeout: config.collection.timeoutMs });
+    await page.waitForTimeout(3000);
+
+    // Extract trucks from results page
+    const trucks: TruckPrice[] = await page.evaluate((priceSelector: string) => {
+      const results: { name: string; price: number }[] = [];
+      const headers = document.querySelectorAll('h3');
+
+      for (const h of headers) {
+        const name = h.textContent?.trim() || '';
+        if (!name.includes("' Truck")) { continue; }
+
+        // Walk up to find the price element
+        let container: HTMLElement | null = h.parentElement;
+        for (let depth = 0; depth < 10 && container; depth++) {
+          const priceEl = container.querySelector(priceSelector);
+          if (priceEl) {
+            const priceText = priceEl.textContent?.trim() || '0';
+            const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
+            if (price > 0) {
+              results.push({ name, price });
+            }
+            break;
+          }
+          container = container.parentElement;
+        }
+      }
+      return results;
+    }, s.truckPrice);
+
+    return { trucks, error: null };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return { trucks: [], error: message };
+  }
+}
+
+async function scrapeRouteWithRetry(
+  page: Page,
+  from: string,
+  to: string,
+  lookupDate: string,
+  config: AppConfig,
+  routeLabel: string,
+): Promise<{ trucks: TruckPrice[]; error: string | null }> {
+  for (let attempt = 1; attempt <= config.collection.maxRetries; attempt++) {
+    const result = await scrapeRoute(page, from, to, lookupDate, config);
+
+    if (result.trucks.length > 0) {
+      log(routeLabel, `Success on attempt ${attempt}: ${result.trucks.length} trucks`);
+      return result;
+    }
+
+    if (attempt < config.collection.maxRetries) {
+      log(routeLabel, `Attempt ${attempt} failed: ${result.error ?? 'no trucks'}. Retrying...`);
+      await new Promise((r) => setTimeout(r, config.collection.retryBackoffMs));
+    } else {
+      logError(routeLabel, `All ${config.collection.maxRetries} attempts failed: ${result.error}`);
+      return result;
+    }
+  }
+
+  return { trucks: [], error: 'Max retries exhausted' };
+}
+
+function buildCorridorSummaries(
+  routes: RouteResult[],
+  corridors: CorridorConfig[],
+  historicalMpiByName: Map<string, (number | null)[]>,
+  config: AppConfig,
+): CorridorSummary[] {
+  return corridors.map((corridor) => {
+    const outRoute = routes.find(
+      (r) => r.corridor === corridor.name && r.direction === 'outbound',
+    );
+    const inRoute = routes.find(
+      (r) => r.corridor === corridor.name && r.direction === 'inbound',
+    );
+
+    const outboundPrice = outRoute?.referencePrice ?? null;
+    const inboundPrice = inRoute?.referencePrice ?? null;
+    const mpi = calculateMpi(outboundPrice, inboundPrice);
+
+    // Compute baseline from historical data
+    const historicalMpis = historicalMpiByName.get(corridor.name) ?? [];
+    const allMpis = [...historicalMpis, mpi];
+    const baseline = computeBaseline(allMpis, config.baselines.minDataPoints);
+
+    // Determine signal
+    let signal = classifySignal(mpi);
+    let signalSource: 'flat_threshold' | 'corridor_baseline' = 'flat_threshold';
+    if (baseline.active) {
+      signal = classifySignalWithBaseline(mpi, baseline);
+      signalSource = 'corridor_baseline';
+    }
+
+    // Seasonal normalization
+    const currentMonth = new Date().getMonth() + 1;
+    const totalDays = historicalMpis.length;
+    const monthlyAverages = new Map<number, number>();
+    const seasonalFactor = computeSeasonalFactor(currentMonth, totalDays, monthlyAverages);
+    const normalizedMpi = computeNormalizedMpi(mpi, seasonalFactor);
+
+    return {
+      name: corridor.name,
+      label: corridor.label,
+      outboundPrice,
+      inboundPrice,
+      mpi,
+      signal,
+      outboundTruck: outRoute?.referenceTruck ?? '',
+      inboundTruck: inRoute?.referenceTruck ?? '',
+      baseline,
+      signalSource,
+      seasonalFactor,
+      normalizedMpi,
+    };
+  });
+}
+
+function formatLookupDate(offsetDays: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${month}/${day}/${year}`;
+}
+
+async function main(): Promise<void> {
+  const startTime = Date.now();
+  const config = loadConfig();
+  const headed = process.argv.includes('--headed');
+
+  log('collector', `Starting collection (${headed ? 'headed' : 'headless'} mode)`);
+
+  const browser: Browser = await chromium.launch({ headless: !headed });
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 800 },
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+  });
+  const page = await context.newPage();
+
+  const lookupDate = formatLookupDate(config.collection.lookupDateOffsetDays);
+  const lookupDateIso = getLookupDate(config.collection.lookupDateOffsetDays);
+  log('collector', `Lookup date: ${lookupDate} (${lookupDateIso})`);
+
+  // Load historical data for baselines
+  const history = readHistory(DATA_PATH);
+  const historicalMpiByName = new Map<string, (number | null)[]>();
+  for (const collection of history.collections) {
+    for (const corridor of collection.corridors) {
+      const existing = historicalMpiByName.get(corridor.name) ?? [];
+      existing.push(corridor.mpi);
+      historicalMpiByName.set(corridor.name, existing);
+    }
+  }
+
+  const routes: RouteResult[] = [];
+  let routesSucceeded = 0;
+  const totalRoutes = config.corridors.length * 2;
+
+  for (const corridor of config.corridors) {
+    for (const direction of ['outbound', 'inbound'] as const) {
+      const route = corridor[direction];
+      const routeLabel = `${route.from} → ${route.to}`;
+      log(routeLabel, 'Scraping...');
+
+      const result = await scrapeRouteWithRetry(
+        page, route.from, route.to, lookupDate, config, routeLabel,
+      );
+
+      const ref = selectReferencePrice(
+        result.trucks,
+        config.collection.referenceTruckPreference,
+      );
+
+      routes.push({
+        from: route.from,
+        to: route.to,
+        corridor: corridor.name,
+        direction,
+        lookupDate: lookupDateIso,
+        trucks: result.trucks,
+        referencePrice: ref.price,
+        referenceTruck: ref.truck,
+        source: 'playwright',
+        error: result.error,
+      });
+
+      if (result.trucks.length > 0) { routesSucceeded++; }
+
+      // Delay between routes (skip after last one)
+      const isLast =
+        corridor === config.corridors[config.corridors.length - 1] &&
+        direction === 'inbound';
+      if (!isLast) {
+        await randomDelay(config.collection.delayBetweenRoutesMs);
+      }
+    }
+  }
+
+  await browser.close();
+
+  const corridorSummaries = buildCorridorSummaries(
+    routes, config.corridors, historicalMpiByName, config,
+  );
+
+  const collection: Collection = {
+    date: formatDate(new Date()),
+    timestamp: new Date().toISOString(),
+    durationMs: Date.now() - startTime,
+    routesAttempted: totalRoutes,
+    routesSucceeded,
+    routes,
+    corridors: corridorSummaries,
+  };
+
+  if (routesSucceeded === 0) {
+    logError('collector', 'All routes failed. Not saving to history.');
+    process.exit(1);
+  }
+
+  appendCollection(DATA_PATH, collection);
+  log('collector', `Done: ${routesSucceeded}/${totalRoutes} routes saved`);
+
+  for (const c of corridorSummaries) {
+    const src = c.signalSource === 'corridor_baseline' ? ' [baseline]' : '';
+    log('summary', `${c.label}: MPI=${c.mpi?.toFixed(2) ?? 'N/A'} (${c.signal}${src}) OUT=$${c.outboundPrice ?? 'N/A'} IN=$${c.inboundPrice ?? 'N/A'}`);
+  }
+
+  process.exit(0);
+}
+
+main();
