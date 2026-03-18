@@ -23,7 +23,7 @@
         :root { --accent-red:#ff4d4f;--accent-teal:#2dd4a8;--accent-amber:#f0a030;--accent-blue:#4d94ff;
             --mono:'JetBrains Mono','SF Mono',monospace;--serif:'Instrument Serif',Georgia,serif;--radius:6px;--gap:12px; }
         * { margin:0;padding:0;box-sizing:border-box; }
-        body { font-family:var(--mono);background:var(--bg-deep);color:var(--text-primary);line-height:1.5;-webkit-font-smoothing:antialiased; }
+        body { font-family:var(--mono);background:var(--bg-deep);color:var(--text-primary);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden; }
         body::before { content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border-subtle) 1px,transparent 1px),linear-gradient(90deg,var(--border-subtle) 1px,transparent 1px);background-size:60px 60px;opacity:0.3;pointer-events:none;z-index:0; }
         .dash { position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:24px 20px; }
         .header { display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:24px; }
@@ -95,8 +95,25 @@
         .footer { display:flex;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);font-size:10px;color:var(--text-dim); }
         .empty { text-align:center;padding:80px 20px;color:var(--text-muted);font-size:14px; }
         .empty code { background:var(--bg-elevated);padding:2px 8px;border-radius:3px;font-size:12px; }
+        .table-scroll { overflow-x:auto;-webkit-overflow-scrolling:touch; }
         @media(max-width:1200px){ .kpi-grid{grid-template-columns:repeat(4,1fr);} }
-        @media(max-width:900px){ .kpi-grid{grid-template-columns:repeat(2,1fr);} .charts-row{grid-template-columns:1fr;} }
+        @media(max-width:900px){
+            .kpi-grid{grid-template-columns:repeat(2,1fr);}
+            .charts-row{grid-template-columns:1fr;}
+            .header{flex-direction:column;align-items:flex-start;gap:12px;}
+            .header-right{text-align:left;}
+            .filters{flex-direction:column;align-items:flex-start;}
+            table{font-size:11px;min-width:500px;}
+            .explainer .legend{flex-direction:column;gap:8px;}
+        }
+        @media(max-width:480px){
+            .kpi-grid{grid-template-columns:1fr;}
+            .dash{padding:16px 12px;}
+            .header h1{font-size:24px;}
+            .panel{padding:14px;}
+            .chart-wrap{height:250px;}
+            .kpi-mpi{font-size:24px;}
+        }
         @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
         .kpi,.panel { animation:fadeIn 0.4s ease-out both; }
     </style>
@@ -150,9 +167,9 @@
     </div>
     <div class="panel table-panel">
         <div class="panel-hdr"><div class="panel-title" id="tableTitle">Corridor Summary</div></div>
-        <table><thead><tr>
+        <div class="table-scroll"><table><thead><tr>
             <th>Corridor</th><th>Direction</th><th>15ft Price</th><th>MPI</th><th>&Delta; Prior</th><th>Migration Signal</th>
-        </tr></thead><tbody id="tableBody"></tbody></table>
+        </tr></thead><tbody id="tableBody"></tbody></table></div>
     </div>
     <footer class="footer">
         <div>Source: U-Haul one-way 15ft truck rental pricing &middot; Collected daily via Playwright &middot; Faster than Census (2yr lag) or Redfin (quarterly)</div>
@@ -517,19 +534,21 @@ function renderTable(latest, prior) {
 })();
 
 // ===== FLOW MAP =====
+// Coordinate system: viewBox 0 0 800 500
+// Projection: x = (lon + 126) * 25, y = (50 - lat) * 20.83
+
 var MAP_CITIES = {
-    'San Francisco, CA': { x: 82, y: 268, label: 'San Francisco', anchor: 'end', bay: true },
-    'Sacramento, CA':    { x: 132, y: 242, label: 'Sacramento', anchor: 'start' },
-    'San Jose, CA':      { x: 92, y: 286, label: 'San Jose', anchor: 'end', bay: true },
-    'Oakland, CA':       { x: 88, y: 262, label: 'Oakland', anchor: 'end', bay: true },
-    'Las Vegas, NV':     { x: 248, y: 310, label: 'Las Vegas', anchor: 'start' },
-    'Austin, TX':        { x: 560, y: 400, label: 'Austin', anchor: 'start' },
-    'Portland, OR':      { x: 72, y: 118, label: 'Portland', anchor: 'end' },
-    'Seattle, WA':       { x: 78, y: 68, label: 'Seattle', anchor: 'end' },
-    'Denver, CO':        { x: 400, y: 230, label: 'Denver', anchor: 'start' },
+    'San Francisco, CA': { x: 90, y: 255, label: 'San Francisco', anchor: 'end', bay: true },
+    'Sacramento, CA':    { x: 113, y: 238, label: 'Sacramento', anchor: 'start' },
+    'San Jose, CA':      { x: 103, y: 264, label: 'San Jose', anchor: 'end', bay: true },
+    'Oakland, CA':       { x: 93, y: 254, label: 'Oakland', anchor: 'end', bay: true },
+    'Las Vegas, NV':     { x: 272, y: 288, label: 'Las Vegas', anchor: 'start' },
+    'Austin, TX':        { x: 707, y: 411, label: 'Austin', anchor: 'start' },
+    'Portland, OR':      { x: 83, y: 93, label: 'Portland', anchor: 'end' },
+    'Seattle, WA':       { x: 92, y: 50, label: 'Seattle', anchor: 'end' },
+    'Denver, CO':        { x: 526, y: 214, label: 'Denver', anchor: 'start' },
 };
 
-// Map corridor names to origin/destination cities
 var CORRIDOR_ENDPOINTS = {
     'SF-Sacramento':    { from: 'San Francisco, CA', to: 'Sacramento, CA' },
     'SF-Austin':        { from: 'San Francisco, CA', to: 'Austin, TX' },
@@ -540,15 +559,42 @@ var CORRIDOR_ENDPOINTS = {
     'SF-Denver':        { from: 'San Francisco, CA', to: 'Denver, CO' },
 };
 
-// Simplified western US coastline path
-var COAST_PATH = 'M60,30 L55,60 L50,100 L55,130 L60,160 L58,190 L62,220 L70,250 L75,260 L72,270 L78,290 L82,310 L90,340 L100,370 L115,400 L140,430 L165,445';
+// Western US state outlines (simplified polygons, ~geographic projection)
+var STATE_SHAPES = [
+    { id:'WA', d:'M35,24 L32,50 L28,58 L35,68 L35,83 L200,83 L200,21 L50,21 Z' },
+    { id:'OR', d:'M35,83 L42,167 L200,167 L200,83 Z' },
+    { id:'CA', d:'M42,167 L38,192 L40,212 L50,235 L65,250 L78,262 L85,278 L92,298 L105,318 L125,330 L148,342 L170,360 L180,372 L290,367 L290,313 L152,230 L152,167 Z' },
+    { id:'NV', d:'M152,167 L152,230 L290,313 L300,290 L300,167 Z' },
+    { id:'ID', d:'M200,21 L230,21 L240,60 L245,83 L300,167 L200,167 L200,83 Z' },
+    { id:'MT', d:'M230,21 L425,21 L425,83 L245,83 L240,60 Z' },
+    { id:'WY', d:'M245,83 L425,83 L425,167 L300,167 Z' },
+    { id:'UT', d:'M300,167 L425,167 L425,275 L345,275 L345,313 L300,290 Z' },
+    { id:'CO', d:'M425,172 L600,172 L600,275 L425,275 Z' },
+    { id:'AZ', d:'M180,372 L290,367 L290,313 L345,313 L345,275 L425,275 L425,400 L180,400 Z' },
+    { id:'NM', d:'M425,275 L600,275 L600,400 L425,400 Z' },
+    { id:'TX', d:'M600,250 L660,250 L660,275 L720,305 L760,365 L735,420 L690,455 L630,470 L575,452 L545,415 L540,385 L600,400 L600,275 Z' },
+    { id:'OK', d:'M600,195 L740,195 L740,250 L660,250 L600,250 L600,195 Z' },
+    { id:'KS', d:'M600,130 L740,130 L740,195 L600,195 Z' },
+    { id:'NE', d:'M550,75 L740,75 L740,130 L600,130 L530,130 Z' },
+    { id:'SD', d:'M550,21 L740,21 L740,75 L550,75 Z' },
+    { id:'ND', d:'M550,0 L740,0 L740,21 L550,21 Z' },
+];
+
+var STATE_LABELS = [
+    { id:'WA', x:110, y:58 }, { id:'OR', x:110, y:130 },
+    { id:'CA', x:80, y:315 }, { id:'NV', x:230, y:230 },
+    { id:'ID', x:230, y:110 }, { id:'MT', x:330, y:55 },
+    { id:'WY', x:350, y:130 }, { id:'UT', x:365, y:230 },
+    { id:'CO', x:505, y:228 }, { id:'AZ', x:330, y:355 },
+    { id:'NM', x:505, y:342 }, { id:'TX', x:660, y:370 },
+];
 
 function renderFlowMap(latest) {
     var container = document.getElementById('flowMap');
     var svgNS = 'http://www.w3.org/2000/svg';
 
     var svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('viewBox', '0 0 650 470');
+    svg.setAttribute('viewBox', '0 0 800 500');
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
     // Defs for arrowheads
@@ -560,163 +606,126 @@ function renderFlowMap(latest) {
         marker.setAttribute('viewBox', '0 0 10 10');
         marker.setAttribute('refX', '8');
         marker.setAttribute('refY', '5');
-        marker.setAttribute('markerWidth', '6');
-        marker.setAttribute('markerHeight', '6');
+        marker.setAttribute('markerWidth', '8');
+        marker.setAttribute('markerHeight', '8');
         marker.setAttribute('orient', 'auto-start-reverse');
-        var path = document.createElementNS(svgNS, 'path');
-        path.setAttribute('d', 'M 0 1 L 10 5 L 0 9 Z');
-        path.setAttribute('fill', color);
-        marker.appendChild(path);
+        var tri = document.createElementNS(svgNS, 'path');
+        tri.setAttribute('d', 'M 0 1 L 10 5 L 0 9 Z');
+        tri.setAttribute('fill', color);
+        marker.appendChild(tri);
         defs.appendChild(marker);
     });
     svg.appendChild(defs);
 
-    // Coastline
-    var coast = document.createElementNS(svgNS, 'path');
-    coast.setAttribute('d', COAST_PATH);
-    coast.setAttribute('class', 'coastline');
-    svg.appendChild(coast);
-
-    // Some state reference lines (very subtle)
-    var stateLines = [
-        'M0,160 L650,160',   // OR/CA border approx
-        'M140,430 L650,430',  // US/Mexico border approx
-        'M290,0 L290,470',    // NV/UT border approx
-    ];
-    stateLines.forEach(function(d) {
-        var line = document.createElementNS(svgNS, 'path');
-        line.setAttribute('d', d);
-        line.setAttribute('class', 'state-line');
-        svg.appendChild(line);
+    // Draw state shapes
+    var stateFill = css('--bg-elevated');
+    var stateBorder = css('--border');
+    STATE_SHAPES.forEach(function(state) {
+        var path = document.createElementNS(svgNS, 'path');
+        path.setAttribute('d', state.d);
+        path.setAttribute('fill', stateFill);
+        path.setAttribute('stroke', stateBorder);
+        path.setAttribute('stroke-width', '1');
+        path.setAttribute('opacity', '0.6');
+        svg.appendChild(path);
     });
 
-    // State labels (very faint)
-    var stateLabels = [
-        { text: 'CALIFORNIA', x: 50, y: 350, rotate: -90 },
-        { text: 'NEVADA', x: 210, y: 260 },
-        { text: 'OREGON', x: 50, y: 140 },
-        { text: 'WASHINGTON', x: 50, y: 50 },
-        { text: 'COLORADO', x: 380, y: 200 },
-        { text: 'TEXAS', x: 520, y: 380 },
-    ];
-    stateLabels.forEach(function(s) {
+    // State labels
+    var labelColor = css('--text-dim');
+    STATE_LABELS.forEach(function(s) {
         var text = document.createElementNS(svgNS, 'text');
         text.setAttribute('x', s.x);
         text.setAttribute('y', s.y);
+        text.setAttribute('text-anchor', 'middle');
         text.setAttribute('font-family', "'JetBrains Mono', monospace");
         text.setAttribute('font-size', '11');
-        text.setAttribute('fill', css('--text-dim'));
-        text.setAttribute('opacity', '0.25');
-        text.setAttribute('letter-spacing', '3');
-        if (s.rotate) { text.setAttribute('transform', 'rotate(' + s.rotate + ',' + s.x + ',' + s.y + ')'); }
-        text.textContent = s.text;
+        text.setAttribute('fill', labelColor);
+        text.setAttribute('opacity', '0.35');
+        text.setAttribute('letter-spacing', '2');
+        text.textContent = s.id;
         svg.appendChild(text);
     });
 
-    // Draw flow arrows for each corridor
+    // Draw flow arrows
     if (latest && latest.corridors) {
         latest.corridors.filter(function(c) { return corridorVisible[c.name]; }).forEach(function(c) {
-            var endpoints = CORRIDOR_ENDPOINTS[c.name];
-            if (!endpoints) { return; }
-            var fromCity = MAP_CITIES[endpoints.from];
-            var toCity = MAP_CITIES[endpoints.to];
-            if (!fromCity || !toCity) { return; }
+            var ep = CORRIDOR_ENDPOINTS[c.name];
+            if (!ep) { return; }
+            var from = MAP_CITIES[ep.from];
+            var to = MAP_CITIES[ep.to];
+            if (!from || !to) { return; }
 
             var sc = sigClass(c.signal);
             var color = sc === 'out' ? '#ff4d4f' : sc === 'in' ? '#2dd4a8' : '#f0a030';
-            var opacity = sc === 'bal' ? 0.5 : 0.8;
 
-            // Arrow thickness based on MPI deviation from 1.0
             var mpiVal = c.mpi != null ? c.mpi : 1.0;
             var deviation = Math.abs(mpiVal - 1.0);
-            var strokeWidth = Math.max(1.5, Math.min(5, 1.5 + deviation * 2));
+            var strokeWidth = Math.max(2, Math.min(6, 2 + deviation * 2.5));
 
-            // Determine arrow direction: MPI > 1 = outbound (from -> to), MPI < 1 = inbound (to -> from)
-            var startX, startY, endX, endY;
-            if (mpiVal >= 1.0) {
-                startX = fromCity.x; startY = fromCity.y;
-                endX = toCity.x; endY = toCity.y;
-            } else {
-                startX = toCity.x; startY = toCity.y;
-                endX = fromCity.x; endY = fromCity.y;
-            }
+            // Arrow direction
+            var sx, sy, ex, ey;
+            if (mpiVal >= 1.0) { sx=from.x; sy=from.y; ex=to.x; ey=to.y; }
+            else { sx=to.x; sy=to.y; ex=from.x; ey=from.y; }
 
-            // Compute control point for curved arrow (perpendicular offset)
-            var midX = (startX + endX) / 2;
-            var midY = (startY + endY) / 2;
-            var dx = endX - startX;
-            var dy = endY - startY;
-            var len = Math.sqrt(dx * dx + dy * dy);
-            var perpX = -dy / len;
-            var perpY = dx / len;
-            var curvature = Math.min(30, len * 0.15);
-            var cpX = midX + perpX * curvature;
-            var cpY = midY + perpY * curvature;
+            // Curved control point
+            var mx = (sx+ex)/2, my = (sy+ey)/2;
+            var dx = ex-sx, dy = ey-sy;
+            var len = Math.sqrt(dx*dx + dy*dy);
+            var curve = Math.min(40, len * 0.15);
+            var cpX = mx + (-dy/len)*curve;
+            var cpY = my + (dx/len)*curve;
 
-            // Shorten the arrow so it doesn't overlap city dots
-            var shortenBy = 12;
-            var t0 = shortenBy / len;
-            var t1 = 1 - shortenBy / len;
-            var sx = startX + (cpX - startX) * t0 * 2;
-            var sy = startY + (cpY - startY) * t0 * 2;
-            var ex = cpX + (endX - cpX) * t1 * 2 - cpX;
-            // Use simpler shortening
-            var angle = Math.atan2(endY - startY, endX - startX);
-            var sx2 = startX + Math.cos(angle) * shortenBy;
-            var sy2 = startY + Math.sin(angle) * shortenBy;
-            var ex2 = endX - Math.cos(angle) * shortenBy;
-            var ey2 = endY - Math.sin(angle) * shortenBy;
-
-            var pathD = 'M ' + sx2 + ' ' + sy2 + ' Q ' + cpX + ' ' + cpY + ' ' + ex2 + ' ' + ey2;
+            // Shorten endpoints
+            var angle = Math.atan2(ey-sy, ex-sx);
+            var pad = 14;
+            var x1 = sx + Math.cos(angle)*pad;
+            var y1 = sy + Math.sin(angle)*pad;
+            var x2 = ex - Math.cos(angle)*pad;
+            var y2 = ey - Math.sin(angle)*pad;
 
             var arrow = document.createElementNS(svgNS, 'path');
-            arrow.setAttribute('d', pathD);
+            arrow.setAttribute('d', 'M'+x1+','+y1+' Q'+cpX+','+cpY+' '+x2+','+y2);
             arrow.setAttribute('fill', 'none');
             arrow.setAttribute('stroke', color);
             arrow.setAttribute('stroke-width', strokeWidth);
-            arrow.setAttribute('opacity', opacity);
-            arrow.setAttribute('marker-end', 'url(#arrow-' + sc + ')');
+            arrow.setAttribute('opacity', '0.75');
+            arrow.setAttribute('marker-end', 'url(#arrow-'+sc+')');
             arrow.setAttribute('stroke-linecap', 'round');
             svg.appendChild(arrow);
 
-            // MPI label along the arrow
-            var labelX = cpX;
-            var labelY = cpY - 8;
-            var mpiLabel = document.createElementNS(svgNS, 'text');
-            mpiLabel.setAttribute('x', labelX);
-            mpiLabel.setAttribute('y', labelY);
-            mpiLabel.setAttribute('text-anchor', 'middle');
-            mpiLabel.setAttribute('class', 'flow-label');
-            mpiLabel.setAttribute('fill', color);
-            mpiLabel.setAttribute('font-weight', '600');
-            mpiLabel.textContent = c.mpi != null ? c.mpi.toFixed(1) + '\u00d7' : '';
-            svg.appendChild(mpiLabel);
+            // MPI label
+            var lbl = document.createElementNS(svgNS, 'text');
+            lbl.setAttribute('x', cpX);
+            lbl.setAttribute('y', cpY - 10);
+            lbl.setAttribute('text-anchor', 'middle');
+            lbl.setAttribute('class', 'flow-label');
+            lbl.setAttribute('fill', color);
+            lbl.setAttribute('font-weight', '700');
+            lbl.textContent = c.mpi != null ? c.mpi.toFixed(1)+'\u00d7' : '';
+            svg.appendChild(lbl);
         });
     }
 
-    // Draw city dots and labels (on top of arrows)
+    // City dots and labels (on top)
     Object.keys(MAP_CITIES).forEach(function(key) {
         var city = MAP_CITIES[key];
-
-        // Dot
         var dot = document.createElementNS(svgNS, 'circle');
         dot.setAttribute('cx', city.x);
         dot.setAttribute('cy', city.y);
-        dot.setAttribute('r', city.bay ? 5 : 4);
-        dot.setAttribute('fill', city.bay ? css('--accent-blue') : css('--text-secondary'));
-        dot.setAttribute('stroke', css('--bg-surface'));
-        dot.setAttribute('stroke-width', '2');
+        dot.setAttribute('r', city.bay ? 6 : 5);
+        dot.setAttribute('fill', city.bay ? '#4d94ff' : css('--text-secondary'));
+        dot.setAttribute('stroke', css('--bg-deep'));
+        dot.setAttribute('stroke-width', '2.5');
         dot.setAttribute('class', 'city-dot');
         svg.appendChild(dot);
 
-        // Label
-        var labelX = city.anchor === 'end' ? city.x - 10 : city.x + 10;
+        var lx = city.anchor === 'end' ? city.x - 12 : city.x + 12;
         var text = document.createElementNS(svgNS, 'text');
-        text.setAttribute('x', labelX);
+        text.setAttribute('x', lx);
         text.setAttribute('y', city.y + 4);
         text.setAttribute('text-anchor', city.anchor);
         text.setAttribute('class', 'city-label');
-        text.setAttribute('fill', css('--text-secondary'));
+        text.setAttribute('font-weight', '500');
         text.textContent = city.label;
         svg.appendChild(text);
     });
