@@ -4,13 +4,15 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ## Project Overview
 
-**U-Haul Migration Tracker** is a Playwright-based scraper that collects daily one-way U-Haul truck rental pricing for 7 Bay Area migration corridors. Price asymmetry between outbound and inbound routes is a real-time proxy for migration demand.
+**U-Haul Migration Tracker** is a Playwright-based scraper that collects daily one-way U-Haul truck rental pricing for 36 Bay Area migration corridors (3 origins x 12 destinations). Price asymmetry between outbound and inbound routes is a real-time proxy for migration demand.
 
 ### Core Features
 
-- **Data Collection**: Playwright scraper navigates U-Haul's SPA reservation flow for 14 routes (7 corridors x 2 directions)
+- **Data Collection**: Playwright scraper navigates U-Haul's SPA reservation flow for 72 routes (36 corridors x 2 directions)
+- **Bright Data Retry**: Failed routes are retried via Bright Data's Browser API (remote Playwright with anti-CAPTCHA)
 - **Migration Pressure Index**: Computes MPI (outbound/inbound price ratio) with corridor-specific baselines and seasonal normalization
-- **Dashboard**: Express + Chart.js localhost dashboard with dark/light theme, KPI cards, trend charts, and data table
+- **Dashboard**: Single-file Chart.js dashboard with D3 maps, heatmap, dark/light theme. Hosted on GitHub Pages.
+- **GitHub Pages**: Static deployment at `https://jrenaldi79.github.io/uhaul-migration-tracker/`
 
 ---
 
@@ -18,9 +20,12 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ### Development
 ```bash
-npm run collect              # Run data collection headless (~4-5 min)
+npm run collect              # Run data collection headless (~10-15 min for 72 routes)
 npm run collect:headed       # Run with visible browser for debugging
 npm run serve                # Start dashboard on localhost:3847 (LAN accessible)
+npx tsx src/bd-scrape.ts     # Retry failed routes via Bright Data Browser API
+bash scripts/collect-and-publish.sh  # Full pipeline: collect → retry → deploy → push
+bash scripts/deploy.sh       # Copy dashboard + data to docs/ for GitHub Pages
 ```
 
 ### Testing
@@ -46,16 +51,19 @@ node scripts/validate-docs.cjs --full # Full: compare CLAUDE.md against codebase
 ## Architecture
 
 ```
-Cron trigger (daily 7am CT)
-  -> collector.ts (Playwright, 14 routes, headless)
+Daily collection (collect-and-publish.sh)
+  -> collector.ts (Playwright + stealth, 72 routes, headless)
+  -> bd-scrape.ts (Bright Data retry for failed routes)
   -> mpi.ts (compute MPI per corridor)
   -> baselines.ts (corridor baselines + seasonal normalization)
-  -> storage.ts (append Collection to data/history.json)
+  -> storage.ts (upsert Collection to data/history.json)
+  -> deploy.sh (copy to docs/)
+  -> git push (GitHub Pages auto-deploys)
 
-Dashboard request
-  -> server.ts (Express on 0.0.0.0:3847, LAN accessible)
-  -> /api/data, /api/latest, /api/corridors, /health
-  -> public/index.html (Chart.js, dark/light theme, responsive)
+Dashboard (two modes)
+  Local:  server.ts (Express on 0.0.0.0:3847) -> /api/data
+  Static: docs/index.html fetches docs/data/history.json (GitHub Pages)
+  -> public/index.html (D3 maps, Chart.js, heatmap, dark/light theme)
 ```
 
 ### Data Flow
@@ -78,12 +86,13 @@ U-Haul SPA (Playwright)
 
 <!-- AUTO:tree -->
 src/
-  collector.ts       # Playwright scraper with retry logic and --headed flag
+  collector.ts       # Playwright scraper with stealth, retry, CAPTCHA handling, --headed/--connect/--skip flags
+  bd-scrape.ts       # Bright Data Browser API scraper — auto-detects and retries failed routes
   server.ts          # Express API on 0.0.0.0:3847 serving dashboard + JSON endpoints
   types.ts           # All TypeScript interfaces for data model and config
   mpi.ts             # MPI calculation, signal classification, reference price selection
   baselines.ts       # Corridor-specific baselines and seasonal normalization
-  storage.ts         # Append-only JSON read/write with atomic writes
+  storage.ts         # JSON read/write with atomic writes and upsert merging
   utils.ts           # Delay, date formatting, structured logging
 tests/
   mpi.test.ts              # 18 unit tests for MPI calculation
@@ -91,16 +100,17 @@ tests/
   storage.test.ts          # 6 unit tests for storage read/write
   collector.test.ts        # 2 unit tests for collector helper integration
   smoke.test.ts            # 1 smoke test
-  integration/
-    scrape-one-route.test.ts  # Real browser scrape of SF->Sacramento (~30s)
-  e2e/
-    full-collection.test.ts   # Full 14-route collection + dashboard API validation (~5min)
 scripts/
-  check-secrets.cjs    # Secret detection for pre-commit
-  check-file-sizes.cjs # File size enforcement (300-line limit)
-  validate-docs.cjs    # CLAUDE.md drift detection
+  collect-and-publish.sh   # Full pipeline: collect → Bright Data retry → deploy → push
+  deploy.sh                # Copy index.html + history.json to docs/ for GitHub Pages
+  check-secrets.cjs        # Secret detection for pre-commit
+  check-file-sizes.cjs     # File size enforcement (300-line limit)
+  validate-docs.cjs        # CLAUDE.md drift detection
 public/
-  index.html           # Single-file Chart.js dashboard with dark/light theme
+  index.html               # Single-file dashboard (D3 maps, Chart.js, heatmap, dark/light theme)
+docs/
+  index.html               # GitHub Pages copy of dashboard
+  data/history.json         # GitHub Pages copy of data (tracked in git)
 <!-- /AUTO:tree -->
 
 ---
@@ -113,9 +123,10 @@ public/
 | `types.ts` | Data model and config interfaces | Types only |
 | `mpi.ts` | MPI calculation and signal classification | `calculateMpi()`, `classifySignal()`, `selectReferencePrice()` |
 | `baselines.ts` | Corridor baselines and seasonal normalization | `computeBaseline()`, `classifySignalWithBaseline()`, `computeSeasonalFactor()`, `computeNormalizedMpi()` |
-| `storage.ts` | Append-only JSON data store | `readHistory()`, `appendCollection()` |
+| `storage.ts` | JSON data store with upsert merging | `readHistory()`, `appendCollection()`, `upsertCollection()` |
 | `utils.ts` | Shared utilities | `randomDelay()`, `formatDate()`, `getLookupDate()`, `log()`, `logError()` |
-| `collector.ts` | Playwright scraper orchestrator | CLI entry point |
+| `collector.ts` | Playwright scraper with stealth + CAPTCHA handling | CLI entry point (`--headed`, `--connect`, `--skip N`) |
+| `bd-scrape.ts` | Bright Data Browser API retry scraper | CLI entry point (auto-detects missing routes) |
 | `server.ts` | Express dashboard server (0.0.0.0:3847) | CLI entry point |
 <!-- /AUTO:modules -->
 
@@ -212,7 +223,9 @@ All corridors, selectors, and settings in `config.json`. If U-Haul changes their
 
 ## Data
 
-`data/history.json` is append-only and gitignored. Each collection adds one entry with all 14 route results and 7 corridor MPI summaries. Atomic writes via tmp file + rename prevent corruption.
+`data/history.json` is gitignored (local working copy). Each collection adds one entry with all 72 route results and 36 corridor MPI summaries. Atomic writes via tmp file + rename prevent corruption. `upsertCollection()` merges routes into same-day entries so partial runs don't create duplicates.
+
+`docs/data/history.json` is tracked in git and serves as the GitHub Pages data source. Updated by `scripts/deploy.sh`.
 
 ---
 
@@ -228,6 +241,11 @@ All corridors, selectors, and settings in `config.json`. If U-Haul changes their
 - **Date input**: Use `pressSequentially` with delay, not `fill`. The datepicker widget intercepts direct fills. Press Escape after to close the calendar popup.
 - **Port 3847 conflicts**: Other dev servers may bind this port. Always check `lsof -i :3847` before starting the dashboard.
 - **Server binds 0.0.0.0**: Dashboard is LAN-accessible for mobile viewing. Find your IP with `ipconfig getifaddr en0`.
+- **Bright Data Browser API**: Remote browser needs 3-5 warmup connection attempts (proxy_error) before succeeding. Sessions are short-lived — extract data immediately after navigation, avoid unnecessary waits.
+- **Bright Data CDP URL**: Stored in `BRIGHT_DATA_CDP` env var or hardcoded in bd-scrape.ts. Zone: `scraping_browser`, customer: `hl_e1f3975a`.
+- **GitHub Pages**: Served from `docs/` on main branch. Run `bash scripts/deploy.sh` to update, then push. Dashboard fetches `/api/data` (Express) with fallback to `data/history.json` (static).
+- **36 corridors**: 3 Bay Area origins (SF, SJ, Oakland) x 12 destinations. Config in `config.json`.
+- **CAPTCHA mitigation**: Stealth plugin + Bright Data retry. Direct Playwright gets CAPTCHAed after ~10 routes. Bright Data Browser API handles CAPTCHAs automatically but has intermittent proxy_error timeouts.
 
 ---
 
