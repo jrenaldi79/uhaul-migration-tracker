@@ -1,0 +1,4878 @@
+{
+  "version": 1,
+  "collections": [
+    {
+      "date": "2026-03-18",
+      "timestamp": "2026-03-18T12:00:00.000Z",
+      "durationMs": 735209,
+      "routesAttempted": 54,
+      "routesSucceeded": 54,
+      "routes": [
+        {
+          "from": "San Francisco, CA",
+          "to": "Sacramento, CA",
+          "corridor": "SF-Sacramento",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 266
+            },
+            {
+              "name": "15' Truck",
+              "price": 279
+            },
+            {
+              "name": "20' Truck",
+              "price": 350
+            },
+            {
+              "name": "26' Truck",
+              "price": 419
+            }
+          ],
+          "referencePrice": 279,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Sacramento, CA",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Sacramento",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 103
+            },
+            {
+              "name": "15' Truck",
+              "price": 108
+            },
+            {
+              "name": "20' Truck",
+              "price": 135
+            },
+            {
+              "name": "26' Truck",
+              "price": 162
+            }
+          ],
+          "referencePrice": 108,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Austin, TX",
+          "corridor": "SF-Austin",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2544
+            },
+            {
+              "name": "15' Truck",
+              "price": 2678
+            },
+            {
+              "name": "20' Truck",
+              "price": 4018
+            },
+            {
+              "name": "26' Truck",
+              "price": 5357
+            }
+          ],
+          "referencePrice": 2678,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Austin, TX",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Austin",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1518
+            },
+            {
+              "name": "15' Truck",
+              "price": 1598
+            },
+            {
+              "name": "20' Truck",
+              "price": 1998
+            },
+            {
+              "name": "26' Truck",
+              "price": 2398
+            }
+          ],
+          "referencePrice": 1598,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Las Vegas, NV",
+          "corridor": "SF-LasVegas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 634
+            },
+            {
+              "name": "15' Truck",
+              "price": 667
+            },
+            {
+              "name": "20' Truck",
+              "price": 834
+            },
+            {
+              "name": "26' Truck",
+              "price": 1001
+            }
+          ],
+          "referencePrice": 667,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Las Vegas, NV",
+          "to": "San Francisco, CA",
+          "corridor": "SF-LasVegas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 515
+            },
+            {
+              "name": "15' Truck",
+              "price": 542
+            },
+            {
+              "name": "20' Truck",
+              "price": 678
+            },
+            {
+              "name": "26' Truck",
+              "price": 813
+            }
+          ],
+          "referencePrice": 542,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Sacramento, CA",
+          "corridor": "SJ-Sacramento",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 312
+            },
+            {
+              "name": "15' Truck",
+              "price": 329
+            },
+            {
+              "name": "20' Truck",
+              "price": 410
+            },
+            {
+              "name": "26' Truck",
+              "price": 492
+            }
+          ],
+          "referencePrice": 329,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Sacramento, CA",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Sacramento",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 121
+            },
+            {
+              "name": "15' Truck",
+              "price": 127
+            },
+            {
+              "name": "20' Truck",
+              "price": 159
+            },
+            {
+              "name": "26' Truck",
+              "price": 190
+            }
+          ],
+          "referencePrice": 127,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Portland, OR",
+          "corridor": "Oakland-Portland",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1186
+            },
+            {
+              "name": "15' Truck",
+              "price": 1249
+            },
+            {
+              "name": "20' Truck",
+              "price": 1561
+            },
+            {
+              "name": "26' Truck",
+              "price": 1873
+            }
+          ],
+          "referencePrice": 1249,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Portland, OR",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Portland",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 614
+            },
+            {
+              "name": "15' Truck",
+              "price": 647
+            },
+            {
+              "name": "20' Truck",
+              "price": 808
+            },
+            {
+              "name": "26' Truck",
+              "price": 970
+            }
+          ],
+          "referencePrice": 647,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Seattle, WA",
+          "corridor": "SF-Seattle",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 951
+            },
+            {
+              "name": "15' Truck",
+              "price": 1001
+            },
+            {
+              "name": "20' Truck",
+              "price": 1252
+            },
+            {
+              "name": "26' Truck",
+              "price": 1502
+            }
+          ],
+          "referencePrice": 1001,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Seattle, WA",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Seattle",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 926
+            },
+            {
+              "name": "15' Truck",
+              "price": 975
+            },
+            {
+              "name": "20' Truck",
+              "price": 1219
+            },
+            {
+              "name": "26' Truck",
+              "price": 1462
+            }
+          ],
+          "referencePrice": 975,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Denver, CO",
+          "corridor": "SF-Denver",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1702
+            },
+            {
+              "name": "15' Truck",
+              "price": 1791
+            },
+            {
+              "name": "20' Truck",
+              "price": 2239
+            },
+            {
+              "name": "26' Truck",
+              "price": 2687
+            }
+          ],
+          "referencePrice": 1791,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Denver, CO",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Denver",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1178
+            },
+            {
+              "name": "15' Truck",
+              "price": 1240
+            },
+            {
+              "name": "20' Truck",
+              "price": 1550
+            },
+            {
+              "name": "26' Truck",
+              "price": 1860
+            }
+          ],
+          "referencePrice": 1240,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Austin, TX",
+          "corridor": "SJ-Austin",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2583
+            },
+            {
+              "name": "15' Truck",
+              "price": 2719
+            },
+            {
+              "name": "20' Truck",
+              "price": 4078
+            },
+            {
+              "name": "26' Truck",
+              "price": 5437
+            }
+          ],
+          "referencePrice": 2719,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Austin, TX",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Austin",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1541
+            },
+            {
+              "name": "15' Truck",
+              "price": 1622
+            },
+            {
+              "name": "20' Truck",
+              "price": 2028
+            },
+            {
+              "name": "26' Truck",
+              "price": 2434
+            }
+          ],
+          "referencePrice": 1622,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Las Vegas, NV",
+          "corridor": "SJ-LasVegas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 611
+            },
+            {
+              "name": "15' Truck",
+              "price": 643
+            },
+            {
+              "name": "20' Truck",
+              "price": 804
+            },
+            {
+              "name": "26' Truck",
+              "price": 965
+            }
+          ],
+          "referencePrice": 643,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Las Vegas, NV",
+          "to": "San Jose, CA",
+          "corridor": "SJ-LasVegas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 496
+            },
+            {
+              "name": "15' Truck",
+              "price": 523
+            },
+            {
+              "name": "20' Truck",
+              "price": 653
+            },
+            {
+              "name": "26' Truck",
+              "price": 784
+            }
+          ],
+          "referencePrice": 523,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Seattle, WA",
+          "corridor": "SJ-Seattle",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 980
+            },
+            {
+              "name": "15' Truck",
+              "price": 1032
+            },
+            {
+              "name": "20' Truck",
+              "price": 1290
+            },
+            {
+              "name": "26' Truck",
+              "price": 1548
+            }
+          ],
+          "referencePrice": 1032,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Seattle, WA",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Seattle",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 954
+            },
+            {
+              "name": "15' Truck",
+              "price": 1005
+            },
+            {
+              "name": "20' Truck",
+              "price": 1256
+            },
+            {
+              "name": "26' Truck",
+              "price": 1507
+            }
+          ],
+          "referencePrice": 1005,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Denver, CO",
+          "corridor": "SJ-Denver",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1729
+            },
+            {
+              "name": "15' Truck",
+              "price": 1820
+            },
+            {
+              "name": "20' Truck",
+              "price": 2275
+            },
+            {
+              "name": "26' Truck",
+              "price": 2730
+            }
+          ],
+          "referencePrice": 1820,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Denver, CO",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Denver",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1197
+            },
+            {
+              "name": "15' Truck",
+              "price": 1260
+            },
+            {
+              "name": "20' Truck",
+              "price": 1575
+            },
+            {
+              "name": "26' Truck",
+              "price": 1890
+            }
+          ],
+          "referencePrice": 1260,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Portland, OR",
+          "corridor": "SJ-Portland",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1226
+            },
+            {
+              "name": "15' Truck",
+              "price": 1291
+            },
+            {
+              "name": "20' Truck",
+              "price": 1614
+            },
+            {
+              "name": "26' Truck",
+              "price": 1936
+            }
+          ],
+          "referencePrice": 1291,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Portland, OR",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Portland",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 635
+            },
+            {
+              "name": "15' Truck",
+              "price": 668
+            },
+            {
+              "name": "20' Truck",
+              "price": 836
+            },
+            {
+              "name": "26' Truck",
+              "price": 1003
+            }
+          ],
+          "referencePrice": 668,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Portland, OR",
+          "corridor": "SF-Portland",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1192
+            },
+            {
+              "name": "15' Truck",
+              "price": 1254
+            },
+            {
+              "name": "20' Truck",
+              "price": 1568
+            },
+            {
+              "name": "26' Truck",
+              "price": 1882
+            }
+          ],
+          "referencePrice": 1254,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Portland, OR",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Portland",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 617
+            },
+            {
+              "name": "15' Truck",
+              "price": 650
+            },
+            {
+              "name": "20' Truck",
+              "price": 812
+            },
+            {
+              "name": "26' Truck",
+              "price": 974
+            }
+          ],
+          "referencePrice": 650,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Sacramento, CA",
+          "corridor": "Oakland-Sacramento",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 263
+            },
+            {
+              "name": "15' Truck",
+              "price": 276
+            },
+            {
+              "name": "20' Truck",
+              "price": 347
+            },
+            {
+              "name": "26' Truck",
+              "price": 416
+            }
+          ],
+          "referencePrice": 276,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Sacramento, CA",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Sacramento",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 102
+            },
+            {
+              "name": "15' Truck",
+              "price": 107
+            },
+            {
+              "name": "20' Truck",
+              "price": 134
+            },
+            {
+              "name": "26' Truck",
+              "price": 161
+            }
+          ],
+          "referencePrice": 107,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Austin, TX",
+          "corridor": "Oakland-Austin",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2609
+            },
+            {
+              "name": "15' Truck",
+              "price": 2747
+            },
+            {
+              "name": "20' Truck",
+              "price": 4120
+            },
+            {
+              "name": "26' Truck",
+              "price": 5493
+            }
+          ],
+          "referencePrice": 2747,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Austin, TX",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Austin",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1557
+            },
+            {
+              "name": "15' Truck",
+              "price": 1639
+            },
+            {
+              "name": "20' Truck",
+              "price": 2049
+            },
+            {
+              "name": "26' Truck",
+              "price": 2459
+            }
+          ],
+          "referencePrice": 1639,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Las Vegas, NV",
+          "corridor": "Oakland-LasVegas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 622
+            },
+            {
+              "name": "15' Truck",
+              "price": 654
+            },
+            {
+              "name": "20' Truck",
+              "price": 818
+            },
+            {
+              "name": "26' Truck",
+              "price": 982
+            }
+          ],
+          "referencePrice": 654,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Las Vegas, NV",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-LasVegas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 505
+            },
+            {
+              "name": "15' Truck",
+              "price": 532
+            },
+            {
+              "name": "20' Truck",
+              "price": 665
+            },
+            {
+              "name": "26' Truck",
+              "price": 798
+            }
+          ],
+          "referencePrice": 532,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Seattle, WA",
+          "corridor": "Oakland-Seattle",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 948
+            },
+            {
+              "name": "15' Truck",
+              "price": 998
+            },
+            {
+              "name": "20' Truck",
+              "price": 1247
+            },
+            {
+              "name": "26' Truck",
+              "price": 1496
+            }
+          ],
+          "referencePrice": 998,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Seattle, WA",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Seattle",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 923
+            },
+            {
+              "name": "15' Truck",
+              "price": 971
+            },
+            {
+              "name": "20' Truck",
+              "price": 1214
+            },
+            {
+              "name": "26' Truck",
+              "price": 1457
+            }
+          ],
+          "referencePrice": 971,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Denver, CO",
+          "corridor": "Oakland-Denver",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1699
+            },
+            {
+              "name": "15' Truck",
+              "price": 1789
+            },
+            {
+              "name": "20' Truck",
+              "price": 2236
+            },
+            {
+              "name": "26' Truck",
+              "price": 2683
+            }
+          ],
+          "referencePrice": 1789,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Denver, CO",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Denver",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1176
+            },
+            {
+              "name": "15' Truck",
+              "price": 1238
+            },
+            {
+              "name": "20' Truck",
+              "price": 1548
+            },
+            {
+              "name": "26' Truck",
+              "price": 1858
+            }
+          ],
+          "referencePrice": 1238,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Reno, NV",
+          "corridor": "SF-Reno",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 551
+            },
+            {
+              "name": "15' Truck",
+              "price": 580
+            },
+            {
+              "name": "20' Truck",
+              "price": 725
+            },
+            {
+              "name": "26' Truck",
+              "price": 869
+            }
+          ],
+          "referencePrice": 580,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Reno, NV",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Reno",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 197
+            },
+            {
+              "name": "15' Truck",
+              "price": 207
+            },
+            {
+              "name": "20' Truck",
+              "price": 197
+            },
+            {
+              "name": "26' Truck",
+              "price": 197
+            }
+          ],
+          "referencePrice": 207,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Reno, NV",
+          "corridor": "SJ-Reno",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 609
+            },
+            {
+              "name": "15' Truck",
+              "price": 641
+            },
+            {
+              "name": "20' Truck",
+              "price": 802
+            },
+            {
+              "name": "26' Truck",
+              "price": 962
+            }
+          ],
+          "referencePrice": 641,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Reno, NV",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Reno",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 218
+            },
+            {
+              "name": "15' Truck",
+              "price": 229
+            },
+            {
+              "name": "20' Truck",
+              "price": 218
+            },
+            {
+              "name": "26' Truck",
+              "price": 218
+            }
+          ],
+          "referencePrice": 229,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Reno, NV",
+          "corridor": "Oakland-Reno",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 537
+            },
+            {
+              "name": "15' Truck",
+              "price": 566
+            },
+            {
+              "name": "20' Truck",
+              "price": 707
+            },
+            {
+              "name": "26' Truck",
+              "price": 848
+            }
+          ],
+          "referencePrice": 566,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Reno, NV",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Reno",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 192
+            },
+            {
+              "name": "15' Truck",
+              "price": 202
+            },
+            {
+              "name": "20' Truck",
+              "price": 192
+            },
+            {
+              "name": "26' Truck",
+              "price": 192
+            }
+          ],
+          "referencePrice": 202,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Dallas, TX",
+          "corridor": "SF-Dallas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2515
+            },
+            {
+              "name": "15' Truck",
+              "price": 2647
+            },
+            {
+              "name": "20' Truck",
+              "price": 3971
+            },
+            {
+              "name": "26' Truck",
+              "price": 5295
+            }
+          ],
+          "referencePrice": 2647,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Dallas, TX",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Dallas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1581
+            },
+            {
+              "name": "15' Truck",
+              "price": 1665
+            },
+            {
+              "name": "20' Truck",
+              "price": 1833
+            },
+            {
+              "name": "26' Truck",
+              "price": 2083
+            }
+          ],
+          "referencePrice": 1665,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Dallas, TX",
+          "corridor": "SJ-Dallas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2477
+            },
+            {
+              "name": "15' Truck",
+              "price": 2607
+            },
+            {
+              "name": "20' Truck",
+              "price": 3911
+            },
+            {
+              "name": "26' Truck",
+              "price": 5214
+            }
+          ],
+          "referencePrice": 2607,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Dallas, TX",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Dallas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1558
+            },
+            {
+              "name": "15' Truck",
+              "price": 1640
+            },
+            {
+              "name": "20' Truck",
+              "price": 1804
+            },
+            {
+              "name": "26' Truck",
+              "price": 2051
+            }
+          ],
+          "referencePrice": 1640,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Dallas, TX",
+          "corridor": "Oakland-Dallas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2506
+            },
+            {
+              "name": "15' Truck",
+              "price": 2638
+            },
+            {
+              "name": "20' Truck",
+              "price": 3957
+            },
+            {
+              "name": "26' Truck",
+              "price": 5276
+            }
+          ],
+          "referencePrice": 2638,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Dallas, TX",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Dallas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1576
+            },
+            {
+              "name": "15' Truck",
+              "price": 1659
+            },
+            {
+              "name": "20' Truck",
+              "price": 1825
+            },
+            {
+              "name": "26' Truck",
+              "price": 2075
+            }
+          ],
+          "referencePrice": 1659,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Nashville, TN",
+          "corridor": "SF-Nashville",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 3174
+            },
+            {
+              "name": "15' Truck",
+              "price": 3341
+            },
+            {
+              "name": "20' Truck",
+              "price": 5012
+            },
+            {
+              "name": "26' Truck",
+              "price": 6682
+            }
+          ],
+          "referencePrice": 3341,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Nashville, TN",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Nashville",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1856
+            },
+            {
+              "name": "15' Truck",
+              "price": 1953
+            },
+            {
+              "name": "20' Truck",
+              "price": 2246
+            },
+            {
+              "name": "26' Truck",
+              "price": 2539
+            }
+          ],
+          "referencePrice": 1953,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Nashville, TN",
+          "corridor": "SJ-Nashville",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 3134
+            },
+            {
+              "name": "15' Truck",
+              "price": 3299
+            },
+            {
+              "name": "20' Truck",
+              "price": 4948
+            },
+            {
+              "name": "26' Truck",
+              "price": 6598
+            }
+          ],
+          "referencePrice": 3299,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Nashville, TN",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Nashville",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1832
+            },
+            {
+              "name": "15' Truck",
+              "price": 1929
+            },
+            {
+              "name": "20' Truck",
+              "price": 2218
+            },
+            {
+              "name": "26' Truck",
+              "price": 2507
+            }
+          ],
+          "referencePrice": 1929,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Nashville, TN",
+          "corridor": "Oakland-Nashville",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 3159
+            },
+            {
+              "name": "15' Truck",
+              "price": 3325
+            },
+            {
+              "name": "20' Truck",
+              "price": 4987
+            },
+            {
+              "name": "26' Truck",
+              "price": 6650
+            }
+          ],
+          "referencePrice": 3325,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Nashville, TN",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Nashville",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1847
+            },
+            {
+              "name": "15' Truck",
+              "price": 1944
+            },
+            {
+              "name": "20' Truck",
+              "price": 2235
+            },
+            {
+              "name": "26' Truck",
+              "price": 2527
+            }
+          ],
+          "referencePrice": 1944,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        }
+      ],
+      "corridors": [
+        {
+          "name": "SF-Sacramento",
+          "label": "SF ↔ Sacramento",
+          "outboundPrice": 279,
+          "inboundPrice": 108,
+          "mpi": 2.5833333333333335,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Austin",
+          "label": "SF ↔ Austin",
+          "outboundPrice": 2678,
+          "inboundPrice": 1598,
+          "mpi": 1.6758448060075093,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-LasVegas",
+          "label": "SF ↔ Las Vegas",
+          "outboundPrice": 667,
+          "inboundPrice": 542,
+          "mpi": 1.2306273062730628,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Sacramento",
+          "label": "SJ ↔ Sacramento",
+          "outboundPrice": 329,
+          "inboundPrice": 127,
+          "mpi": 2.590551181102362,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Portland",
+          "label": "Oakland ↔ Portland",
+          "outboundPrice": 1249,
+          "inboundPrice": 647,
+          "mpi": 1.9304482225656878,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Seattle",
+          "label": "SF ↔ Seattle",
+          "outboundPrice": 1001,
+          "inboundPrice": 975,
+          "mpi": 1.0266666666666666,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Denver",
+          "label": "SF ↔ Denver",
+          "outboundPrice": 1791,
+          "inboundPrice": 1240,
+          "mpi": 1.4443548387096774,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Austin",
+          "label": "SJ ↔ Austin",
+          "outboundPrice": 2719,
+          "inboundPrice": 1622,
+          "mpi": 1.6763255240443897,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-LasVegas",
+          "label": "SJ ↔ Las Vegas",
+          "outboundPrice": 643,
+          "inboundPrice": 523,
+          "mpi": 1.2294455066921606,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Seattle",
+          "label": "SJ ↔ Seattle",
+          "outboundPrice": 1032,
+          "inboundPrice": 1005,
+          "mpi": 1.026865671641791,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Denver",
+          "label": "SJ ↔ Denver",
+          "outboundPrice": 1820,
+          "inboundPrice": 1260,
+          "mpi": 1.4444444444444444,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Portland",
+          "label": "SJ ↔ Portland",
+          "outboundPrice": 1291,
+          "inboundPrice": 668,
+          "mpi": 1.9326347305389222,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Portland",
+          "label": "SF ↔ Portland",
+          "outboundPrice": 1254,
+          "inboundPrice": 650,
+          "mpi": 1.9292307692307693,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Sacramento",
+          "label": "Oakland ↔ Sacramento",
+          "outboundPrice": 276,
+          "inboundPrice": 107,
+          "mpi": 2.5794392523364484,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Austin",
+          "label": "Oakland ↔ Austin",
+          "outboundPrice": 2747,
+          "inboundPrice": 1639,
+          "mpi": 1.6760219646125687,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-LasVegas",
+          "label": "Oakland ↔ Las Vegas",
+          "outboundPrice": 654,
+          "inboundPrice": 532,
+          "mpi": 1.2293233082706767,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Seattle",
+          "label": "Oakland ↔ Seattle",
+          "outboundPrice": 998,
+          "inboundPrice": 971,
+          "mpi": 1.027806385169928,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Denver",
+          "label": "Oakland ↔ Denver",
+          "outboundPrice": 1789,
+          "inboundPrice": 1238,
+          "mpi": 1.4450726978998385,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Reno",
+          "label": "SF ↔ Reno",
+          "outboundPrice": 580,
+          "inboundPrice": 207,
+          "mpi": 2.8019323671497585,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Reno",
+          "label": "SJ ↔ Reno",
+          "outboundPrice": 641,
+          "inboundPrice": 229,
+          "mpi": 2.7991266375545854,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Reno",
+          "label": "Oakland ↔ Reno",
+          "outboundPrice": 566,
+          "inboundPrice": 202,
+          "mpi": 2.801980198019802,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Dallas",
+          "label": "SF ↔ Dallas",
+          "outboundPrice": 2647,
+          "inboundPrice": 1665,
+          "mpi": 1.5897897897897897,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Dallas",
+          "label": "SJ ↔ Dallas",
+          "outboundPrice": 2607,
+          "inboundPrice": 1640,
+          "mpi": 1.5896341463414634,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Dallas",
+          "label": "Oakland ↔ Dallas",
+          "outboundPrice": 2638,
+          "inboundPrice": 1659,
+          "mpi": 1.5901145268233876,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Nashville",
+          "label": "SF ↔ Nashville",
+          "outboundPrice": 3341,
+          "inboundPrice": 1953,
+          "mpi": 1.7107014848950333,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Nashville",
+          "label": "SJ ↔ Nashville",
+          "outboundPrice": 3299,
+          "inboundPrice": 1929,
+          "mpi": 1.7102125453602903,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Nashville",
+          "label": "Oakland ↔ Nashville",
+          "outboundPrice": 3325,
+          "inboundPrice": 1944,
+          "mpi": 1.7103909465020577,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        }
+      ]
+    },
+    {
+      "date": "2026-03-20",
+      "timestamp": "2026-03-20T08:00:00.000Z",
+      "durationMs": 3594000,
+      "routesAttempted": 72,
+      "routesSucceeded": 72,
+      "routes": [
+        {
+          "from": "San Francisco, CA",
+          "to": "Sacramento, CA",
+          "corridor": "SF-Sacramento",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 266
+            },
+            {
+              "name": "15' Truck",
+              "price": 279
+            },
+            {
+              "name": "20' Truck",
+              "price": 350
+            },
+            {
+              "name": "26' Truck",
+              "price": 419
+            }
+          ],
+          "referencePrice": 279,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Sacramento, CA",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Sacramento",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 103
+            },
+            {
+              "name": "15' Truck",
+              "price": 108
+            },
+            {
+              "name": "20' Truck",
+              "price": 135
+            },
+            {
+              "name": "26' Truck",
+              "price": 162
+            }
+          ],
+          "referencePrice": 108,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Austin, TX",
+          "corridor": "SF-Austin",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2544
+            },
+            {
+              "name": "15' Truck",
+              "price": 2678
+            },
+            {
+              "name": "20' Truck",
+              "price": 4018
+            },
+            {
+              "name": "26' Truck",
+              "price": 5357
+            }
+          ],
+          "referencePrice": 2678,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Austin, TX",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Austin",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1518
+            },
+            {
+              "name": "15' Truck",
+              "price": 1598
+            },
+            {
+              "name": "20' Truck",
+              "price": 1998
+            },
+            {
+              "name": "26' Truck",
+              "price": 2398
+            }
+          ],
+          "referencePrice": 1598,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Las Vegas, NV",
+          "corridor": "SF-LasVegas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 634
+            },
+            {
+              "name": "15' Truck",
+              "price": 667
+            },
+            {
+              "name": "20' Truck",
+              "price": 834
+            },
+            {
+              "name": "26' Truck",
+              "price": 1001
+            }
+          ],
+          "referencePrice": 667,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Las Vegas, NV",
+          "to": "San Francisco, CA",
+          "corridor": "SF-LasVegas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 515
+            },
+            {
+              "name": "15' Truck",
+              "price": 542
+            },
+            {
+              "name": "20' Truck",
+              "price": 678
+            },
+            {
+              "name": "26' Truck",
+              "price": 813
+            }
+          ],
+          "referencePrice": 542,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Sacramento, CA",
+          "corridor": "SJ-Sacramento",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 312
+            },
+            {
+              "name": "15' Truck",
+              "price": 329
+            },
+            {
+              "name": "20' Truck",
+              "price": 410
+            },
+            {
+              "name": "26' Truck",
+              "price": 492
+            }
+          ],
+          "referencePrice": 329,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Sacramento, CA",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Sacramento",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 121
+            },
+            {
+              "name": "15' Truck",
+              "price": 127
+            },
+            {
+              "name": "20' Truck",
+              "price": 159
+            },
+            {
+              "name": "26' Truck",
+              "price": 190
+            }
+          ],
+          "referencePrice": 127,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Portland, OR",
+          "corridor": "Oakland-Portland",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1186
+            },
+            {
+              "name": "15' Truck",
+              "price": 1249
+            },
+            {
+              "name": "20' Truck",
+              "price": 1561
+            },
+            {
+              "name": "26' Truck",
+              "price": 1873
+            }
+          ],
+          "referencePrice": 1249,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Portland, OR",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Portland",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 614
+            },
+            {
+              "name": "15' Truck",
+              "price": 647
+            },
+            {
+              "name": "20' Truck",
+              "price": 808
+            },
+            {
+              "name": "26' Truck",
+              "price": 970
+            }
+          ],
+          "referencePrice": 647,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Seattle, WA",
+          "corridor": "SF-Seattle",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 951
+            },
+            {
+              "name": "15' Truck",
+              "price": 1001
+            },
+            {
+              "name": "20' Truck",
+              "price": 1252
+            },
+            {
+              "name": "26' Truck",
+              "price": 1502
+            }
+          ],
+          "referencePrice": 1001,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Seattle, WA",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Seattle",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 926
+            },
+            {
+              "name": "15' Truck",
+              "price": 975
+            },
+            {
+              "name": "20' Truck",
+              "price": 1219
+            },
+            {
+              "name": "26' Truck",
+              "price": 1462
+            }
+          ],
+          "referencePrice": 975,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Denver, CO",
+          "corridor": "SF-Denver",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1702
+            },
+            {
+              "name": "15' Truck",
+              "price": 1791
+            },
+            {
+              "name": "20' Truck",
+              "price": 2239
+            },
+            {
+              "name": "26' Truck",
+              "price": 2687
+            }
+          ],
+          "referencePrice": 1791,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Denver, CO",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Denver",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1178
+            },
+            {
+              "name": "15' Truck",
+              "price": 1240
+            },
+            {
+              "name": "20' Truck",
+              "price": 1550
+            },
+            {
+              "name": "26' Truck",
+              "price": 1860
+            }
+          ],
+          "referencePrice": 1240,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Austin, TX",
+          "corridor": "SJ-Austin",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2583
+            },
+            {
+              "name": "15' Truck",
+              "price": 2719
+            },
+            {
+              "name": "20' Truck",
+              "price": 4078
+            },
+            {
+              "name": "26' Truck",
+              "price": 5437
+            }
+          ],
+          "referencePrice": 2719,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Austin, TX",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Austin",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1541
+            },
+            {
+              "name": "15' Truck",
+              "price": 1622
+            },
+            {
+              "name": "20' Truck",
+              "price": 2028
+            },
+            {
+              "name": "26' Truck",
+              "price": 2434
+            }
+          ],
+          "referencePrice": 1622,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Las Vegas, NV",
+          "corridor": "SJ-LasVegas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 611
+            },
+            {
+              "name": "15' Truck",
+              "price": 643
+            },
+            {
+              "name": "20' Truck",
+              "price": 804
+            },
+            {
+              "name": "26' Truck",
+              "price": 965
+            }
+          ],
+          "referencePrice": 643,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Las Vegas, NV",
+          "to": "San Jose, CA",
+          "corridor": "SJ-LasVegas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 496
+            },
+            {
+              "name": "15' Truck",
+              "price": 523
+            },
+            {
+              "name": "20' Truck",
+              "price": 653
+            },
+            {
+              "name": "26' Truck",
+              "price": 784
+            }
+          ],
+          "referencePrice": 523,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Seattle, WA",
+          "corridor": "SJ-Seattle",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 980
+            },
+            {
+              "name": "15' Truck",
+              "price": 1032
+            },
+            {
+              "name": "20' Truck",
+              "price": 1290
+            },
+            {
+              "name": "26' Truck",
+              "price": 1548
+            }
+          ],
+          "referencePrice": 1032,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Seattle, WA",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Seattle",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 954
+            },
+            {
+              "name": "15' Truck",
+              "price": 1005
+            },
+            {
+              "name": "20' Truck",
+              "price": 1256
+            },
+            {
+              "name": "26' Truck",
+              "price": 1507
+            }
+          ],
+          "referencePrice": 1005,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Denver, CO",
+          "corridor": "SJ-Denver",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1729
+            },
+            {
+              "name": "15' Truck",
+              "price": 1820
+            },
+            {
+              "name": "20' Truck",
+              "price": 2275
+            },
+            {
+              "name": "26' Truck",
+              "price": 2730
+            }
+          ],
+          "referencePrice": 1820,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Denver, CO",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Denver",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1197
+            },
+            {
+              "name": "15' Truck",
+              "price": 1260
+            },
+            {
+              "name": "20' Truck",
+              "price": 1575
+            },
+            {
+              "name": "26' Truck",
+              "price": 1890
+            }
+          ],
+          "referencePrice": 1260,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Portland, OR",
+          "corridor": "SJ-Portland",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1226
+            },
+            {
+              "name": "15' Truck",
+              "price": 1291
+            },
+            {
+              "name": "20' Truck",
+              "price": 1614
+            },
+            {
+              "name": "26' Truck",
+              "price": 1936
+            }
+          ],
+          "referencePrice": 1291,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Portland, OR",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Portland",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 635
+            },
+            {
+              "name": "15' Truck",
+              "price": 668
+            },
+            {
+              "name": "20' Truck",
+              "price": 836
+            },
+            {
+              "name": "26' Truck",
+              "price": 1003
+            }
+          ],
+          "referencePrice": 668,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Portland, OR",
+          "corridor": "SF-Portland",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1192
+            },
+            {
+              "name": "15' Truck",
+              "price": 1254
+            },
+            {
+              "name": "20' Truck",
+              "price": 1568
+            },
+            {
+              "name": "26' Truck",
+              "price": 1882
+            }
+          ],
+          "referencePrice": 1254,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Portland, OR",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Portland",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 617
+            },
+            {
+              "name": "15' Truck",
+              "price": 650
+            },
+            {
+              "name": "20' Truck",
+              "price": 812
+            },
+            {
+              "name": "26' Truck",
+              "price": 974
+            }
+          ],
+          "referencePrice": 650,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Sacramento, CA",
+          "corridor": "Oakland-Sacramento",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 263
+            },
+            {
+              "name": "15' Truck",
+              "price": 276
+            },
+            {
+              "name": "20' Truck",
+              "price": 347
+            },
+            {
+              "name": "26' Truck",
+              "price": 416
+            }
+          ],
+          "referencePrice": 276,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Sacramento, CA",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Sacramento",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 102
+            },
+            {
+              "name": "15' Truck",
+              "price": 107
+            },
+            {
+              "name": "20' Truck",
+              "price": 134
+            },
+            {
+              "name": "26' Truck",
+              "price": 161
+            }
+          ],
+          "referencePrice": 107,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Austin, TX",
+          "corridor": "Oakland-Austin",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2609
+            },
+            {
+              "name": "15' Truck",
+              "price": 2747
+            },
+            {
+              "name": "20' Truck",
+              "price": 4120
+            },
+            {
+              "name": "26' Truck",
+              "price": 5493
+            }
+          ],
+          "referencePrice": 2747,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Austin, TX",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Austin",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1557
+            },
+            {
+              "name": "15' Truck",
+              "price": 1639
+            },
+            {
+              "name": "20' Truck",
+              "price": 2049
+            },
+            {
+              "name": "26' Truck",
+              "price": 2459
+            }
+          ],
+          "referencePrice": 1639,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Las Vegas, NV",
+          "corridor": "Oakland-LasVegas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 622
+            },
+            {
+              "name": "15' Truck",
+              "price": 654
+            },
+            {
+              "name": "20' Truck",
+              "price": 818
+            },
+            {
+              "name": "26' Truck",
+              "price": 982
+            }
+          ],
+          "referencePrice": 654,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Las Vegas, NV",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-LasVegas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 505
+            },
+            {
+              "name": "15' Truck",
+              "price": 532
+            },
+            {
+              "name": "20' Truck",
+              "price": 665
+            },
+            {
+              "name": "26' Truck",
+              "price": 798
+            }
+          ],
+          "referencePrice": 532,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Seattle, WA",
+          "corridor": "Oakland-Seattle",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 948
+            },
+            {
+              "name": "15' Truck",
+              "price": 998
+            },
+            {
+              "name": "20' Truck",
+              "price": 1247
+            },
+            {
+              "name": "26' Truck",
+              "price": 1496
+            }
+          ],
+          "referencePrice": 998,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Seattle, WA",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Seattle",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 923
+            },
+            {
+              "name": "15' Truck",
+              "price": 971
+            },
+            {
+              "name": "20' Truck",
+              "price": 1214
+            },
+            {
+              "name": "26' Truck",
+              "price": 1457
+            }
+          ],
+          "referencePrice": 971,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Denver, CO",
+          "corridor": "Oakland-Denver",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1699
+            },
+            {
+              "name": "15' Truck",
+              "price": 1789
+            },
+            {
+              "name": "20' Truck",
+              "price": 2236
+            },
+            {
+              "name": "26' Truck",
+              "price": 2683
+            }
+          ],
+          "referencePrice": 1789,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Denver, CO",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Denver",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1176
+            },
+            {
+              "name": "15' Truck",
+              "price": 1238
+            },
+            {
+              "name": "20' Truck",
+              "price": 1548
+            },
+            {
+              "name": "26' Truck",
+              "price": 1858
+            }
+          ],
+          "referencePrice": 1238,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Reno, NV",
+          "corridor": "SF-Reno",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 551
+            },
+            {
+              "name": "15' Truck",
+              "price": 580
+            },
+            {
+              "name": "20' Truck",
+              "price": 725
+            },
+            {
+              "name": "26' Truck",
+              "price": 869
+            }
+          ],
+          "referencePrice": 580,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Reno, NV",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Reno",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 197
+            },
+            {
+              "name": "15' Truck",
+              "price": 207
+            },
+            {
+              "name": "20' Truck",
+              "price": 197
+            },
+            {
+              "name": "26' Truck",
+              "price": 197
+            }
+          ],
+          "referencePrice": 207,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Reno, NV",
+          "corridor": "SJ-Reno",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 609
+            },
+            {
+              "name": "15' Truck",
+              "price": 641
+            },
+            {
+              "name": "20' Truck",
+              "price": 802
+            },
+            {
+              "name": "26' Truck",
+              "price": 962
+            }
+          ],
+          "referencePrice": 641,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Reno, NV",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Reno",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 218
+            },
+            {
+              "name": "15' Truck",
+              "price": 229
+            },
+            {
+              "name": "20' Truck",
+              "price": 218
+            },
+            {
+              "name": "26' Truck",
+              "price": 218
+            }
+          ],
+          "referencePrice": 229,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Reno, NV",
+          "corridor": "Oakland-Reno",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 537
+            },
+            {
+              "name": "15' Truck",
+              "price": 566
+            },
+            {
+              "name": "20' Truck",
+              "price": 707
+            },
+            {
+              "name": "26' Truck",
+              "price": 848
+            }
+          ],
+          "referencePrice": 566,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Reno, NV",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Reno",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 192
+            },
+            {
+              "name": "15' Truck",
+              "price": 202
+            },
+            {
+              "name": "20' Truck",
+              "price": 192
+            },
+            {
+              "name": "26' Truck",
+              "price": 192
+            }
+          ],
+          "referencePrice": 202,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Dallas, TX",
+          "corridor": "SF-Dallas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2515
+            },
+            {
+              "name": "15' Truck",
+              "price": 2647
+            },
+            {
+              "name": "20' Truck",
+              "price": 3971
+            },
+            {
+              "name": "26' Truck",
+              "price": 5295
+            }
+          ],
+          "referencePrice": 2647,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Dallas, TX",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Dallas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1581
+            },
+            {
+              "name": "15' Truck",
+              "price": 1665
+            },
+            {
+              "name": "20' Truck",
+              "price": 1833
+            },
+            {
+              "name": "26' Truck",
+              "price": 2083
+            }
+          ],
+          "referencePrice": 1665,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Dallas, TX",
+          "corridor": "SJ-Dallas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2477
+            },
+            {
+              "name": "15' Truck",
+              "price": 2607
+            },
+            {
+              "name": "20' Truck",
+              "price": 3911
+            },
+            {
+              "name": "26' Truck",
+              "price": 5214
+            }
+          ],
+          "referencePrice": 2607,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Dallas, TX",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Dallas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1558
+            },
+            {
+              "name": "15' Truck",
+              "price": 1640
+            },
+            {
+              "name": "20' Truck",
+              "price": 1804
+            },
+            {
+              "name": "26' Truck",
+              "price": 2051
+            }
+          ],
+          "referencePrice": 1640,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Dallas, TX",
+          "corridor": "Oakland-Dallas",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 2506
+            },
+            {
+              "name": "15' Truck",
+              "price": 2638
+            },
+            {
+              "name": "20' Truck",
+              "price": 3957
+            },
+            {
+              "name": "26' Truck",
+              "price": 5276
+            }
+          ],
+          "referencePrice": 2638,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Dallas, TX",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Dallas",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1576
+            },
+            {
+              "name": "15' Truck",
+              "price": 1659
+            },
+            {
+              "name": "20' Truck",
+              "price": 1825
+            },
+            {
+              "name": "26' Truck",
+              "price": 2075
+            }
+          ],
+          "referencePrice": 1659,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Nashville, TN",
+          "corridor": "SF-Nashville",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 3174
+            },
+            {
+              "name": "15' Truck",
+              "price": 3341
+            },
+            {
+              "name": "20' Truck",
+              "price": 5012
+            },
+            {
+              "name": "26' Truck",
+              "price": 6682
+            }
+          ],
+          "referencePrice": 3341,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Nashville, TN",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Nashville",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1856
+            },
+            {
+              "name": "15' Truck",
+              "price": 1953
+            },
+            {
+              "name": "20' Truck",
+              "price": 2246
+            },
+            {
+              "name": "26' Truck",
+              "price": 2539
+            }
+          ],
+          "referencePrice": 1953,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Nashville, TN",
+          "corridor": "SJ-Nashville",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 3134
+            },
+            {
+              "name": "15' Truck",
+              "price": 3299
+            },
+            {
+              "name": "20' Truck",
+              "price": 4948
+            },
+            {
+              "name": "26' Truck",
+              "price": 6598
+            }
+          ],
+          "referencePrice": 3299,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Nashville, TN",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Nashville",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1832
+            },
+            {
+              "name": "15' Truck",
+              "price": 1929
+            },
+            {
+              "name": "20' Truck",
+              "price": 2218
+            },
+            {
+              "name": "26' Truck",
+              "price": 2507
+            }
+          ],
+          "referencePrice": 1929,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Nashville, TN",
+          "corridor": "Oakland-Nashville",
+          "direction": "outbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 3159
+            },
+            {
+              "name": "15' Truck",
+              "price": 3325
+            },
+            {
+              "name": "20' Truck",
+              "price": 4987
+            },
+            {
+              "name": "26' Truck",
+              "price": 6650
+            }
+          ],
+          "referencePrice": 3325,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Nashville, TN",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Nashville",
+          "direction": "inbound",
+          "lookupDate": "2026-04-01",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1847
+            },
+            {
+              "name": "15' Truck",
+              "price": 1944
+            },
+            {
+              "name": "20' Truck",
+              "price": 2235
+            },
+            {
+              "name": "26' Truck",
+              "price": 2527
+            }
+          ],
+          "referencePrice": 1944,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Phoenix, AZ",
+          "corridor": "SF-Phoenix",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1003
+            },
+            {
+              "name": "15' Truck",
+              "price": 1056
+            },
+            {
+              "name": "20' Truck",
+              "price": 1320
+            },
+            {
+              "name": "26' Truck",
+              "price": 1584
+            }
+          ],
+          "referencePrice": 1056,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Phoenix, AZ",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Phoenix",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 669
+            },
+            {
+              "name": "15' Truck",
+              "price": 704
+            },
+            {
+              "name": "20' Truck",
+              "price": 768
+            },
+            {
+              "name": "26' Truck",
+              "price": 1056
+            }
+          ],
+          "referencePrice": 704,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Phoenix, AZ",
+          "corridor": "SJ-Phoenix",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 962
+            },
+            {
+              "name": "15' Truck",
+              "price": 1012
+            },
+            {
+              "name": "20' Truck",
+              "price": 1265
+            },
+            {
+              "name": "26' Truck",
+              "price": 1518
+            }
+          ],
+          "referencePrice": 1012,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Phoenix, AZ",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Phoenix",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 641
+            },
+            {
+              "name": "15' Truck",
+              "price": 675
+            },
+            {
+              "name": "20' Truck",
+              "price": 736
+            },
+            {
+              "name": "26' Truck",
+              "price": 1012
+            }
+          ],
+          "referencePrice": 675,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Phoenix, AZ",
+          "corridor": "Oakland-Phoenix",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 984
+            },
+            {
+              "name": "15' Truck",
+              "price": 1035
+            },
+            {
+              "name": "20' Truck",
+              "price": 1294
+            },
+            {
+              "name": "26' Truck",
+              "price": 1553
+            }
+          ],
+          "referencePrice": 1035,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Phoenix, AZ",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Phoenix",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 656
+            },
+            {
+              "name": "15' Truck",
+              "price": 690
+            },
+            {
+              "name": "20' Truck",
+              "price": 752
+            },
+            {
+              "name": "26' Truck",
+              "price": 1035
+            }
+          ],
+          "referencePrice": 690,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Boise, ID",
+          "corridor": "SF-Boise",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1596
+            },
+            {
+              "name": "15' Truck",
+              "price": 1680
+            },
+            {
+              "name": "20' Truck",
+              "price": 2100
+            },
+            {
+              "name": "26' Truck",
+              "price": 2520
+            }
+          ],
+          "referencePrice": 1680,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Boise, ID",
+          "to": "San Francisco, CA",
+          "corridor": "SF-Boise",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 404
+            },
+            {
+              "name": "15' Truck",
+              "price": 426
+            },
+            {
+              "name": "20' Truck",
+              "price": 532
+            },
+            {
+              "name": "26' Truck",
+              "price": 638
+            }
+          ],
+          "referencePrice": 426,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Boise, ID",
+          "corridor": "SJ-Boise",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1685
+            },
+            {
+              "name": "15' Truck",
+              "price": 1774
+            },
+            {
+              "name": "20' Truck",
+              "price": 2217
+            },
+            {
+              "name": "26' Truck",
+              "price": 2661
+            }
+          ],
+          "referencePrice": 1774,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Boise, ID",
+          "to": "San Jose, CA",
+          "corridor": "SJ-Boise",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 427
+            },
+            {
+              "name": "15' Truck",
+              "price": 449
+            },
+            {
+              "name": "20' Truck",
+              "price": 562
+            },
+            {
+              "name": "26' Truck",
+              "price": 674
+            }
+          ],
+          "referencePrice": 449,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Boise, ID",
+          "corridor": "Oakland-Boise",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 1625
+            },
+            {
+              "name": "15' Truck",
+              "price": 1710
+            },
+            {
+              "name": "20' Truck",
+              "price": 2138
+            },
+            {
+              "name": "26' Truck",
+              "price": 2565
+            }
+          ],
+          "referencePrice": 1710,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Boise, ID",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-Boise",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 412
+            },
+            {
+              "name": "15' Truck",
+              "price": 433
+            },
+            {
+              "name": "20' Truck",
+              "price": 542
+            },
+            {
+              "name": "26' Truck",
+              "price": 650
+            }
+          ],
+          "referencePrice": 433,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Francisco, CA",
+          "to": "Salt Lake City, UT",
+          "corridor": "SF-SaltLakeCity",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 941
+            },
+            {
+              "name": "15' Truck",
+              "price": 990
+            },
+            {
+              "name": "20' Truck",
+              "price": 1238
+            },
+            {
+              "name": "26' Truck",
+              "price": 1485
+            }
+          ],
+          "referencePrice": 990,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Salt Lake City, UT",
+          "to": "San Francisco, CA",
+          "corridor": "SF-SaltLakeCity",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 682
+            },
+            {
+              "name": "15' Truck",
+              "price": 718
+            },
+            {
+              "name": "20' Truck",
+              "price": 897
+            },
+            {
+              "name": "26' Truck",
+              "price": 682
+            }
+          ],
+          "referencePrice": 718,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "San Jose, CA",
+          "to": "Salt Lake City, UT",
+          "corridor": "SJ-SaltLakeCity",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 967
+            },
+            {
+              "name": "15' Truck",
+              "price": 1018
+            },
+            {
+              "name": "20' Truck",
+              "price": 1273
+            },
+            {
+              "name": "26' Truck",
+              "price": 1527
+            }
+          ],
+          "referencePrice": 1018,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Salt Lake City, UT",
+          "to": "San Jose, CA",
+          "corridor": "SJ-SaltLakeCity",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 701
+            },
+            {
+              "name": "15' Truck",
+              "price": 738
+            },
+            {
+              "name": "20' Truck",
+              "price": 923
+            },
+            {
+              "name": "26' Truck",
+              "price": 701
+            }
+          ],
+          "referencePrice": 738,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Oakland, CA",
+          "to": "Salt Lake City, UT",
+          "corridor": "Oakland-SaltLakeCity",
+          "direction": "outbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 935
+            },
+            {
+              "name": "15' Truck",
+              "price": 984
+            },
+            {
+              "name": "20' Truck",
+              "price": 1230
+            },
+            {
+              "name": "26' Truck",
+              "price": 1476
+            }
+          ],
+          "referencePrice": 984,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        },
+        {
+          "from": "Salt Lake City, UT",
+          "to": "Oakland, CA",
+          "corridor": "Oakland-SaltLakeCity",
+          "direction": "inbound",
+          "lookupDate": "2026-04-03",
+          "trucks": [
+            {
+              "name": "10' Truck",
+              "price": 678
+            },
+            {
+              "name": "15' Truck",
+              "price": 713
+            },
+            {
+              "name": "20' Truck",
+              "price": 892
+            },
+            {
+              "name": "26' Truck",
+              "price": 678
+            }
+          ],
+          "referencePrice": 713,
+          "referenceTruck": "15' Truck",
+          "source": "playwright",
+          "error": null
+        }
+      ],
+      "corridors": [
+        {
+          "name": "SF-Sacramento",
+          "label": "SF ↔ Sacramento",
+          "outboundPrice": 279,
+          "inboundPrice": 108,
+          "mpi": 2.5833333333333335,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Austin",
+          "label": "SF ↔ Austin",
+          "outboundPrice": 2678,
+          "inboundPrice": 1598,
+          "mpi": 1.6758448060075093,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-LasVegas",
+          "label": "SF ↔ Las Vegas",
+          "outboundPrice": 667,
+          "inboundPrice": 542,
+          "mpi": 1.2306273062730628,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Sacramento",
+          "label": "SJ ↔ Sacramento",
+          "outboundPrice": 329,
+          "inboundPrice": 127,
+          "mpi": 2.590551181102362,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Portland",
+          "label": "Oakland ↔ Portland",
+          "outboundPrice": 1249,
+          "inboundPrice": 647,
+          "mpi": 1.9304482225656878,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Seattle",
+          "label": "SF ↔ Seattle",
+          "outboundPrice": 1001,
+          "inboundPrice": 975,
+          "mpi": 1.0266666666666666,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Denver",
+          "label": "SF ↔ Denver",
+          "outboundPrice": 1791,
+          "inboundPrice": 1240,
+          "mpi": 1.4443548387096774,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 2,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Austin",
+          "label": "SJ ↔ Austin",
+          "outboundPrice": 2719,
+          "inboundPrice": 1622,
+          "mpi": 1.6763255240443897,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-LasVegas",
+          "label": "SJ ↔ Las Vegas",
+          "outboundPrice": 643,
+          "inboundPrice": 523,
+          "mpi": 1.2294455066921606,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Seattle",
+          "label": "SJ ↔ Seattle",
+          "outboundPrice": 1032,
+          "inboundPrice": 1005,
+          "mpi": 1.026865671641791,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Denver",
+          "label": "SJ ↔ Denver",
+          "outboundPrice": 1820,
+          "inboundPrice": 1260,
+          "mpi": 1.4444444444444444,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Portland",
+          "label": "SJ ↔ Portland",
+          "outboundPrice": 1291,
+          "inboundPrice": 668,
+          "mpi": 1.9326347305389222,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Portland",
+          "label": "SF ↔ Portland",
+          "outboundPrice": 1254,
+          "inboundPrice": 650,
+          "mpi": 1.9292307692307693,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Sacramento",
+          "label": "Oakland ↔ Sacramento",
+          "outboundPrice": 276,
+          "inboundPrice": 107,
+          "mpi": 2.5794392523364484,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Austin",
+          "label": "Oakland ↔ Austin",
+          "outboundPrice": 2747,
+          "inboundPrice": 1639,
+          "mpi": 1.6760219646125687,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-LasVegas",
+          "label": "Oakland ↔ Las Vegas",
+          "outboundPrice": 654,
+          "inboundPrice": 532,
+          "mpi": 1.2293233082706767,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Seattle",
+          "label": "Oakland ↔ Seattle",
+          "outboundPrice": 998,
+          "inboundPrice": 971,
+          "mpi": 1.027806385169928,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Denver",
+          "label": "Oakland ↔ Denver",
+          "outboundPrice": 1789,
+          "inboundPrice": 1238,
+          "mpi": 1.4450726978998385,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Reno",
+          "label": "SF ↔ Reno",
+          "outboundPrice": 580,
+          "inboundPrice": 207,
+          "mpi": 2.8019323671497585,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Reno",
+          "label": "SJ ↔ Reno",
+          "outboundPrice": 641,
+          "inboundPrice": 229,
+          "mpi": 2.7991266375545854,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Reno",
+          "label": "Oakland ↔ Reno",
+          "outboundPrice": 566,
+          "inboundPrice": 202,
+          "mpi": 2.801980198019802,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Dallas",
+          "label": "SF ↔ Dallas",
+          "outboundPrice": 2647,
+          "inboundPrice": 1665,
+          "mpi": 1.5897897897897897,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Dallas",
+          "label": "SJ ↔ Dallas",
+          "outboundPrice": 2607,
+          "inboundPrice": 1640,
+          "mpi": 1.5896341463414634,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Dallas",
+          "label": "Oakland ↔ Dallas",
+          "outboundPrice": 2638,
+          "inboundPrice": 1659,
+          "mpi": 1.5901145268233876,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Nashville",
+          "label": "SF ↔ Nashville",
+          "outboundPrice": 3341,
+          "inboundPrice": 1953,
+          "mpi": 1.7107014848950333,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Nashville",
+          "label": "SJ ↔ Nashville",
+          "outboundPrice": 3299,
+          "inboundPrice": 1929,
+          "mpi": 1.7102125453602903,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Nashville",
+          "label": "Oakland ↔ Nashville",
+          "outboundPrice": 3325,
+          "inboundPrice": 1944,
+          "mpi": 1.7103909465020577,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 1,
+            "active": false
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Phoenix",
+          "label": "SF ↔ Phoenix",
+          "outboundPrice": 1056,
+          "inboundPrice": 704,
+          "mpi": 1.5,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Phoenix",
+          "label": "SJ ↔ Phoenix",
+          "outboundPrice": 1012,
+          "inboundPrice": 675,
+          "mpi": 1.4992592592592593,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Phoenix",
+          "label": "Oakland ↔ Phoenix",
+          "outboundPrice": 1035,
+          "inboundPrice": 690,
+          "mpi": 1.5,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-Boise",
+          "label": "SF ↔ Boise",
+          "outboundPrice": 1680,
+          "inboundPrice": 426,
+          "mpi": 3.943661971830986,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-Boise",
+          "label": "SJ ↔ Boise",
+          "outboundPrice": 1774,
+          "inboundPrice": 449,
+          "mpi": 3.951002227171492,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-Boise",
+          "label": "Oakland ↔ Boise",
+          "outboundPrice": 1710,
+          "inboundPrice": 433,
+          "mpi": 3.9491916859122402,
+          "signal": "outbound_pressure",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SF-SaltLakeCity",
+          "label": "SF ↔ Salt Lake City",
+          "outboundPrice": 990,
+          "inboundPrice": 718,
+          "mpi": 1.3788300835654597,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "SJ-SaltLakeCity",
+          "label": "SJ ↔ Salt Lake City",
+          "outboundPrice": 1018,
+          "inboundPrice": 738,
+          "mpi": 1.3794037940379404,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        },
+        {
+          "name": "Oakland-SaltLakeCity",
+          "label": "Oakland ↔ Salt Lake City",
+          "outboundPrice": 984,
+          "inboundPrice": 713,
+          "mpi": 1.3800841514726507,
+          "signal": "balanced",
+          "outboundTruck": "15' Truck",
+          "inboundTruck": "15' Truck",
+          "baseline": {
+            "active": false,
+            "mean": null,
+            "stdDev": null,
+            "dataPoints": 0
+          },
+          "signalSource": "flat_threshold",
+          "seasonalFactor": null,
+          "normalizedMpi": null
+        }
+      ]
+    }
+  ]
+}

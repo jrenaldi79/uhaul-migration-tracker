@@ -1,6 +1,7 @@
 node_modules/
 dist/
 data/history.json
+!docs/data/history.json
 *.log
 .DS_Store
 
@@ -11,3 +12,9 @@ data/history.json
 coverage/
 build/
 .browser-profile
+
+# Bright Data
+brightdata-ca.crt
+src/bd-test.ts
+scripts/intercept-uhaul.ts
+.claude/scheduled_tasks.lock
